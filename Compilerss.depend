@@ -1,0 +1,344 @@
+# depslib dependency file v1.0
+1585011010 source:d:\c_c++\compilerss\conversiondfa.cpp
+	"conversionDfa.h"
+	<algorithm>
+
+1585006493 d:\c_c++\compilerss\conversiondfa.h
+	<iostream>
+	<vector>
+	<sstream>
+	<stack>
+	<set>
+	<map>
+	<string>
+
+1585007274 source:d:\c_c++\compilerss\nfa.cpp
+	"NFA.h"
+
+1585006493 d:\c_c++\compilerss\nfa.h
+	"stringParsing.h"
+	<bits/stdc++.h>
+
+1585006493 d:\c_c++\compilerss\stringparsing.h
+	<bits/stdc++.h>
+
+1585006493 source:d:\c_c++\compilerss\readfile.cpp
+	"readFile.h"
+
+1585006493 d:\c_c++\compilerss\readfile.h
+	<bits/stdc++.h>
+	<sstream>
+	<string>
+	<fstream>
+
+1585008027 source:d:\c_c++\compilerss\regularparser.cpp
+	"RegularParser.h"
+
+1585006493 d:\c_c++\compilerss\regularparser.h
+	"NFA.h"
+	"stringParsing.h"
+
+1585006493 source:d:\c_c++\compilerss\stringparsing.cpp
+	"stringParsing.h"
+
+1585011166 source:d:\c_c++\compilerss\main.cpp
+	<iostream>
+	<vector>
+	<algorithm>
+	"conversionDfa.h"
+	"RegularParser.h"
+	"readFile.h"
+
+1585039555 source:d:\my folders\csed\compiler_phase1\compiler_generator\main.cpp
+	<iostream>
+	<vector>
+	<algorithm>
+	"conversionDfa.h"
+	"RegularParser.h"
+	"readFile.h"
+
+1585041242 d:\my folders\csed\compiler_phase1\compiler_generator\conversiondfa.h
+	<iostream>
+	<vector>
+	<sstream>
+	<stack>
+	<set>
+	<map>
+	<string>
+	<bits/stdc++.h>
+
+1585039555 d:\my folders\csed\compiler_phase1\compiler_generator\regularparser.h
+	"NFA.h"
+	"stringParsing.h"
+
+1585039555 d:\my folders\csed\compiler_phase1\compiler_generator\nfa.h
+	"stringParsing.h"
+	<bits/stdc++.h>
+
+1585039555 d:\my folders\csed\compiler_phase1\compiler_generator\stringparsing.h
+	<bits/stdc++.h>
+
+1585039555 d:\my folders\csed\compiler_phase1\compiler_generator\readfile.h
+	<bits/stdc++.h>
+	<sstream>
+	<string>
+	<fstream>
+
+1585039555 source:d:\my folders\csed\compiler_phase1\compiler_generator\nfa.cpp
+	"NFA.h"
+
+1585039555 source:d:\my folders\csed\compiler_phase1\compiler_generator\readfile.cpp
+	"readFile.h"
+
+1585039555 source:d:\my folders\csed\compiler_phase1\compiler_generator\regularparser.cpp
+	"RegularParser.h"
+
+1585039555 source:d:\my folders\csed\compiler_phase1\compiler_generator\stringparsing.cpp
+	"stringParsing.h"
+
+1585045361 source:d:\my folders\csed\compiler_phase1\compiler_generator\conversiondfa.cpp
+	"conversionDfa.h"
+	<algorithm>
+
+1585103781 source:c:\users\owner\desktop\compiler_generator\conversiondfa.cpp
+	"conversionDfa.h"
+	<algorithm>
+	"stringParsing.h"
+
+1585100003 c:\users\owner\desktop\compiler_generator\conversiondfa.h
+	<iostream>
+	<vector>
+	<sstream>
+	<stack>
+	<set>
+	<map>
+	<string>
+	<bits/stdc++.h>
+
+1585094995 source:c:\users\owner\desktop\compiler_generator\main.cpp
+	<iostream>
+	<vector>
+	<algorithm>
+	"conversionDfa.h"
+	"RegularParser.h"
+	"readFile.h"
+
+1585091826 c:\users\owner\desktop\compiler_generator\regularparser.h
+	"NFA.h"
+	"stringParsing.h"
+
+1585091826 c:\users\owner\desktop\compiler_generator\nfa.h
+	"stringParsing.h"
+	<bits/stdc++.h>
+
+1585091826 c:\users\owner\desktop\compiler_generator\stringparsing.h
+	<bits/stdc++.h>
+
+1585091826 c:\users\owner\desktop\compiler_generator\readfile.h
+	<bits/stdc++.h>
+	<sstream>
+	<string>
+	<fstream>
+
+1585104994 source:c:\users\owner\desktop\compiler_generator\nfa.cpp
+	"NFA.h"
+
+1585091826 source:c:\users\owner\desktop\compiler_generator\readfile.cpp
+	"readFile.h"
+
+1585091826 source:c:\users\owner\desktop\compiler_generator\regularparser.cpp
+	"RegularParser.h"
+
+1585093108 source:c:\users\owner\desktop\compiler_generator\stringparsing.cpp
+	"stringParsing.h"
+
+1585161048 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/conversionDfa.cpp
+	"conversionDfa.h"
+	<algorithm>
+	"stringParsing.h"
+
+1585161048 /home/ahmed/Documents/ye7yaa/Compiler_Generator/conversionDfa.h
+	<iostream>
+	<vector>
+	<sstream>
+	<stack>
+	<set>
+	<map>
+	<string>
+	<bits/stdc++.h>
+
+1585171569 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/main.cpp
+	<iostream>
+	<vector>
+	<algorithm>
+	"LexicalAnalyzerGenerator.h"
+
+1585169754 /home/ahmed/Documents/ye7yaa/Compiler_Generator/RegularParser.h
+	"NFA.h"
+	"stringParsing.h"
+
+1585078968 /home/ahmed/Documents/ye7yaa/Compiler_Generator/NFA.h
+	"stringParsing.h"
+	<bits/stdc++.h>
+
+1585078968 /home/ahmed/Documents/ye7yaa/Compiler_Generator/stringParsing.h
+	<bits/stdc++.h>
+
+1585078968 /home/ahmed/Documents/ye7yaa/Compiler_Generator/readFile.h
+	<bits/stdc++.h>
+	<sstream>
+	<string>
+	<fstream>
+
+1585161048 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/NFA.cpp
+	"NFA.h"
+
+1585078968 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/readFile.cpp
+	"readFile.h"
+
+1585172484 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/RegularParser.cpp
+	"RegularParser.h"
+
+1585102713 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/stringParsing.cpp
+	"stringParsing.h"
+
+1585142868 source:d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\conversiondfa.cpp
+	"conversionDfa.h"
+	<algorithm>
+	"stringParsing.h"
+
+1585152142 d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\conversiondfa.h
+	<iostream>
+	<vector>
+	<sstream>
+	<stack>
+	<set>
+	<map>
+	<string>
+	<bits/stdc++.h>
+
+1585137965 source:d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\main.cpp
+	<iostream>
+	<vector>
+	<algorithm>
+	"LexicalAnalyzerGenerator.h"
+
+1585079734 d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\regularparser.h
+	"NFA.h"
+	"stringParsing.h"
+
+1585079734 d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\nfa.h
+	"stringParsing.h"
+	<bits/stdc++.h>
+
+1585079734 d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\stringparsing.h
+	<bits/stdc++.h>
+
+1585079734 d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\readfile.h
+	<bits/stdc++.h>
+	<sstream>
+	<string>
+	<fstream>
+
+1585135261 source:d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\nfa.cpp
+	"NFA.h"
+
+1585079734 source:d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\readfile.cpp
+	"readFile.h"
+
+1585090748 source:d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\regularparser.cpp
+	"RegularParser.h"
+
+1585097701 source:d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\stringparsing.cpp
+	"stringParsing.h"
+
+1585152582 d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\lexicalanalyzergenerator.h
+	"conversionDfa.h"
+	"RegularParser.h"
+	"readFile.h"
+
+1585152572 source:d:\my folders\csed\compiler_phase1\compiler_phase_one\compiler_generator\lexicalanalyzergenerator.cpp
+	"LexicalAnalyzerGenerator.h"
+
+1585172194 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/LexicalAnalyzerGenerator.cpp
+	"LexicalAnalyzerGenerator.h"
+
+1585170313 /home/ahmed/Documents/ye7yaa/Compiler_Generator/LexicalAnalyzerGenerator.h
+	"conversionDfa.h"
+	"RegularParser.h"
+	"stringParsing.h"
+	"readFile.h"
+	"Token.h"
+
+1585163327 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/src/Token.cpp
+	"Token.h"
+
+1585163344 /home/ahmed/Documents/ye7yaa/Compiler_Generator/include/Token.h
+	<bits/stdc++.h>
+
+1585173259 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/conversionDfa.cpp
+	"conversionDfa.h"
+	<algorithm>
+	"stringParsing.h"
+
+1585173259 /home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/conversionDfa.h
+	<iostream>
+	<vector>
+	<sstream>
+	<stack>
+	<set>
+	<map>
+	<string>
+	<bits/stdc++.h>
+
+1585173259 /home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/stringParsing.h
+	<bits/stdc++.h>
+
+1585173259 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/main.cpp
+	<iostream>
+	<vector>
+	<algorithm>
+	"LexicalAnalyzerGenerator.h"
+
+1585173259 /home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/LexicalAnalyzerGenerator.h
+	"conversionDfa.h"
+	"RegularParser.h"
+	"stringParsing.h"
+	"readFile.h"
+	"Token.h"
+
+1585173259 /home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/RegularParser.h
+	"NFA.h"
+	"stringParsing.h"
+
+1585173259 /home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/NFA.h
+	"stringParsing.h"
+	<bits/stdc++.h>
+
+1585173259 /home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/readFile.h
+	<bits/stdc++.h>
+	<sstream>
+	<string>
+	<fstream>
+
+1585182134 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/NFA.cpp
+	"NFA.h"
+
+1585173259 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/readFile.cpp
+	"readFile.h"
+
+1585181730 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/RegularParser.cpp
+	"RegularParser.h"
+
+1585173259 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/stringParsing.cpp
+	"stringParsing.h"
+
+1585179607 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/LexicalAnalyzerGenerator.cpp
+	"LexicalAnalyzerGenerator.h"
+
+1585173259 /home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/Token.h
+	<bits/stdc++.h>
+
+1585173259 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/Token.cpp
+	"Token.h"
+
