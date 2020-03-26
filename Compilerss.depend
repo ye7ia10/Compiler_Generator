@@ -100,12 +100,12 @@
 	"conversionDfa.h"
 	<algorithm>
 
-1585103781 source:c:\users\owner\desktop\compiler_generator\conversiondfa.cpp
+1585183355 source:c:\users\owner\desktop\compiler_generator\conversiondfa.cpp
 	"conversionDfa.h"
 	<algorithm>
 	"stringParsing.h"
 
-1585100003 c:\users\owner\desktop\compiler_generator\conversiondfa.h
+1585183355 c:\users\owner\desktop\compiler_generator\conversiondfa.h
 	<iostream>
 	<vector>
 	<sstream>
@@ -115,41 +115,39 @@
 	<string>
 	<bits/stdc++.h>
 
-1585094995 source:c:\users\owner\desktop\compiler_generator\main.cpp
+1585184682 source:c:\users\owner\desktop\compiler_generator\main.cpp
 	<iostream>
 	<vector>
 	<algorithm>
-	"conversionDfa.h"
-	"RegularParser.h"
-	"readFile.h"
+	"LexicalAnalyzerGenerator.h"
 
-1585091826 c:\users\owner\desktop\compiler_generator\regularparser.h
+1585183355 c:\users\owner\desktop\compiler_generator\regularparser.h
 	"NFA.h"
 	"stringParsing.h"
 
-1585091826 c:\users\owner\desktop\compiler_generator\nfa.h
+1585183355 c:\users\owner\desktop\compiler_generator\nfa.h
 	"stringParsing.h"
 	<bits/stdc++.h>
 
-1585091826 c:\users\owner\desktop\compiler_generator\stringparsing.h
+1585183355 c:\users\owner\desktop\compiler_generator\stringparsing.h
 	<bits/stdc++.h>
 
-1585091826 c:\users\owner\desktop\compiler_generator\readfile.h
+1585183355 c:\users\owner\desktop\compiler_generator\readfile.h
 	<bits/stdc++.h>
 	<sstream>
 	<string>
 	<fstream>
 
-1585104994 source:c:\users\owner\desktop\compiler_generator\nfa.cpp
+1585183355 source:c:\users\owner\desktop\compiler_generator\nfa.cpp
 	"NFA.h"
 
-1585091826 source:c:\users\owner\desktop\compiler_generator\readfile.cpp
+1585183355 source:c:\users\owner\desktop\compiler_generator\readfile.cpp
 	"readFile.h"
 
-1585091826 source:c:\users\owner\desktop\compiler_generator\regularparser.cpp
+1585183355 source:c:\users\owner\desktop\compiler_generator\regularparser.cpp
 	"RegularParser.h"
 
-1585093108 source:c:\users\owner\desktop\compiler_generator\stringparsing.cpp
+1585183355 source:c:\users\owner\desktop\compiler_generator\stringparsing.cpp
 	"stringParsing.h"
 
 1585161048 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/conversionDfa.cpp
@@ -341,4 +339,20 @@
 
 1585173259 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator-0a18b055e15cbe8e05dcd882d39004a37916d6e2/Token.cpp
 	"Token.h"
+
+1585183355 c:\users\owner\desktop\compiler_generator\lexicalanalyzergenerator.h
+	"conversionDfa.h"
+	"RegularParser.h"
+	"stringParsing.h"
+	"readFile.h"
+	"Token.h"
+
+1585183355 c:\users\owner\desktop\compiler_generator\token.h
+	<bits/stdc++.h>
+
+1585183355 source:c:\users\owner\desktop\compiler_generator\token.cpp
+	"Token.h"
+
+1585183355 source:c:\users\owner\desktop\compiler_generator\lexicalanalyzergenerator.cpp
+	"LexicalAnalyzerGenerator.h"
 

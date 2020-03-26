@@ -106,12 +106,18 @@ int main()
     lexicalAnalyzerGenerator.printTest();
 
 
+    ofstream myfile;
+    myfile.open ("Output.txt");
+
+
 
     /* read input and apply lexical rule */
     lexicalAnalyzerGenerator.applyInput("input.txt");
     for (int i = 0; i < lexicalAnalyzerGenerator.tokenVec.size(); i++) {
         cout << lexicalAnalyzerGenerator.tokenVec[i].toString() << endl;
+        myfile <<  lexicalAnalyzerGenerator.tokenVec[i].toString() << endl;
     }
 
+    myfile.close();
     return 0;
 }
