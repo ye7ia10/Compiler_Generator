@@ -1,4 +1,4 @@
-#include "../header/Token.h"
+#include "../include/Token.h"
 
 Token::Token(string name, string rule, int line, bool hasError)
 {

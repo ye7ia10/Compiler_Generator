@@ -1,4 +1,4 @@
-#include "../header/RegularParser.h"
+#include "../include/RegularParser.h"
 
 RegularParser::RegularParser()
 {
@@ -9,7 +9,7 @@ RegularParser::~RegularParser()
 {
     //dtor
 }
-vector<pair<string, NFA> >RegularParser::parseFile(vector<string>s)
+void RegularParser::parseFile(vector<string>s)
 {
     /* clear all data if object used in parsing previous file */
     nfaVector.clear();
@@ -25,35 +25,36 @@ vector<pair<string, NFA> >RegularParser::parseFile(vector<string>s)
     {
         parseLine(line);
     }
-    vector<pair<string, NFA> >copyy = nfaVector;
-    int added = 1;
+    /*************** Here we finished NFA for each rule ***************/
+    prepareForDfa();
+
+
+    return;
+}
+
+
+void RegularParser::prepareForDfa() {
+
+    int added = 1, number = 0;
+    /* loop throw every state and numerate the inputs and priority for each NFA */
     for (int i = 0; i < nfaVector.size(); i++)
     {
-        int newFinalState = nfaVector[i].second.finalState + added;
+
+        int newFinalState = nfaVector[i].finalState + added;
         finalStates.push_back(to_string(newFinalState));
-        finalStatesPriority[newFinalState] = nfaVector[i].second.priority;
-        finalStatesName.push_back(nfaVector[i].first);
-        for (int j = 0; j < nfaVector[i].second.stateTable.size(); j++)
-        {
-            for(auto& it : nfaVector[i].second.stateTable[j])
-            {
-                it.second = addNumber(it.second, added);
-            }
-        }
-        added = added + nfaVector[i].second.stateTable.size();
-        priorityToRule[nfaVector[i].second.priority] = nfaVector[i].first;
-    }
+        finalStatesPriority[newFinalState] = nfaVector[i].priority;
+        finalStatesName.push_back(nfaVector[i].name);
 
-    int number = 0;
-    for (int i = 0; i < nfaVector.size(); i++)
-    {
-        for (int j = 0; j < nfaVector[i].second.stateTable.size(); j++)
-        {
-            for(auto it : nfaVector[i].second.stateTable[j])
-            {
-                char c = ' ';
+        nfaVector[i].addNumberToTransitions(added);
+        added = added + nfaVector[i].getStateTable().size();
+        priorityToRule[nfaVector[i].priority] = nfaVector[i].name;
 
-                if (tansitionsMapping.find(it.first) == tansitionsMapping.end() && it.first != c)
+        for (int j = 0; j < nfaVector[i].getStateTable().size(); j++)
+        {
+            for(auto it : nfaVector[i].getStateTable()[j].getInputsWithTranstions())
+            {
+
+                if (tansitionsMapping.find(it.first) == tansitionsMapping.end() && it.first != ' ')
                 {
                     tansitionsMapping[it.first] = number;
                     tansitionsMappingForPrint[number] = it.first;
@@ -65,6 +66,8 @@ vector<pair<string, NFA> >RegularParser::parseFile(vector<string>s)
             }
         }
     }
+
+
     tansitionsMapping[' '] = number;
     tansitionsMappingForPrint[number] = ' ';
     inputsTags.push_back(" ");
@@ -85,15 +88,15 @@ vector<pair<string, NFA> >RegularParser::parseFile(vector<string>s)
         {
             table[0][tansitionsMapping[' ']] = table[0][tansitionsMapping[' ']] + ',' + c;
         }
-        added = added + nfaVector[i].second.stateTable.size();
+        added = added + nfaVector[i].getStateTable().size();
 
     }
     int row = 1;
     for (int i = 0; i < nfaVector.size(); i++)
     {
-        for (int j = 0; j < nfaVector[i].second.stateTable.size(); j++)
+        for (int j = 0; j < nfaVector[i].getStateTable().size(); j++)
         {
-            for(auto it : nfaVector[i].second.stateTable[j])
+            for(auto it : nfaVector[i].getStateTable()[j].getInputsWithTranstions())
             {
                 int column = tansitionsMapping[it.first];
                 if (table[row][column].size() == 0)
@@ -109,17 +112,10 @@ vector<pair<string, NFA> >RegularParser::parseFile(vector<string>s)
         }
     }
 
-    for (int i = 0; i < table.size(); i++)
-    {
-        for (int j = 0; j < table[i].size(); j++)
-        {
-            if (table[i][j].size() == 0)
-            {
-                table[i][j] = "-";
-            }
-        }
-    }
+
     finalStatesNameOrdered = finalStates;
+
+    /* sort state names according to its periority */
     sort(finalStatesNameOrdered.begin(), finalStatesNameOrdered.end(), [this](string& first, string second)
     {
         int a1 = finalStatesPriority[stoi(first)];
@@ -131,7 +127,6 @@ vector<pair<string, NFA> >RegularParser::parseFile(vector<string>s)
         return false;
     });
 
-    return nfaVector = copyy;
 }
 void RegularParser::parseLine(string regexString)
 {
@@ -191,7 +186,8 @@ void RegularParser::parseLine(string regexString)
                 trim(name);
                 regular.nfa.priority = priority;
                 priority = priority + 1;
-                nfaVector.push_back({name, regular.nfa});
+                regular.nfa.name = name;
+                nfaVector.push_back(regular.nfa);
             }
             break;
         }
@@ -611,6 +607,7 @@ void RegularParser::addStringToNFA(string s)
     }
     x.priority = priority;
     priority = priority + 1;
-    nfaVector.push_back({s, x});
+    x.name = s;
+    nfaVector.push_back(x);
 }
 

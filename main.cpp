@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "lexical/header/LexicalAnalyzerGenerator.h"
+#include "lexical/include/LexicalAnalyzerGenerator.h"
 
 using namespace std;
 

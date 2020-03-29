@@ -1,4 +1,4 @@
-#include "../header/stringParsing.h"
+#include "../include/stringParsing.h"
 
 void trim(string& str)
 {

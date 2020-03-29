@@ -1,4 +1,4 @@
-#include "../header/LexicalAnalyzerGenerator.h"
+#include "../include/LexicalAnalyzerGenerator.h"
 
 LexicalAnalyzerGenerator::LexicalAnalyzerGenerator()
 {

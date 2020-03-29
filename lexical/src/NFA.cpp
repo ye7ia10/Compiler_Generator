@@ -1,45 +1,44 @@
-#include "../header/NFA.h"
+#include "../include/NFA.h"
 
 NFA::NFA()
 {
-    //ctor
+    State s1,s2;
+    stateTable.push_back(s1);
+    stateTable.push_back(s2);
+    startState = 0;
+    finalState = 1;
+    stateTable[0].addTransition("1", ' ');
 }
 
 NFA::~NFA()
 {
     //dtor
+
 }
 
 NFA::NFA(char c)
 {
-
-    stateTable.resize(2);
+    State s1,s2;
+    stateTable.push_back(s1);
+    stateTable.push_back(s2);
     startState = 0;
     finalState = 1;
-    stateTable[0][c] = "1";
+    stateTable[0].addTransition("1", c);
+
 }
 
 void NFA::concatenate(NFA nfa)
 {
 
-    int newStateStart = finalState; /* this is the start state of nfa which is 0 */
+    int newStateStart = finalState;
     for (int i = 0; i < nfa.stateTable.size(); i++)
     {
-        for (auto& x : nfa.stateTable[i])
-        {
-            x.second = addNumber(x.second, newStateStart);
-        }
+        nfa.stateTable[i].addNumberToTransitions(newStateStart);
     }
-    for (auto& x : nfa.stateTable[0])
+
+    for (auto& x : nfa.stateTable[0].getInputsWithTranstions())
     {
-        if (stateTable[finalState].find(x.first) == stateTable[finalState].end())
-        {
-            stateTable[finalState][x.first] = x.second;
-        }
-        else
-        {
-            stateTable[finalState][x.first] = stateTable[finalState][x.first] + ',' + x.second;
-        }
+        stateTable[finalState].addTransition(x.second, x.first);
     }
     for (int i = 1; i < nfa.stateTable.size(); i++)
     {
@@ -51,28 +50,19 @@ void NFA::concatenate(NFA nfa)
 }
 void NFA::closure()
 {
-    if (stateTable[finalState].find(' ') == stateTable[finalState].end())
-    {
-        stateTable[finalState][' '] = to_string(startState);
-    }
-    else
-    {
-        stateTable[finalState][' '] = stateTable[finalState][' '] + ',' + to_string(startState);
-    }
-    unordered_map<char, string> newFinalState;
-    stateTable[finalState][' '] = stateTable[finalState][' '] + ',' + to_string(finalState + 1);
+
+    stateTable[finalState].addTransition(to_string(startState), ' ');
+    State newFinalState;
+    stateTable[finalState].addTransition(to_string(finalState + 1),' ');
     stateTable.push_back(newFinalState);
     finalState = finalState + 1;
     for (int i = 0; i < stateTable.size(); i++)
     {
-        for (auto& x : stateTable[i])
-        {
-            x.second = addNumber(x.second, 1);
-        }
+        stateTable[i].addNumberToTransitions(1);
     }
-    unordered_map<char, string> newstartState;
-    newstartState[' '] = "1," + to_string(finalState + 1);
-    vector<unordered_map<char, string> > newStateTable;
+    State newstartState;
+    newstartState.addTransition("1," + to_string(finalState + 1), ' ');
+    vector<State> newStateTable;
     newStateTable.push_back(newstartState);
     for (int i = 0; i < stateTable.size(); i++)
     {
@@ -80,25 +70,14 @@ void NFA::closure()
     }
     finalState = finalState + 1;
     stateTable = newStateTable;
-
 }
 void NFA::positiveClosure()
 {
-    if (stateTable[finalState].find(' ') == stateTable[finalState].end())
-    {
-        stateTable[finalState][' '] = to_string(0);
-    }
-    else
-    {
-        stateTable[finalState][' '] = stateTable[finalState][' '] + ',' + to_string(0);
-    }
-
-    unordered_map<char, string> newFinalState;
-    stateTable[finalState][' '] = stateTable[finalState][' '] + ',' + to_string(finalState + 1);
+    stateTable[finalState].addTransition(to_string(startState), ' ');
+    State newFinalState;
+    stateTable[finalState].addTransition(to_string(finalState + 1), ' ');
     stateTable.push_back(newFinalState);
     finalState = finalState + 1;
-
-
 }
 
 void NFA::unionn(NFA nfa)
@@ -106,39 +85,21 @@ void NFA::unionn(NFA nfa)
     int newStateStartnumber = finalState + 2;
     for (int i = 0; i < nfa.stateTable.size(); i++)
     {
-        for (auto& x : nfa.stateTable[i])
-        {
-            x.second = addNumber(x.second, newStateStartnumber);
-        }
+        nfa.stateTable[i].addNumberToTransitions(newStateStartnumber);
     }
 
     for (int i = 0; i < stateTable.size(); i++)
     {
-        for (auto& x : stateTable[i])
-        {
-            x.second = addNumber(x.second, 1);
-        }
+        stateTable[i].addNumberToTransitions(1);
     }
-    unordered_map<char, string> newStartState, newFinalState;
-    newStartState[' '] = "1," + to_string(newStateStartnumber);
+    State newStartState, newFinalState;
+    newStartState.addTransition("1," + to_string(newStateStartnumber), ' ');
     int newFinalStateNumber = stateTable.size() + nfa.stateTable.size() + 1;
-    if(stateTable[finalState].find(' ') == stateTable[finalState].end())
-    {
-        stateTable[finalState][' '] = to_string(newFinalStateNumber);
-    }
-    else
-    {
-        stateTable[finalState][' '] = stateTable[finalState][' '] + '.' + to_string(newFinalStateNumber);
-    }
-    if(nfa.stateTable[nfa.finalState].find(' ') == nfa.stateTable[nfa.finalState].end())
-    {
-        nfa.stateTable[nfa.finalState][' '] = to_string(newFinalStateNumber);
-    }
-    else
-    {
-        nfa.stateTable[nfa.finalState][' '] = nfa.stateTable[nfa.finalState][' '] + '.' + to_string(newFinalStateNumber);
-    }
-    vector<unordered_map<char, string> > newStateTable;
+
+    stateTable[finalState].addTransition(to_string(newFinalStateNumber), ' ');
+    nfa.stateTable[nfa.finalState].addTransition(to_string(newFinalStateNumber), ' ');
+
+    vector<State> newStateTable;
     newStateTable.push_back(newStartState);
     for (int i = 0; i < stateTable.size(); i++)
     {
@@ -156,10 +117,19 @@ void NFA::toString()
 {
     for (int i = 0; i < stateTable.size(); i++)
     {
-        for (auto y : stateTable[i])
+        for (auto y : stateTable[i].getInputsWithTranstions())
         {
             cout << i << " " << y.first << " " << y.second << endl;
         }
     }
     cout << startState << " " << finalState << endl;
+}
+
+vector<State>NFA::getStateTable() {
+    return stateTable;
+}
+void NFA::addNumberToTransitions(int number) {
+    for (int i = 0; i < stateTable.size(); i++) {
+        stateTable[i].addNumberToTransitions(number);
+    }
 }

@@ -1,6 +1,6 @@
-#include "../header/conversionDfa.h"
+#include "../include/conversionDfa.h"
 #include <algorithm>
-#include "../header/stringParsing.h"
+#include "../include/stringParsing.h"
 
 conversionDfa::conversionDfa(int numStates, vector<string> initialStates, vector<string> finalStates,
                              vector<vector<string>> nfaTransitions, vector<string> inputsTags, vector<string> statesTags

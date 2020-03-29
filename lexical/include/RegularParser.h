@@ -17,7 +17,7 @@ class RegularParser
 public:
     RegularParser();
 
-    vector<pair<string, NFA > > parseFile(vector<string> s);
+    void parseFile(vector<string> s);
     virtual ~RegularParser();
 
 
@@ -30,11 +30,12 @@ public:
     vector<string>finalStatesNameOrdered;
     vector<string> inputsTags;
     unordered_map<int, string> priorityToRule;
+    void prepareForDfa();
 protected:
 
 private:
     /* contains all nfa expression */
-    vector<pair<string, NFA> >nfaVector;
+    vector<NFA>nfaVector;
 
     /* contains all Definitions */
     unordered_map<string, NFA> regDefinition;

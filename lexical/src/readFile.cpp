@@ -1,4 +1,4 @@
-#include "../header/readFile.h"
+#include "../include/readFile.h"
 
 vector<string>readFile(string fileName)
 {
