@@ -32,17 +32,21 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="NFA.cpp" />
-		<Unit filename="NFA.h" />
-		<Unit filename="RegularParser.cpp" />
-		<Unit filename="RegularParser.h" />
-		<Unit filename="conversionDfa.cpp" />
-		<Unit filename="conversionDfa.h" />
+		<Unit filename="lexical/header/LexicalAnalyzerGenerator.h" />
+		<Unit filename="lexical/header/NFA.h" />
+		<Unit filename="lexical/header/RegularParser.h" />
+		<Unit filename="lexical/header/Token.h" />
+		<Unit filename="lexical/header/conversionDfa.h" />
+		<Unit filename="lexical/header/readFile.h" />
+		<Unit filename="lexical/header/stringParsing.h" />
+		<Unit filename="lexical/src/LexicalAnalyzerGenerator.cpp" />
+		<Unit filename="lexical/src/NFA.cpp" />
+		<Unit filename="lexical/src/RegularParser.cpp" />
+		<Unit filename="lexical/src/Token.cpp" />
+		<Unit filename="lexical/src/conversionDfa.cpp" />
+		<Unit filename="lexical/src/readFile.cpp" />
+		<Unit filename="lexical/src/stringParsing.cpp" />
 		<Unit filename="main.cpp" />
-		<Unit filename="readFile.cpp" />
-		<Unit filename="readFile.h" />
-		<Unit filename="stringParsing.cpp" />
-		<Unit filename="stringParsing.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
