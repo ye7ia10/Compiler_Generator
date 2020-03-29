@@ -13,6 +13,21 @@ Token::~Token()
     //dtor
 }
 
+string Token::getName() {
+    return name;
+}
+
+string Token::getRule() {
+    return rule;
+}
+
+int Token::getLine() {
+    return line;
+}
+
+bool Token::isError() {
+    return hasError;
+}
 string Token::toString()
 {
     if (hasError)

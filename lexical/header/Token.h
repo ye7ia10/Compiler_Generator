@@ -9,15 +9,21 @@ public:
     Token(string name, string rule, int line, bool hasError);
     virtual ~Token();
     string toString();
+    string getName();
+    string getRule();
+    int getLine();
+    bool isError();
     void addCharToName(char c);
-    bool hasError;
-    string name;
+
+
 protected:
 
 private:
 
     int line;
     string rule;
+    bool hasError;
+    string name;
 
 };
 
