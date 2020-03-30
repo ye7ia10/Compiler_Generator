@@ -3,7 +3,7 @@
 #include "../include/stringParsing.h"
 
 conversionDfa::conversionDfa(int numStates, vector<string> initialStates, vector<string> finalStates,
-                             vector<vector<string>> nfaTransitions, vector<string> inputsTags, vector<string> statesTags
+                             vector<State> nfaTransitions, vector<string> inputsTags, vector<string> statesTags
                              , vector<string>finalStatesNameOrdered, unordered_map<int, int>finalStatesPriority)
 {
     this->numStates = numStates;
@@ -20,77 +20,59 @@ string conversionDfa::getEClosure(string states)
 {
     stack<string> st;
     set<string> closure;
-    stringstream ss(states);
-    string token;
 
-    while (getline(ss, token, ','))
+    vector<string> splitedStates = splitByChar(states, ',');
+    for (string state : splitedStates) {
+        trim(state);
+        if (state.size() == 0) continue;
+        st.push(state);
+        closure.insert(state);
+    }
+    while (!st.empty())
     {
-        string currentState = token;
-        st.push(currentState);
-        closure.insert(currentState);
-        while (!st.empty())
-        {
-            string tempState = st.top();
-            st.pop();
-            string nextState;
-            for (int i = 0; i < nfaTransitions.size(); i++)
-            {
-                if (statesTags[i] == tempState)
+        string currentState = st.top();
+        st.pop();
+
+        int curstate = stoi(currentState);
+
+        if (nfaTransitions[curstate].getTranstion(' ').size()  > 0) {
+            string next = nfaTransitions[curstate].getTranstion(' ');
+            splitedStates = splitByChar(next, ',');
+            for (string state : splitedStates) {
+                if (closure.find(state) == closure.end())
                 {
-                    vector<string> vec = nfaTransitions[i];
-                    if (vec[vec.size() - 1] != "-")
-                    {
-                        nextState = vec[vec.size() - 1];
-                    }
-                    break;
-                }
-            }
-            stringstream sst(nextState);
-            string next;
-            while (getline(sst, next, ','))
-            {
-                if (closure.find(next) == closure.end())
-                {
-                    closure.insert(next);
-                    st.push(next);
+                    closure.insert(state);
+                    st.push(state);
                 }
             }
         }
+
     }
     string res = "";
-    std::set<std::string>::iterator it = closure.begin();
-    while (it != closure.end())
-    {
-        res += (*it) + ",";
-        it++;
+    for (auto it : closure) {
+        res += (it) + ",";
     }
     return res.substr(0, res.size() - 1);
+
 }
 
 string conversionDfa::applyInput(string currState, string currInput)
 {
-    auto it = find(inputsTags.begin(), inputsTags.end(), currInput);
-    int input = distance(inputsTags.begin(), it);
+
 
     string resultState = "";
 
-    stringstream sst(currState);
-    string currentSymbol;
-    while (getline(sst, currentSymbol, ','))
+    vector<string>splitedStates = splitByChar(currState, ',');
+    for(auto s : splitedStates)
     {
-        auto itState = find(statesTags.begin(), statesTags.end(), currentSymbol);
-        int state = distance(statesTags.begin(), itState);
+        int state = stoi(s);
+        string transitions = nfaTransitions[state].getTranstion(currInput[0]);
+        if (transitions.size() == 0) continue; /* no transtions */
 
-        if (nfaTransitions[state][input] != "-")
-        {
-            if (resultState != "")
-            {
-                resultState += "," + nfaTransitions[state][input];
-            }
-            else
-            {
-                resultState += nfaTransitions[state][input];
-            }
+        if (resultState.size() == 0) {
+            resultState = transitions;
+        } else {
+            resultState += ',' + transitions;
         }
     }
     return resultState;
@@ -110,26 +92,15 @@ vector<string> conversionDfa::defaultRow()
 
 void conversionDfa::convertToDfa()
 {
-
-    string initial = "";
+    /* as the initial state is 0 from nfa */
+    string initial = "0";
     stack<string> st;
 
-    for (int i = 0; i < initialStates.size(); i++)
-    {
-        if (i != initialStates.size() - 1 || i != 0)
-        {
-            initial += "," + initialStates[i];
-        }
-        else
-        {
-            initial += initialStates[i];
-        }
-    }
-
     string initialStateDfa = getEClosure(initial);
+    dfaStatesMap[initialStateDfa] = 0;
     dfaStates.push_back(initialStateDfa);
     st.push(initialStateDfa);
-
+    int dfaStateCounter = 1;
     vector<string> row = defaultRow();
 
     dfaTransitions.push_back(row);
@@ -141,20 +112,20 @@ void conversionDfa::convertToDfa()
 
         for (int i = 0; i < inputsTags.size() - 1; i++)
         {
-            string nextState = getEClosure(applyInput(currState, inputsTags[i]));
+            string nextState = applyInput(currState, inputsTags[i]);
+            nextState = getEClosure(nextState);
 
-            std::vector<string>::iterator it = find(dfaStates.begin(), dfaStates.end(), nextState);
-            if (it == dfaStates.end() && nextState != "")
+            if (dfaStatesMap.find(nextState) == dfaStatesMap.end() && nextState != "")
             {
+                dfaStatesMap[nextState] = dfaStateCounter;
                 dfaStates.push_back(nextState);
-
+                dfaStateCounter++;
                 dfaTransitions.push_back(row);
 
                 st.push(nextState);
             }
 
-            auto itState = find(dfaStates.begin(), dfaStates.end(), currState);
-            int state = distance(dfaStates.begin(), itState);
+            int state = dfaStatesMap[currState];
 
             if (nextState != "")
             {
@@ -170,23 +141,6 @@ void conversionDfa::convertToDfa()
 
 void conversionDfa::Minimize()
 {
-    //  Printing for testing
-    /*cout << endl << "dfa states : " << dfaStates.size() << endl;
-    cout << "final states : " << endl;
-    for (int i = 0; i < finalStates.size(); i++){
-        cout << finalStates[i] << endl;
-    }
-    cout << "finished" << endl;
-    cout << "dfa transitions before minimize" << endl;
-    for (int i = 0; i < dfaTransitions.size(); i++)
-    {
-        cout << dfaStates[i] + ": ";
-        for (int j = 0; j < dfaTransitions[i].size(); j++)
-        {
-            cout << dfaTransitions[i][j] +       " ^^^  " + inputsTags[j]     + " | ";
-        }
-        cout << "\n";
-    }*/
 
     SetUpVars(); //for now it will be useless as it will be marked will making the conversion
     map <string, vector<string> > finalStatesGroups;
@@ -204,30 +158,12 @@ void conversionDfa::Minimize()
         pi[0].push_back(vec[1]);
     }
 
-    //  Printing for testing
-    /*cout << endl;
-    cout << "group non finals "<<endl;
-    for (int i = 0; i < vec[1].size() ; i++){
-        cout << vec[1][i] << "    ";
-    }
-    cout << endl << "done ";
-    cout << endl << endl;*/
-
     std::map<std::string, vector<string> >::iterator it = finalStatesGroups.begin();
     while (it != finalStatesGroups.end())
     {
         vector<string> groupStates = it -> second;
         if (groupStates.size() > 0)
         {
-
-            //  Printing for testing
-            /*cout << endl;
-            cout << "group finals"<<endl;
-            for (int i = 0; i < groupStates.size() ; i++){
-                cout << groupStates[i] << "    ";
-            }
-            cout << endl << "done ";
-            cout << endl << endl;*/
             pi[0].push_back(groupStates);
         }
         it++;
@@ -237,15 +173,7 @@ void conversionDfa::Minimize()
     {
         pi[0] = pi[1];
 
-        //  Printing for testing
-        /*cout << "minimized partiotions" << endl;
-         for (int i = 0; i < pi[0].size() ; i++){
-            for (int j = 0; j < pi[0][i].size() ; j++){
-                cout << pi[0][i][j] << " ";
-            }
-            cout << endl;
-        }
-        cout << "****************" << endl;*/
+
 
         for (int i = 0; i < pi[1].size(); i++)
         {
@@ -309,15 +237,7 @@ void conversionDfa::Minimize()
         }
     }
 
-    //  Printing for testing
-    /*
-    for (int i = 0; i < pi[0].size(); i++)
-    {
-        for (int j = 0; j < pi[0][i].size(); j++)
-        {
-            cout<< pi[0][i][j] <<endl;
-        }
-    }*/
+
 }
 
 void conversionDfa::SetUpVars()

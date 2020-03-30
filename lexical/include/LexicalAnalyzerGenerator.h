@@ -20,7 +20,7 @@ private:
     vector<string> finalStates;
     vector<string> finalStatesOrdered;
     vector<string> finalStatesNamesOrdered;
-    vector<vector<string>> nfaTransitions;
+    vector<State> nfaTransitions;
     unordered_map<int, int> finalStatesPriority;
     unordered_map<int, string> acceptanceNames;
 

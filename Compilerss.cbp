@@ -13,6 +13,8 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
+					<Add directory="lexical/include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +24,8 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
+					<Add directory="lexical/include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -32,16 +36,18 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="lexical/header/LexicalAnalyzerGenerator.h" />
-		<Unit filename="lexical/header/NFA.h" />
-		<Unit filename="lexical/header/RegularParser.h" />
-		<Unit filename="lexical/header/Token.h" />
-		<Unit filename="lexical/header/conversionDfa.h" />
-		<Unit filename="lexical/header/readFile.h" />
-		<Unit filename="lexical/header/stringParsing.h" />
+		<Unit filename="lexical/include/LexicalAnalyzerGenerator.h" />
+		<Unit filename="lexical/include/NFA.h" />
+		<Unit filename="lexical/include/RegularParser.h" />
+		<Unit filename="lexical/include/State.h" />
+		<Unit filename="lexical/include/Token.h" />
+		<Unit filename="lexical/include/conversionDfa.h" />
+		<Unit filename="lexical/include/readFile.h" />
+		<Unit filename="lexical/include/stringParsing.h" />
 		<Unit filename="lexical/src/LexicalAnalyzerGenerator.cpp" />
 		<Unit filename="lexical/src/NFA.cpp" />
 		<Unit filename="lexical/src/RegularParser.cpp" />
+		<Unit filename="lexical/src/State.cpp" />
 		<Unit filename="lexical/src/Token.cpp" />
 		<Unit filename="lexical/src/conversionDfa.cpp" />
 		<Unit filename="lexical/src/readFile.cpp" />

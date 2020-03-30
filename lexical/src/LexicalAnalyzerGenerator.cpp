@@ -14,7 +14,7 @@ void LexicalAnalyzerGenerator::NFAGenerator()
     vector<string> inputLines = readFile("test.txt");
     regularParser.parseFile(inputLines);
 
-    int numStates = regularParser.table.size();
+    int numStates = regularParser.totalNFA.size();
 
     initialStates.push_back("0");
 
@@ -27,7 +27,7 @@ void LexicalAnalyzerGenerator::NFAGenerator()
 
     inputsTags = regularParser.inputsTags;
 
-    nfaTransitions = regularParser.table;
+    nfaTransitions = regularParser.totalNFA;
 
     finalStatesOrdered = regularParser.finalStatesNameOrdered;
 
@@ -105,7 +105,7 @@ string LexicalAnalyzerGenerator::getName(string state)
 void LexicalAnalyzerGenerator::printTest()
 {
 
-    cout << "input tags" << endl;
+    /*cout << "input tags" << endl;
     for (int i = 0; i < inputsTags.size() ; i++)
     {
         cout << inputsTags[i] << " " ;
@@ -157,7 +157,7 @@ void LexicalAnalyzerGenerator::printTest()
         }
         cout << "\n";
     }
-
+    */
     // Printing for testing get the priority of final states
     /*cout<<endl;
     cout<<"DFA final states with priority_2"<<endl;

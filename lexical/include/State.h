@@ -13,6 +13,9 @@ class State
         /* add constant number to the transition of this state */
         void addNumberToTransitions(int number);
         unordered_map<char, string > getInputsWithTranstions();
+        /* get transition of state in specific input */
+        string getTranstion(char c);
+        vector<char>getInputTags();
     protected:
 
     private:

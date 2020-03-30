@@ -124,7 +124,9 @@ vector<string>splitByChar(string s, char c)
     {
         if (s[i] == c)
         {
-            v.push_back(str);
+            trim(str);
+            if (str.size())
+                v.push_back(str);
             str = "";
         }
         else

@@ -33,3 +33,17 @@ unordered_map<char, string >State::getInputsWithTranstions() {
 
     return transitions;
 }
+
+string State::getTranstion(char c) {
+    if (transitions.find(c) == transitions.end()) {
+        return "";
+    }
+    return transitions[c];
+}
+vector<char> State::getInputTags() {
+    vector<char> vec;
+    for (auto it : transitions) {
+        vec.push_back(it.first);
+    }
+    return vec;
+}

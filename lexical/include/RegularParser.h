@@ -23,13 +23,13 @@ public:
 
     unordered_map<char, int> tansitionsMapping;
     unordered_map<int, char> tansitionsMappingForPrint;
-    vector<vector<string> > table;
     vector<string>finalStates;
     unordered_map<int, int>finalStatesPriority;
     vector<string>finalStatesName;
     vector<string>finalStatesNameOrdered;
     vector<string> inputsTags;
     unordered_map<int, string> priorityToRule;
+    vector<State>totalNFA;
     void prepareForDfa();
 protected:
 

@@ -14,7 +14,7 @@ void RegularParser::parseFile(vector<string>s)
     /* clear all data if object used in parsing previous file */
     nfaVector.clear();
     regDefinition.clear();
-    table.clear();
+    totalNFA.clear();
     tansitionsMapping.clear();
     tansitionsMappingForPrint.clear();
     finalStates.clear();
@@ -67,47 +67,26 @@ void RegularParser::prepareForDfa() {
         }
     }
 
-
+    /* add epsilon to inputs */
     tansitionsMapping[' '] = number;
     tansitionsMappingForPrint[number] = ' ';
     inputsTags.push_back(" ");
-    table.resize(added);
-    for (int i = 0; i < table.size(); i++)
-    {
-        table[i].resize(number + 1);
-    }
+
     added = 1;
+    State start;
     for (int i = 0; i < nfaVector.size(); i++)
     {
         string c = to_string(added);
-        if (table[0][tansitionsMapping[' ']].size() == 0)
-        {
-            table[0][tansitionsMapping[' ']] = c;
-        }
-        else
-        {
-            table[0][tansitionsMapping[' ']] = table[0][tansitionsMapping[' ']] + ',' + c;
-        }
+        start.addTransition(c, ' ');
         added = added + nfaVector[i].getStateTable().size();
-
     }
+    totalNFA.push_back(start);
     int row = 1;
     for (int i = 0; i < nfaVector.size(); i++)
     {
         for (int j = 0; j < nfaVector[i].getStateTable().size(); j++)
         {
-            for(auto it : nfaVector[i].getStateTable()[j].getInputsWithTranstions())
-            {
-                int column = tansitionsMapping[it.first];
-                if (table[row][column].size() == 0)
-                {
-                    table[row][column] = it.second;
-                }
-                else
-                {
-                    table[row][column] = table[row][column] + ',' + it.second;
-                }
-            }
+            totalNFA.push_back(nfaVector[i].getStateTable()[j]);
             row++;
         }
     }

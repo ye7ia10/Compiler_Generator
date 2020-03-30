@@ -9,7 +9,7 @@
 #include <map>
 #include <string>
 #include <bits/stdc++.h>
-
+#include "State.h"
 using namespace std;
 
 class conversionDfa
@@ -21,9 +21,10 @@ private:
     int m; //number of inputs
     vector<string> initialStates;
     vector<string> finalStates;
-    vector<vector<string>> nfaTransitions;
+    vector<State> nfaTransitions;
     vector<string> inputsTags;
     vector<string> statesTags;
+    unordered_map<string, int> dfaStatesMap;
     vector<string> dfaStates;
     vector<vector<string>> dfaTransitions;
     vector<vector<string> > pi[2];
@@ -52,7 +53,7 @@ private:
 
 public:
     conversionDfa(int numStates, vector<string> initialStates, vector<string> finalStates,
-                  vector<vector<string>> nfaTransitions, vector<string> inputsTags, vector<string> statesTags
+                  vector<State> nfaTransitions, vector<string> inputsTags, vector<string> statesTags
                   , vector<string>finalStatesNameOrdered, unordered_map<int, int>finalStatesPriority);
     vector<vector<string>> getTransitionTable();
     vector<string> getDfaStates();
