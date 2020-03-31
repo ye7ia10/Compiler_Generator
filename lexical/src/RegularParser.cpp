@@ -27,13 +27,12 @@ void RegularParser::parseFile(vector<string>s)
     }
     /*************** Here we finished NFA for each rule ***************/
     prepareForDfa();
-
-
     return;
 }
 
 
-void RegularParser::prepareForDfa() {
+void RegularParser::prepareForDfa()
+{
 
     int added = 1, number = 0;
     /* loop throw every state and numerate the inputs and priority for each NFA */
@@ -261,8 +260,8 @@ void RegularParser::recognizeDashOpp(vector<string>& strVec)
     {
         if (strVec[i] == "-" &&isDashOpp(strVec[i - 1], strVec[i + 1]))
         {
-            vec.pop_back(); /* as this string is one of the dash operation */
-            buildRange(vec, strVec[i - 1], strVec[i + 1]);
+
+            vec[vec.size() - 1] = vec[vec.size() - 1] + " " + "-" + " " + strVec[i + 1];
             i++; /* to drop next string */
         }
         else
@@ -284,7 +283,7 @@ bool RegularParser::isDashOpp(string str1, string str2)
     {
         int n1 = stoi(str1);
         int n2 = stoi(str2);
-        if (n1 < n2)
+        if (n1 < n2 && n1 >= 0 && n2 <= 9)
         {
             return true;
         }
@@ -313,21 +312,18 @@ bool RegularParser::isDashOpp(string str1, string str2)
     return false;
 }
 
-void RegularParser::buildRange(vector<string>& vec, string str1, string str2)
+void RegularParser::buildRange(NFA& nfa, string str1, string str2)
 {
-    /* add brackets to make sure that it does not conflict with other operations. */
-    vec.push_back("open op");
+    nfa = NFA(str1[0]);
     if (isNumber(str1))
     {
+        /* sure that these two numbers between 0 - 9 as we does not support dash operation for more than one digit */
         int n1 = stoi(str1);
         int n2 = stoi(str2);
         for (int i = n1; i <= n2; i++)
         {
-            vec.push_back(to_string(i));
-            if (i != n2)
-            {
-                vec.push_back("union op");
-            }
+            string s = to_string(i);
+            nfa.addTransition(0, 1, s[0]);
         }
     }
     else
@@ -336,16 +332,9 @@ void RegularParser::buildRange(vector<string>& vec, string str1, string str2)
         char c2 = str2[0];
         for (char c = c1; c <= c2; c++)
         {
-            string s = "";
-            s = s + c;
-            vec.push_back(s);
-            if (c != c2)
-            {
-                vec.push_back("union op");
-            }
+            nfa.addTransition(0, 1, c);
         }
     }
-    vec.push_back("close op");
 }
 
 
@@ -398,21 +387,32 @@ vector<DataEntry> RegularParser::prepareNFA(vector<string> splitedString)
         if(isOp(splitedString[i]))
         {
             x.isOp = true;
+            vec.push_back(x);
+            continue;
+        }
+        vector<string> trySplit = splitByChar(splitedString[i], ' ');
+        if (trySplit.size() == 3 && trySplit[1] == "-")
+        {
+
+            if (isDashOpp(trySplit[0],trySplit[2]))
+            {
+                buildRange(x.nfa, trySplit[0], trySplit[2]);
+                vec.push_back(x);
+                continue;
+            }
+        }
+
+        if (regDefinition.find(x.name) != regDefinition.end())
+        {
+            x.nfa = regDefinition[x.name];
         }
         else
         {
-            if (regDefinition.find(x.name) != regDefinition.end())
+            x.nfa = NFA(x.name[0]);
+            for (int j = 1; j < x.name.size(); j++)
             {
-                x.nfa = regDefinition[x.name];
-            }
-            else
-            {
-                x.nfa = NFA(x.name[0]);
-                for (int j = 1; j < x.name.size(); j++)
-                {
-                    NFA y(x.name[j]);
-                    x.nfa.concatenate(y);
-                }
+                NFA y(x.name[j]);
+                x.nfa.concatenate(y);
             }
         }
         vec.push_back(x);

@@ -133,3 +133,7 @@ void NFA::addNumberToTransitions(int number) {
         stateTable[i].addNumberToTransitions(number);
     }
 }
+
+void NFA::addTransition(int from, int to, char input) {
+    stateTable[from].addTransition(to_string(to), input);
+}

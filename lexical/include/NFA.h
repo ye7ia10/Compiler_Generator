@@ -21,6 +21,7 @@ class NFA
         void toString();
         vector<State> getStateTable();
         void addNumberToTransitions(int number);
+        void addTransition(int from, int to, char c);
     protected:
 
     private:

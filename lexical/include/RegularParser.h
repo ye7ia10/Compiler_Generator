@@ -64,7 +64,7 @@ private:
     /*it builds the range of the dash operation.
     this function must be used after check that the two strings make a right dash operation.
     it addes the range to the reference vector using Union operation between them */
-    void buildRange(vector<string>& vec, string str1, string str2);
+    void buildRange(NFA& nfa, string str1, string str2);
 
     /* make every element as NFA or call NFA of the defination used.
     also operations added with boolean osOp = true to difference it from NFA */

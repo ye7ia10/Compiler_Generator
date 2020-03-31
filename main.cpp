@@ -24,10 +24,14 @@ int main()
 
     /* read input and apply lexical rule */
     lexicalAnalyzerGenerator.applyInput("input.txt");
-    for (int i = 0; i < lexicalAnalyzerGenerator.tokenVec.size(); i++) {
-        if (lexicalAnalyzerGenerator.tokenVec[i].isError()) {
+    for (int i = 0; i < lexicalAnalyzerGenerator.tokenVec.size(); i++)
+    {
+        if (lexicalAnalyzerGenerator.tokenVec[i].isError())
+        {
             myfile << "(Error)" << endl;
-        }else {
+        }
+        else
+        {
             myfile <<  lexicalAnalyzerGenerator.tokenVec[i].toString() << endl;
         }
     }
