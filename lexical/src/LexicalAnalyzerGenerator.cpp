@@ -105,12 +105,13 @@ string LexicalAnalyzerGenerator::getName(string state)
 void LexicalAnalyzerGenerator::printTest()
 {
 
-    /*cout << "input tags" << endl;
+    cout << "input tags" << endl;
     for (int i = 0; i < inputsTags.size() ; i++)
     {
         cout << inputsTags[i] << " " ;
     }
     cout << endl;
+    /*
     cout << "NFA transitions :" << endl;
     for (int i = 0; i < nfaTransitions.size(); i++)
     {
@@ -121,7 +122,7 @@ void LexicalAnalyzerGenerator::printTest()
         }
         cout << "\n";
     }
-
+    */
 
     std::map<std::string, vector<string> >::iterator it = finalStatesGroups.begin();
     cout<<endl;
@@ -153,11 +154,11 @@ void LexicalAnalyzerGenerator::printTest()
         cout << dfaStates[i] + ": ";
         for (int j = 0; j < dfaTransitions[i].size(); j++)
         {
-            cout << dfaTransitions[i][j] +       " ^^^  " + inputsTags[j]     + " | ";
+            cout << inputsTags[j] << " -> " << dfaTransitions[i][j] << " | ";
         }
         cout << "\n";
     }
-    */
+
     // Printing for testing get the priority of final states
     /*cout<<endl;
     cout<<"DFA final states with priority_2"<<endl;

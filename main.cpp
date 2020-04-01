@@ -16,6 +16,7 @@ int main()
     lexicalAnalyzerGenerator.DFAMinizedGenerator();
     //lexicalAnalyzerGenerator.printTest();
 
+    lexicalAnalyzerGenerator.printTest();
 
     ofstream myfile;
     myfile.open ("output.txt");
