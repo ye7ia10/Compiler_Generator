@@ -27,14 +27,9 @@ int main()
     lexicalAnalyzerGenerator.applyInput("input.txt");
     for (int i = 0; i < lexicalAnalyzerGenerator.tokenVec.size(); i++)
     {
-        if (lexicalAnalyzerGenerator.tokenVec[i].isError())
-        {
-            myfile << "(Error)" << endl;
-        }
-        else
-        {
-            myfile <<  lexicalAnalyzerGenerator.tokenVec[i].toString() << endl;
-        }
+
+        myfile <<  lexicalAnalyzerGenerator.tokenVec[i].toString() << endl;
+
     }
 
     myfile.close();
