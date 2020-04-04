@@ -1,8 +1,8 @@
 #include "../include/RegularParser.h"
 
-RegularParser::RegularParser()
+RegularParser::RegularParser(vector<string> s)
 {
-    //ctor
+    parseFile(s);
 }
 
 RegularParser::~RegularParser()
@@ -15,17 +15,12 @@ void RegularParser::parseFile(vector<string>s)
     nfaVector.clear();
     regDefinition.clear();
     totalNFA.clear();
-    tansitionsMapping.clear();
-    tansitionsMappingForPrint.clear();
-    finalStates.clear();
-    finalStatesPriority.clear();
-    finalStatesName.clear();
     /* parsing every line */
     for (auto line : s)
     {
         parseLine(line);
     }
-    /*************** Here we finished NFA for each rule ***************/
+    /*************** Here we finished NFA for each rule separtly so then we con=mbine them in one table***************/
     prepareForDfa();
     return;
 }
@@ -34,42 +29,18 @@ void RegularParser::parseFile(vector<string>s)
 void RegularParser::prepareForDfa()
 {
 
-    int added = 1, number = 0;
+    int added = 1;
     /* loop throw every state and numerate the inputs and priority for each NFA */
+    set<char>diffInput;
     for (int i = 0; i < nfaVector.size(); i++)
     {
 
-        int newFinalState = nfaVector[i].finalState + added;
-        finalStates.push_back(to_string(newFinalState));
-        finalStatesPriority[newFinalState] = nfaVector[i].priority;
-        finalStatesName.push_back(nfaVector[i].name);
-
         nfaVector[i].addNumberToTransitions(added);
         added = added + nfaVector[i].getStateTable().size();
-        priorityToRule[nfaVector[i].priority] = nfaVector[i].name;
 
-        for (int j = 0; j < nfaVector[i].getStateTable().size(); j++)
-        {
-            for(auto it : nfaVector[i].getStateTable()[j].getInputsWithTranstions())
-            {
-
-                if (tansitionsMapping.find(it.first) == tansitionsMapping.end() && it.first != ' ')
-                {
-                    tansitionsMapping[it.first] = number;
-                    tansitionsMappingForPrint[number] = it.first;
-                    number++;
-                    string str = "";
-                    str += it.first;
-                    inputsTags.push_back(str);
-                }
-            }
-        }
     }
 
-    /* add epsilon to inputs */
-    tansitionsMapping[' '] = number;
-    tansitionsMappingForPrint[number] = ' ';
-    inputsTags.push_back(" ");
+    /* build one nfa contains all rules */
 
     added = 1;
     State start;
@@ -89,21 +60,6 @@ void RegularParser::prepareForDfa()
             row++;
         }
     }
-
-
-    finalStatesNameOrdered = finalStates;
-
-    /* sort state names according to its periority */
-    sort(finalStatesNameOrdered.begin(), finalStatesNameOrdered.end(), [this](string& first, string second)
-    {
-        int a1 = finalStatesPriority[stoi(first)];
-        int a2 = finalStatesPriority[stoi(second)];
-        if (a1 < a2)
-        {
-            return true;
-        }
-        return false;
-    });
 
 }
 void RegularParser::parseLine(string regexString)
@@ -162,9 +118,10 @@ void RegularParser::parseLine(string regexString)
             if (!regular.haveError)
             {
                 trim(name);
-                regular.nfa.priority = priority;
+                regular.nfa.setPriority(priority);
+
                 priority = priority + 1;
-                regular.nfa.name = name;
+                regular.nfa.setName(name);
                 nfaVector.push_back(regular.nfa);
             }
             break;
@@ -584,9 +541,11 @@ void RegularParser::addStringToNFA(string s)
         NFA y(s[i]);
         x.concatenate(y);
     }
-    x.priority = priority;
+    x.setPriority(priority);
     priority = priority + 1;
-    x.name = s;
+    x.setName(s);
     nfaVector.push_back(x);
 }
-
+vector<State>RegularParser::getTotalNFAStates() {
+    return totalNFA;
+}

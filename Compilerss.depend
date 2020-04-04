@@ -59,13 +59,13 @@
 1585461059 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/src/Token.cpp
 	"Token.h"
 
-1585778874 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/main.cpp
+1585921230 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/main.cpp
 	<iostream>
 	<vector>
 	<algorithm>
 	"lexical/include/LexicalAnalyzerGenerator.h"
 
-1585610401 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/NFA.cpp
+1585911229 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/NFA.cpp
 	"../include/NFA.h"
 
 1585461059 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/header/NFA.h
@@ -75,7 +75,7 @@
 1585459952 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/header/stringParsing.h
 	<bits/stdc++.h>
 
-1585559984 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/conversionDfa.cpp
+1585985342 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/conversionDfa.cpp
 	"../include/conversionDfa.h"
 	<algorithm>
 	"../include/stringParsing.h"
@@ -90,7 +90,7 @@
 	<string>
 	<bits/stdc++.h>
 
-1585779048 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/LexicalAnalyzerGenerator.cpp
+1585986084 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/LexicalAnalyzerGenerator.cpp
 	"../include/LexicalAnalyzerGenerator.h"
 
 1585459952 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/header/LexicalAnalyzerGenerator.h
@@ -113,16 +113,16 @@
 1585478722 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/header/Token.h
 	<bits/stdc++.h>
 
-1585479560 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/readFile.cpp
+1585908336 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/readFile.cpp
 	"../include/readFile.h"
 
-1585620185 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/RegularParser.cpp
+1585986088 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/RegularParser.cpp
 	"../include/RegularParser.h"
 
-1585554464 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/stringParsing.cpp
+1585908336 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/stringParsing.cpp
 	"../include/stringParsing.h"
 
-1585479574 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/Token.cpp
+1585908336 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/Token.cpp
 	"../include/Token.h"
 
 1585481662 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/TransitionTable.cpp
@@ -131,14 +131,14 @@
 1585483189 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/TransitionTable.h
 	<bits/stdc++.h>
 
-1585558181 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/LexicalAnalyzerGenerator.h
+1585909096 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/LexicalAnalyzerGenerator.h
 	"conversionDfa.h"
 	"RegularParser.h"
 	"stringParsing.h"
 	"readFile.h"
 	"Token.h"
 
-1585557956 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/conversionDfa.h
+1585985060 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/conversionDfa.h
 	<iostream>
 	<vector>
 	<sstream>
@@ -149,31 +149,31 @@
 	<bits/stdc++.h>
 	"State.h"
 
-1585610752 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/RegularParser.h
+1585986043 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/RegularParser.h
 	"NFA.h"
 	"stringParsing.h"
 
-1585610392 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/NFA.h
+1585909962 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/NFA.h
 	"stringParsing.h"
 	"State.h"
 	<bits/stdc++.h>
 
-1585459952 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/stringParsing.h
+1585908336 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/stringParsing.h
 	<bits/stdc++.h>
 
-1585459952 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/readFile.h
+1585908336 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/readFile.h
 	<bits/stdc++.h>
 	<sstream>
 	<string>
 	<fstream>
 
-1585478722 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/Token.h
+1585908336 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/Token.h
 	<bits/stdc++.h>
 
-1585555926 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/State.h
+1585890497 /home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/include/State.h
 	"stringParsing.h"
 	<bits/stdc++.h>
 
-1585556014 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/State.cpp
+1585890492 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/State.cpp
 	"State.h"
 

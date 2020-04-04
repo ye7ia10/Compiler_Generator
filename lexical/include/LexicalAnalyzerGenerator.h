@@ -15,7 +15,6 @@ private:
     // NFA Variables
     int numStates;
     vector<string> inputsTags;
-    vector<string> statesTags;
     vector<string> initialStates;
     vector<string> finalStates;
     vector<string> finalStatesOrdered;

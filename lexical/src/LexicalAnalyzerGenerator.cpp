@@ -8,39 +8,44 @@ LexicalAnalyzerGenerator::LexicalAnalyzerGenerator()
 void LexicalAnalyzerGenerator::NFAGenerator()
 {
 
-    RegularParser regularParser;
+
 
 
     vector<string> inputLines = readFile("test.txt");
-    regularParser.parseFile(inputLines);
+    RegularParser regularParser(inputLines);
 
-    int numStates = regularParser.totalNFA.size();
+    int numStates = regularParser.getTotalNFAStates().size();
 
     initialStates.push_back("0");
 
-    finalStates = regularParser.finalStates;
+    nfaTransitions = regularParser.getTotalNFAStates();
+    /* get all different input tags in the transition table and get names of final states wih there priority*/
+    set<char>diffInput;
+    for (int i = 0; i < nfaTransitions.size(); i++) {
+            if (nfaTransitions[i].isFinalState()) {
+                acceptanceNames[nfaTransitions[i].getPriority()] = nfaTransitions[i].getName();
+            }
+            for(auto it : nfaTransitions[i].getInputsWithTranstions())
+            {
 
-    for (int i = 0; i < numStates; i++)
-    {
-        statesTags.push_back(to_string(i));
+                if (diffInput.find(it.first) == diffInput.end() && it.first != ' ')
+                {
+                    diffInput.insert(it.first);
+                    string str = "";
+                    str += it.first;
+                    inputsTags.push_back(str);
+                }
+            }
     }
-
-    inputsTags = regularParser.inputsTags;
-
-    nfaTransitions = regularParser.totalNFA;
-
-    finalStatesOrdered = regularParser.finalStatesNameOrdered;
-
-    finalStatesPriority = regularParser.finalStatesPriority;
-    acceptanceNames = regularParser.priorityToRule;
+    /* add epsilon transition */
+    inputsTags.push_back(" ");
 
 }
 
 void LexicalAnalyzerGenerator::DFAMinizedGenerator()
 {
 
-    conversionDfa dfa(numStates, initialStates, finalStates, nfaTransitions, inputsTags, statesTags
-                      , finalStatesOrdered, finalStatesPriority);
+    conversionDfa dfa(nfaTransitions, inputsTags);
 
     dfaTransitions = dfa.getTransitionTable();
     dfaStates = dfa.getDfaStates();

@@ -16,10 +16,21 @@ class State
         /* get transition of state in specific input */
         string getTranstion(char c);
         vector<char>getInputTags();
+
+        void setFinalState(bool isFinal);
+        bool isFinalState();
+        void setName(string name);
+        string getName();
+        void setPriority(int priority);
+        int getPriority();
+
     protected:
 
     private:
     unordered_map<char, string > transitions;
+    int priority;
+    bool isFinal;
+    string name;
 };
 
 #endif // STATE_H

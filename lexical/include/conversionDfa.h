@@ -19,17 +19,14 @@ private:
     int numStates;
     int n; //number of dfa states
     int m; //number of inputs
-    vector<string> initialStates;
-    vector<string> finalStates;
     vector<State> nfaTransitions;
     vector<string> inputsTags;
-    vector<string> statesTags;
+
     unordered_map<string, int> dfaStatesMap;
     vector<string> dfaStates;
     vector<vector<string>> dfaTransitions;
     vector<vector<string> > pi[2];
     vector<bool> finalStatesMark;
-    vector<string>finalStatesNameOrdered;
     map<string, int> dfaStatesFinal;
 
 
@@ -52,14 +49,13 @@ private:
 
 
 public:
-    conversionDfa(int numStates, vector<string> initialStates, vector<string> finalStates,
-                  vector<State> nfaTransitions, vector<string> inputsTags, vector<string> statesTags
-                  , vector<string>finalStatesNameOrdered, unordered_map<int, int>finalStatesPriority);
+    conversionDfa(
+                  vector<State> nfaTransitions, vector<string> inputsTags);
     vector<vector<string>> getTransitionTable();
     vector<string> getDfaStates();
 
     map<string, string> mapStates;
-    unordered_map<int, int>finalStatesPriority;
+
     map<string, vector<string>> groupingFinalStates();
     map<string, int> dfaStatesFinalNew;
 

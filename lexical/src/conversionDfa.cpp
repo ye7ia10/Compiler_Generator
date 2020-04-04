@@ -2,19 +2,13 @@
 #include <algorithm>
 #include "../include/stringParsing.h"
 
-conversionDfa::conversionDfa(int numStates, vector<string> initialStates, vector<string> finalStates,
-                             vector<State> nfaTransitions, vector<string> inputsTags, vector<string> statesTags
-                             , vector<string>finalStatesNameOrdered, unordered_map<int, int>finalStatesPriority)
+conversionDfa::conversionDfa(vector<State> nfaTransitions, vector<string> inputsTags)
 {
-    this->numStates = numStates;
-    this->initialStates = initialStates;
-    this->finalStates = finalStates;
+    this->numStates = nfaTransitions.size();
     this->nfaTransitions = nfaTransitions;
     this->inputsTags = inputsTags;
-    this->statesTags = statesTags;
-    this->finalStatesNameOrdered = finalStatesNameOrdered;
-    this->finalStatesPriority = finalStatesPriority;
 }
+
 
 string conversionDfa::getEClosure(string states)
 {
@@ -22,9 +16,11 @@ string conversionDfa::getEClosure(string states)
     set<string> closure;
 
     vector<string> splitedStates = splitByChar(states, ',');
-    for (string state : splitedStates) {
+    for (string state : splitedStates)
+    {
         trim(state);
-        if (state.size() == 0) continue;
+        if (state.size() == 0)
+            continue;
         st.push(state);
         closure.insert(state);
     }
@@ -35,10 +31,12 @@ string conversionDfa::getEClosure(string states)
 
         int curstate = stoi(currentState);
 
-        if (nfaTransitions[curstate].getTranstion(' ').size()  > 0) {
+        if (nfaTransitions[curstate].getTranstion(' ').size()  > 0)
+        {
             string next = nfaTransitions[curstate].getTranstion(' ');
             splitedStates = splitByChar(next, ',');
-            for (string state : splitedStates) {
+            for (string state : splitedStates)
+            {
                 if (closure.find(state) == closure.end())
                 {
                     closure.insert(state);
@@ -49,7 +47,8 @@ string conversionDfa::getEClosure(string states)
 
     }
     string res = "";
-    for (auto it : closure) {
+    for (auto it : closure)
+    {
         res += (it) + ",";
     }
     return res.substr(0, res.size() - 1);
@@ -67,11 +66,15 @@ string conversionDfa::applyInput(string currState, string currInput)
     {
         int state = stoi(s);
         string transitions = nfaTransitions[state].getTranstion(currInput[0]);
-        if (transitions.size() == 0) continue; /* no transtions */
+        if (transitions.size() == 0)
+            continue; /* no transtions */
 
-        if (resultState.size() == 0) {
+        if (resultState.size() == 0)
+        {
             resultState = transitions;
-        } else {
+        }
+        else
+        {
             resultState += ',' + transitions;
         }
     }
@@ -244,6 +247,16 @@ void conversionDfa::SetUpVars()
 {
     n = dfaTransitions.size();
     m = inputsTags.size() - 1;
+    vector<string>finalStates;
+    int k = 0;
+    for (int i = 0; i < nfaTransitions.size(); i++)
+    {
+        if(nfaTransitions[i].isFinalState())
+        {
+            finalStates.push_back(to_string(i));
+            k++;
+        }
+    }
 
     for (int i = 0; i < dfaStates.size(); i++)
     {
@@ -452,25 +465,33 @@ map<string, vector<string>> conversionDfa::groupingFinalStates()
     {
         dfaStatesCopy.insert(pair<string, bool>(dfaStates[i], false));
     }
-
+    vector<pair<int, string> >finalStatesNameOrdered;
+    for (int i = 0; i < nfaTransitions.size(); i++)
+    {
+        if (nfaTransitions[i].isFinalState())
+        {
+            finalStatesNameOrdered.push_back({nfaTransitions[i].getPriority(), to_string(i)});
+        }
+    }
+    sort(finalStatesNameOrdered.begin(), finalStatesNameOrdered.end());
     for (int i = 0; i < finalStatesNameOrdered.size(); i++)
     {
         groupStates.clear();
         for (int j = 0; j < dfaStates.size(); j++)
         {
             vector<string> temp = splitByChar(dfaStates[j], ',');
-            if ( (find(temp.begin(), temp.end(), finalStatesNameOrdered[i]) != temp.end())&& !dfaStatesCopy[dfaStates[j]])
+            if ( (find(temp.begin(), temp.end(), finalStatesNameOrdered[i].second) != temp.end())&& !dfaStatesCopy[dfaStates[j]])
             {
                 //  Printing for testing
                 //cout << "added " << dfaStates[j] << endl;
                 groupStates.push_back(dfaStates[j]);
-                dfaStatesFinal[dfaStates[j]] = finalStatesPriority[stoi(finalStatesNameOrdered[i])];
+                dfaStatesFinal[dfaStates[j]] = finalStatesNameOrdered[i].first;
                 dfaStatesCopy[dfaStates[j]] = true;
 
             }
             if (j == dfaStates.size() - 1)
             {
-                groups.insert(pair<string, vector<string>>(to_string(finalStatesPriority[stoi(finalStatesNameOrdered[i])]), groupStates));
+                groups.insert(pair<string, vector<string>>(to_string(finalStatesNameOrdered[i].first), groupStates));
             }
         }
     }

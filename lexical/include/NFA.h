@@ -8,24 +8,29 @@ class NFA
 {
     public:
         NFA();
-        int priority = 0;
+
         NFA(char c);
         virtual ~NFA();
-        int startState = 0;
-        int finalState = 0;
-        string name;
         void concatenate(NFA nfa);
         void closure();
         void positiveClosure();
         void unionn(NFA nfa);
-        void toString();
         vector<State> getStateTable();
         void addNumberToTransitions(int number);
         void addTransition(int from, int to, char c);
+        int getPriority();
+        void setPriority(int prioriy);
+        string getName();
+        void setName(string name);
+        int getFinalState();
+        void toString();
+        void setFinalState(int state);
     protected:
 
     private:
         vector<State> stateTable;
+        int startState = 0;
+        int finalState = 0;
 };
 
 #endif // NFA_H
