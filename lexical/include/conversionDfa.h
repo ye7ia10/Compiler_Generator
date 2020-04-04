@@ -50,7 +50,7 @@ private:
 
 public:
     conversionDfa(
-                  vector<State> nfaTransitions, vector<string> inputsTags);
+        vector<State> nfaTransitions, vector<string> inputsTags);
     vector<vector<string>> getTransitionTable();
     vector<string> getDfaStates();
 

@@ -15,12 +15,8 @@ private:
     // NFA Variables
     int numStates;
     vector<string> inputsTags;
-    vector<string> initialStates;
-    vector<string> finalStates;
-    vector<string> finalStatesOrdered;
-    vector<string> finalStatesNamesOrdered;
+
     vector<State> nfaTransitions;
-    unordered_map<int, int> finalStatesPriority;
     unordered_map<int, string> acceptanceNames;
 
     // DFA Variables
@@ -34,10 +30,6 @@ private:
     string inputApplication(string currState, string input);
     bool checkFinalState(string state);
     string getName(string state);
-
-
-
-
 
 
 public:

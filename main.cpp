@@ -16,7 +16,7 @@ int main()
     lexicalAnalyzerGenerator.DFAMinizedGenerator();
     //lexicalAnalyzerGenerator.printTest();
 
-    //lexicalAnalyzerGenerator.printTest();
+    lexicalAnalyzerGenerator.printTest();
 
     ofstream myfile;
     myfile.open ("output.txt");
@@ -27,10 +27,9 @@ int main()
     lexicalAnalyzerGenerator.applyInput("input.txt");
     for (int i = 0; i < lexicalAnalyzerGenerator.tokenVec.size(); i++)
     {
-        if (!lexicalAnalyzerGenerator.tokenVec[i].isError())
-            myfile <<  lexicalAnalyzerGenerator.tokenVec[i].toString() << endl;
-        else
-            myfile << "(Error)" << endl;
+
+        myfile <<  lexicalAnalyzerGenerator.tokenVec[i].toString() << endl;
+
     }
 
     myfile.close();

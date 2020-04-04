@@ -8,34 +8,29 @@ LexicalAnalyzerGenerator::LexicalAnalyzerGenerator()
 void LexicalAnalyzerGenerator::NFAGenerator()
 {
 
-
-
-
     vector<string> inputLines = readFile("test.txt");
     RegularParser regularParser(inputLines);
-
     int numStates = regularParser.getTotalNFAStates().size();
-
-    initialStates.push_back("0");
-
     nfaTransitions = regularParser.getTotalNFAStates();
     /* get all different input tags in the transition table and get names of final states wih there priority*/
     set<char>diffInput;
-    for (int i = 0; i < nfaTransitions.size(); i++) {
-            if (nfaTransitions[i].isFinalState()) {
-                acceptanceNames[nfaTransitions[i].getPriority()] = nfaTransitions[i].getName();
-            }
-            for(auto it : nfaTransitions[i].getInputsWithTranstions())
-            {
+    for (int i = 0; i < nfaTransitions.size(); i++)
+    {
+        if (nfaTransitions[i].isFinalState())
+        {
+            acceptanceNames[nfaTransitions[i].getPriority()] = nfaTransitions[i].getName();
+        }
+        for(auto it : nfaTransitions[i].getInputsWithTranstions())
+        {
 
-                if (diffInput.find(it.first) == diffInput.end() && it.first != ' ')
-                {
-                    diffInput.insert(it.first);
-                    string str = "";
-                    str += it.first;
-                    inputsTags.push_back(str);
-                }
+            if (diffInput.find(it.first) == diffInput.end() && it.first != ' ')
+            {
+                diffInput.insert(it.first);
+                string str = "";
+                str += it.first;
+                inputsTags.push_back(str);
             }
+        }
     }
     /* add epsilon transition */
     inputsTags.push_back(" ");
@@ -116,18 +111,6 @@ void LexicalAnalyzerGenerator::printTest()
         cout << inputsTags[i] << " " ;
     }
     cout << endl;
-    /*
-    cout << "NFA transitions :" << endl;
-    for (int i = 0; i < nfaTransitions.size(); i++)
-    {
-        cout << i << ": ";
-        for (int j = 0; j < nfaTransitions[i].size(); j++)
-        {
-            cout << nfaTransitions[i][j] + " ";
-        }
-        cout << "\n";
-    }
-    */
 
     std::map<std::string, vector<string> >::iterator it = finalStatesGroups.begin();
     cout<<endl;
@@ -164,17 +147,6 @@ void LexicalAnalyzerGenerator::printTest()
         cout << "\n";
     }
 
-    // Printing for testing get the priority of final states
-    /*cout<<endl;
-    cout<<"DFA final states with priority_2"<<endl;
-
-    for (int i = 0; i < dfaStates.size(); i++){
-        if (dfaFinalStatesPriority.find(dfaStates[i]) != dfaFinalStatesPriority.end()){
-
-            cout<< "Final State: " << dfaStates[i] << " With Priority: " << dfaFinalStatesPriority[mapStates[dfaStates[i]]] << endl;
-        }
-         cout<< endl;
-    }*/
 }
 
 void LexicalAnalyzerGenerator::testFun(string curr, string input)
