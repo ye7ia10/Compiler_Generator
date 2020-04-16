@@ -177,3 +177,124 @@
 1585986684 source:/home/ahmed/Documents/ye7yaa/Compiler_Generator/lexical/src/State.cpp
 	"State.h"
 
+1585985342 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/src/conversionDfa.cpp
+	"../include/conversionDfa.h"
+	<algorithm>
+	"../include/stringParsing.h"
+
+1585986750 /home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/include/conversionDfa.h
+	<iostream>
+	<vector>
+	<sstream>
+	<stack>
+	<set>
+	<map>
+	<string>
+	<bits/stdc++.h>
+	"State.h"
+
+1585890497 /home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/include/State.h
+	"stringParsing.h"
+	<bits/stdc++.h>
+
+1585908336 /home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/include/stringParsing.h
+	<bits/stdc++.h>
+
+1585986648 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/src/LexicalAnalyzerGenerator.cpp
+	"../include/LexicalAnalyzerGenerator.h"
+
+1585986715 /home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/include/LexicalAnalyzerGenerator.h
+	"conversionDfa.h"
+	"RegularParser.h"
+	"stringParsing.h"
+	"readFile.h"
+	"Token.h"
+
+1585986043 /home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/include/RegularParser.h
+	"NFA.h"
+	"stringParsing.h"
+
+1585909962 /home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/include/NFA.h
+	"stringParsing.h"
+	"State.h"
+	<bits/stdc++.h>
+
+1585908336 /home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/include/readFile.h
+	<bits/stdc++.h>
+	<sstream>
+	<string>
+	<fstream>
+
+1585908336 /home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/include/Token.h
+	<bits/stdc++.h>
+
+1585911229 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/src/NFA.cpp
+	"../include/NFA.h"
+
+1585908336 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/src/readFile.cpp
+	"../include/readFile.h"
+
+1585986128 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/src/RegularParser.cpp
+	"../include/RegularParser.h"
+
+1585986684 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/src/State.cpp
+	"State.h"
+
+1585908336 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/src/stringParsing.cpp
+	"../include/stringParsing.h"
+
+1585908336 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/lexical/src/Token.cpp
+	"../include/Token.h"
+
+1585986810 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/main.cpp
+	<iostream>
+	<vector>
+	<algorithm>
+	"lexical/include/LexicalAnalyzerGenerator.h"
+
+1587070987 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/Production.cpp
+	"Production.h"
+
+1587071806 /home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/Production.h
+	"RuleComponent.h"
+
+1587071810 /home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/RuleComponent.h
+	<bits/stdc++.h>
+
+1587070874 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/RuleComponent.cpp
+	"RuleComponent.h"
+
+1587071156 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/Rule.cpp
+	"Rule.h"
+
+1587072689 /home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/Rule.h
+	"Production.h"
+
+1587070414 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/Rules.cpp
+	"Rules.h"
+
+1587072687 /home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/Rules.h
+	"Rule.h"
+
+1587071887 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/AnalyzeRules.cpp
+	"AnalyzeRules.h"
+	"Rules.h"
+
+1587072274 /home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/AnalyzeRules.h
+	"Rules.h"
+	"Rule.h"
+
+1587069920 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/Parser.cpp
+	"Parser.h"
+
+1587072159 /home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/Parser.h
+	"Rules.h"
+	"PredictiveTable.h"
+	"AnalyzeRules.h"
+
+1587071942 /home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/PredictiveTable.h
+	"Rules.h"
+
+1587071994 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/PredictiveTable.cpp
+	"PredictiveTable.h"
+
