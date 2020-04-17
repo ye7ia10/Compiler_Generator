@@ -13,6 +13,7 @@ class Rules
         void calcFollow();
         void removeLeftFactoring();
         void removeLeftRecursion();
+
     protected:
 
     private:

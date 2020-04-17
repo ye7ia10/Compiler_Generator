@@ -15,6 +15,7 @@
 					<Add option="-g" />
 					<Add directory="include" />
 					<Add directory="lexical/include" />
+					<Add directory="parser" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -26,6 +27,7 @@
 					<Add option="-O2" />
 					<Add directory="include" />
 					<Add directory="lexical/include" />
+					<Add directory="parser" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -53,6 +55,20 @@
 		<Unit filename="lexical/src/readFile.cpp" />
 		<Unit filename="lexical/src/stringParsing.cpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="parser/AnalyzeRules.cpp" />
+		<Unit filename="parser/AnalyzeRules.h" />
+		<Unit filename="parser/Parser.cpp" />
+		<Unit filename="parser/Parser.h" />
+		<Unit filename="parser/PredictiveTable.cpp" />
+		<Unit filename="parser/PredictiveTable.h" />
+		<Unit filename="parser/Production.cpp" />
+		<Unit filename="parser/Production.h" />
+		<Unit filename="parser/Rule.cpp" />
+		<Unit filename="parser/Rule.h" />
+		<Unit filename="parser/RuleComponent.cpp" />
+		<Unit filename="parser/RuleComponent.h" />
+		<Unit filename="parser/Rules.cpp" />
+		<Unit filename="parser/Rules.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

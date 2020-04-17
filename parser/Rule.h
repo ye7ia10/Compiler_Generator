@@ -4,7 +4,7 @@
 class Rule
 {
     public:
-        Rule();
+        Rule(string nonTerminalName, vector<string> rHS);
         virtual ~Rule();
 
     protected:
@@ -13,6 +13,8 @@ class Rule
     vector<Production*> productions;
     vector<RuleComponent*> first;
     vector<RuleComponent*> follow;
+    vector<string> productionsString;
+
 };
 
 #endif // RULE_H

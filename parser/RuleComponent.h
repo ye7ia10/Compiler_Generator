@@ -14,6 +14,7 @@ class RuleComponent
 
     private:
     string name;
+    bool inTerminal;
 
 };
 

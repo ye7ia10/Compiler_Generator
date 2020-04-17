@@ -1,6 +1,6 @@
 #include "Rule.h"
 
-Rule::Rule()
+Rule::Rule(string nonTerminalName, vector<string> rHS)
 {
     //ctor
 }
