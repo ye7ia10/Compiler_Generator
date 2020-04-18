@@ -9,3 +9,7 @@ Rule::~Rule()
 {
     //dtor
 }
+
+vector<string>  Rule::getProductionsString(){
+    return this -> productionsString;
+}

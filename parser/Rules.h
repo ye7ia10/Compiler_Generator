@@ -13,11 +13,15 @@ class Rules
         void calcFollow();
         void removeLeftFactoring();
         void removeLeftRecursion();
+        bool hasLeftRecusrion(string CurNonTerm, vector<string> currentRuleProd);
+        vector<string> replaceNons (vector<string> curProd, string tempName , vector<string> tempProd);
+        void EliminateLRCurrenRule(vector<string>currentRuleProd, string curNon);
 
     protected:
 
     private:
     unordered_map <string, Rule*> rules;
+    vector<string> NonTerminalsNames;
 };
 
 #endif // RULES_H

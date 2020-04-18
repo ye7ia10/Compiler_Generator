@@ -6,6 +6,7 @@ class Rule
     public:
         Rule(string nonTerminalName, vector<string> rHS);
         virtual ~Rule();
+        vector<string> getProductionsString();
 
     protected:
 
