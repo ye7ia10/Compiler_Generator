@@ -8,9 +8,10 @@ class Production
     public:
         Production(string s);
         virtual ~Production();
+        vector<RuleComponent*> elements;
 
     protected:
-        vector<RuleComponent*> elements;
+
         vector<RuleComponent*> first;
         void buildProduction(string s);
     private:

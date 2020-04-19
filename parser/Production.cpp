@@ -11,10 +11,16 @@ Production::~Production()
 }
 
 
-void Production::buildProduction(string s) {
+void Production::buildProduction(string s)
+{
     vector<string> splited = splitByChar(s, ' ');
-    for (string elm : splited) {
-        RuleComponent* component = new RuleComponent(elm);
-        this->elements.push_back(component);
+    for (string elm : splited)
+    {
+        if (elm != " ")
+        {
+            RuleComponent* component = new RuleComponent(elm);
+            this->elements.push_back(component);
+        }
+
     }
 }

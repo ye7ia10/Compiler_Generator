@@ -20,8 +20,17 @@ class Rules
     protected:
 
     private:
-    unordered_map <string, Rule*> rules;
+    map <string, Rule*> rules;
     vector<string> NonTerminalsNames;
+    int findMinLength(vector<string> arr, int startIndex, int endIndex);
+    bool allContainsPrefix(vector<string> arr, string str,
+                       int start, int end, int startIndex, int endIndex);
+    string commonPrefix(vector<string> arr, int startIndex, int endIndex);
+    void modifyRule(vector<string> &modifiedRule, string prefix, Rule* currentRule);
+    void addRuleLeftFactoring(vector<string> &modifiedRule, string prefix, string nonTerminal, Rule* currentRule);
+    void partialModifiedRule(vector<string> &modifiedRule, string prefix, string nonTerminal, Rule* currentRule);
+    bool mycomp(string a, string b);
+
 };
 
 #endif // RULES_H

@@ -14,21 +14,40 @@ Rule::~Rule()
     //dtor
 }
 
-vector<string>  Rule::getProductionsString(){
+vector<string>  Rule::getProductionsString()
+{
     return this -> productionsString;
 }
 
-void Rule::buildRule(string rHS) {
+void Rule::buildRule(string rHS)
+{
 
     vector<string>productions = splitByChar(rHS, '|');
     this->productionsString = productions;
-    for (string s : productions) {
+    for (string s : productions)
+    {
         Production* production = new Production(s);
         this->productions.push_back(production);
     }
 
 }
 
-string Rule::getName() {
+string Rule::getName()
+{
     return name;
+}
+
+void Rule::setProductionString(vector<string> productionStringNew)
+{
+    this->productionsString = productionStringNew;
+}
+
+void Rule::setName(string newName)
+{
+    this->name = newName;
+}
+
+void Rule::setProductions(vector<Production*> productions)
+{
+    this->productions = productions;
 }

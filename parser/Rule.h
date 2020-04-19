@@ -10,12 +10,17 @@ class Rule
         virtual ~Rule();
         vector<string> getProductionsString();
         string getName();
+        void setName(string newName);
+        void setProductionString(vector<string> productionStringNew);
+        void setProductions(vector<Production*> productions);
+        vector<Production*> productions;
+
 
     protected:
 
     private:
     string name;
-    vector<Production*> productions;
+
     vector<RuleComponent*> first;
     vector<RuleComponent*> follow;
     vector<string> productionsString;

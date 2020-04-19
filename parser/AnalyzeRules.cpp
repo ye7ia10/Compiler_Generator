@@ -5,6 +5,7 @@
 AnalyzeRules::AnalyzeRules(string fileName, Rules* rules)
 {
     buildRules(fileName, rules);
+    //rules->removeLeftFactoring();
 }
 
 AnalyzeRules::~AnalyzeRules()

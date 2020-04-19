@@ -1,1 +1,1 @@
-#hi = A | 'BC'
+#A = 'a' 'b' B | 'a' B | 'c' 'd' 'g' | 'c' 'd' 'e' B | 'c' 'd' 'f' B

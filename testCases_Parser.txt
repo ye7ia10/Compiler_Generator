@@ -1,0 +1,3 @@
+A -> BC | BCKL | BCKZ
+
+#A = 'a' 'b' B | 'a' B | 'c' 'd' 'g' | 'c' 'd' 'e' B | 'c' 'd' 'f' B
