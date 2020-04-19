@@ -15,6 +15,7 @@ class AnalyzeRules
     private:
     void buildRules(string fileName, Rules* rules);
     Rule* handleEachRule(string producationRule);
+    vector<string> splitRules(vector<string>lines);
 
 };
 

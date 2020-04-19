@@ -6,7 +6,7 @@ using namespace std;
 class RuleComponent
 {
     public:
-        RuleComponent();
+        RuleComponent(string s);
         virtual ~RuleComponent();
         string getName();
         bool isTerminal();
@@ -14,7 +14,8 @@ class RuleComponent
 
     private:
     string name;
-    bool inTerminal;
+    bool terminal;
+    void buildComponent(string s);
 
 };
 

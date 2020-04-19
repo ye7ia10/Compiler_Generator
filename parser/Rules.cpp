@@ -114,3 +114,8 @@ vector<string> Rules::replaceNons (vector<string> curProd, string tempName, vect
     }
     return res;
   }
+
+  void Rules::addRule(Rule* rule) {
+        rules[rule->getName()] = rule;
+        NonTerminalsNames.push_back(rule->getName());
+  }

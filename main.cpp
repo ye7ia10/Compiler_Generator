@@ -2,12 +2,12 @@
 #include <vector>
 #include <algorithm>
 #include "lexical/include/LexicalAnalyzerGenerator.h"
-
+#include "parser/Parser.h"
 using namespace std;
 
 int main()
 {
-
+/*
 
     LexicalAnalyzerGenerator lexicalAnalyzerGenerator;
 
@@ -23,7 +23,7 @@ int main()
 
 
 
-    /* read input and apply lexical rule */
+
     lexicalAnalyzerGenerator.applyInput("input.txt");
     for (int i = 0; i < lexicalAnalyzerGenerator.tokenVec.size(); i++)
     {
@@ -33,5 +33,10 @@ int main()
     }
 
     myfile.close();
+
+*/
+
+    Parser *parser = new Parser("parser.txt");
+
     return 0;
 }

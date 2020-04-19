@@ -1,11 +1,20 @@
 #include "RuleComponent.h"
 
-RuleComponent::RuleComponent()
+RuleComponent::RuleComponent(string s)
 {
-    //ctor
+    buildComponent(s);
 }
 
 RuleComponent::~RuleComponent()
 {
     //dtor
+}
+
+void RuleComponent::buildComponent(string s) {
+    if (s.size() >= 2 && s[0] == '\'' && s[s.size() - 1] == '\'') {
+        terminal = true;
+    } else {
+        terminal = false;
+    }
+    this-> name = s;
 }
