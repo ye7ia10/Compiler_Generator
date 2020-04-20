@@ -17,10 +17,10 @@ class Rules
         vector<string> replaceNons (vector<string> curProd, string tempName , vector<string> tempProd);
         void EliminateLRCurrenRule(vector<string>currentRuleProd, string curNon, map<string, Rule*> &newMap);
         map <string, Rule*>  getRules();
-        void getFollow( map<string, Rule*>::iterator it, string nonTe);
+        void getFollow( map<string, Rule*>::iterator it, string nonTe, set<string>& vis);
         void getFollowByFirst(RuleComponent* nextComponent, int idxComponent,
             map<string, Rule*>::iterator it, map<string, Rule*>::iterator itMap,
-            vector<RuleComponent*> components);
+            vector<RuleComponent*> components, set<string>& vis);
 
     protected:
 
