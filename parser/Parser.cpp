@@ -11,6 +11,7 @@ Parser::Parser(string fileName)
 
 
     rules->calcFirst();
+    rules->calcFollow();
     for (auto r : rules->getRules()) {
         r.second->toString();
         for (Production* p : r.second->getProductions()) {

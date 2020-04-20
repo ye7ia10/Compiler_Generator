@@ -18,6 +18,8 @@ class Rule
         void putFirst(vector<RuleComponent*> first);
         vector<Production*>getProductions();
         void toString();
+        vector<RuleComponent*> getFollowVector();
+        void addFollow(RuleComponent* c);
     protected:
 
     private:

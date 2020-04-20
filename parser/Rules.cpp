@@ -544,3 +544,62 @@ void Rules::calcFirst() {
 map <string, Rule*>  Rules::getRules() {
     return rules;
 }
+
+void Rules::calcFollow(){
+    map<string, Rule*>::iterator it;
+    for (it = rules.begin(); it != rules.end() ; it++){
+        string nonTe = it->first;
+        if (visitedFollow[nonTe]){
+            continue;
+        }
+        getFollow(it, nonTe);
+        visitedFollow[nonTe] = true;
+    }
+}
+void Rules::getFollow(map<string, Rule*>::iterator it, string nonTe){
+    map<string, Rule*>::iterator Fit;
+    Fit = rules.begin();
+    if (Fit-> first == nonTe){  /*** if first non terminal push dollar sign ***/
+          Rule *currentRule = it -> second;
+          RuleComponent* component = new RuleComponent("$");
+          currentRule ->addFollow(component);
+    }
+    map<string, Rule*>::iterator itMap;
+    for (itMap = rules.begin(); itMap != rules.end() ; itMap++){
+        vector<Production*> Productions = itMap->second->getProductions();
+        for (int i = 0; i < Productions.size() ; i++){
+            vector<RuleComponent*> components = Productions[i]-> elements;
+            for (int j = 0; j < components.size() ; j++){
+                if (components[j]->getName() == nonTe){
+                    if (j == components.size()-1 && nonTe != itMap->first){
+                         getFollow(it, itMap->first);
+                    } else if (j != components.size()-1) {
+                         getFollowByFirst(components[j+1], j, it, itMap,components);
+                    }
+                }
+            }
+        }
+    }
+}
+void Rules::getFollowByFirst(RuleComponent* nextComponent, int idxComponent,
+        map<string, Rule*>::iterator it, map<string, Rule*>::iterator itMap,
+        vector<RuleComponent*> components){
+    if (nextComponent->isTerminal()){
+        Rule *currentRule = it -> second;
+        currentRule ->addFollow(nextComponent);
+    } else {
+         vector<RuleComponent*> nextComponentFirst = rules[nextComponent->getName()]->getFirst();
+         for (int i = 0; i < nextComponentFirst.size() ; i++){
+            if (nextComponentFirst[i]->getName() != epsilon){
+                Rule *currentRule = it -> second;
+                currentRule ->addFollow(nextComponentFirst[i]);
+            } else {
+                if (idxComponent+2 == components.size()){
+                    getFollow(it, itMap->first);
+                } else {
+                    getFollowByFirst(components[idxComponent+2], idxComponent+1 , it, itMap, components);
+                }
+            }
+         }
+    }
+}

@@ -17,6 +17,10 @@ class Rules
         vector<string> replaceNons (vector<string> curProd, string tempName , vector<string> tempProd);
         void EliminateLRCurrenRule(vector<string>currentRuleProd, string curNon, map<string, Rule*> &newMap);
         map <string, Rule*>  getRules();
+        void getFollow( map<string, Rule*>::iterator it, string nonTe);
+        void getFollowByFirst(RuleComponent* nextComponent, int idxComponent,
+            map<string, Rule*>::iterator it, map<string, Rule*>::iterator itMap,
+            vector<RuleComponent*> components);
 
     protected:
 
@@ -32,6 +36,7 @@ class Rules
     void partialModifiedRule(vector<string> &modifiedRule, string prefix, string nonTerminal, Rule* currentRule);
     bool mycomp(string a, string b);
     vector<RuleComponent*>calcFirstByRec(Rule* r);
+    map<string, bool> visitedFollow;
 
 };
 

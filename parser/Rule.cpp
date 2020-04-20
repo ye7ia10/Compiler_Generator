@@ -72,6 +72,12 @@ void Rule::toString() {
         cout << c->getName() << " ";
     }
     cout << endl;
+    cout << "Follow: ";
+    for (RuleComponent* c: follow) {
+        cout << c->getName() << " ";
+    }
+    cout << endl;
+
 }
 void Rule::removeDubLicates(vector<RuleComponent*>& v) {
     vector<RuleComponent*> c;
@@ -88,4 +94,11 @@ void Rule::removeDubLicates(vector<RuleComponent*>& v) {
         }
     }
     v = c;
+}
+vector<RuleComponent*> Rule::getFollowVector (){
+    return this -> follow;
+}
+
+void Rule::addFollow(RuleComponent* c) {
+    follow.push_back(c);
 }
