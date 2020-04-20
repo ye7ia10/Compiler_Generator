@@ -16,6 +16,7 @@ class Rules
         bool hasLeftRecusrion(string CurNonTerm, vector<string> currentRuleProd);
         vector<string> replaceNons (vector<string> curProd, string tempName , vector<string> tempProd);
         void EliminateLRCurrenRule(vector<string>currentRuleProd, string curNon);
+        map <string, Rule*>  getRules();
 
     protected:
 
@@ -30,6 +31,7 @@ class Rules
     void addRuleLeftFactoring(vector<string> &modifiedRule, string prefix, string nonTerminal, Rule* currentRule);
     void partialModifiedRule(vector<string> &modifiedRule, string prefix, string nonTerminal, Rule* currentRule);
     bool mycomp(string a, string b);
+    vector<RuleComponent*>calcFirstByRec(Rule* r);
 
 };
 

@@ -492,3 +492,30 @@ void Rules::addRule(Rule* rule)
     rules[rule->getName()] = rule;
     NonTerminalsNames.push_back(rule->getName());
 }
+
+vector<RuleComponent*>Rules::calcFirstByRec(Rule* r) {
+    vector<RuleComponent*> allF;
+    for (Production* p : r->getProductions()) {
+        if(p->getRlueComponent(0)->isTerminal()) {
+            allF.push_back(p->getRlueComponent(0));
+            p->addFirst({p->getRlueComponent(0)});
+        } else {
+            Rule* ruleOfFollow = rules[p->getRlueComponent(0)->getName()];
+            vector<RuleComponent*> subFirst = calcFirstByRec(ruleOfFollow);
+            p->addFirst(subFirst);
+            allF.insert(allF.end(), subFirst.begin(), subFirst.end());
+        }
+    }
+    return allF;
+}
+void Rules::calcFirst() {
+    for (auto r : rules) {
+        if (r.second->getFirst().size() == 0) {
+            vector<RuleComponent*> c = calcFirstByRec(r.second);
+            r.second->putFirst(c);
+        }
+    }
+}
+map <string, Rule*>  Rules::getRules() {
+    return rules;
+}

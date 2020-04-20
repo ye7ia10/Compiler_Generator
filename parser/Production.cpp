@@ -2,6 +2,7 @@
 
 Production::Production(string s)
 {
+    this->name = s;
     buildProduction(s);
 }
 
@@ -23,4 +24,39 @@ void Production::buildProduction(string s)
         }
 
     }
+}
+
+RuleComponent*Production:: getRlueComponent(int i) {
+    return elements[i];
+}
+
+void Production::addFirst(vector<RuleComponent*> first) {
+    removeDubLicates(first);
+    this->first = first;
+}
+
+
+void Production::toString() {
+    cout << "Production name: " << name << endl;
+    cout << "First: ";
+    for (RuleComponent* c : first) {
+        cout << c->getName() << " ";
+    }
+    cout << endl;
+}
+void Production::removeDubLicates(vector<RuleComponent*>& v) {
+    vector<RuleComponent*> c;
+    for (int i = 0; i < v.size(); i++) {
+        bool found = false;
+        for (int j = 0; j < c.size(); j++) {
+            if(v[i]->getName() == c[j]->getName()) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            c.push_back(v[i]);
+        }
+    }
+    v = c;
 }

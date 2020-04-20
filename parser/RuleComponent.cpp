@@ -27,3 +27,9 @@ string RuleComponent::getName()
 {
     return this->name;
 }
+
+bool RuleComponent::isTerminal(){
+    return this->terminal;
+}
+
+

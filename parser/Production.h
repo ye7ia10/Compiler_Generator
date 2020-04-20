@@ -9,11 +9,14 @@ class Production
         Production(string s);
         virtual ~Production();
         vector<RuleComponent*> elements;
-
+        RuleComponent* getRlueComponent(int i);
+        void addFirst(vector<RuleComponent*> first);
+        void toString();
     protected:
-
+        string name;
         vector<RuleComponent*> first;
         void buildProduction(string s);
+        void removeDubLicates(vector<RuleComponent*>& v);
     private:
 };
 

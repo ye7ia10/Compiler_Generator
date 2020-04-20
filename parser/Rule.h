@@ -14,8 +14,10 @@ class Rule
         void setProductionString(vector<string> productionStringNew);
         void setProductions(vector<Production*> productions);
         vector<Production*> productions;
-
-
+        vector<RuleComponent*> getFirst();
+        void putFirst(vector<RuleComponent*> first);
+        vector<Production*>getProductions();
+        void toString();
     protected:
 
     private:
@@ -24,7 +26,8 @@ class Rule
     vector<RuleComponent*> first;
     vector<RuleComponent*> follow;
     vector<string> productionsString;
-    void buildRule(string rHS);
+    void buildRule(vector<string> rHS);
+    void removeDubLicates(vector<RuleComponent*>& v);
 
 };
 

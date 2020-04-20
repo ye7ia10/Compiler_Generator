@@ -2,12 +2,14 @@
 
 Rule::Rule(string nonTerminalName, vector<string> rHS)
 {
-
+    name = nonTerminalName;
+    buildRule(rHS);
 }
 Rule::Rule(string nonTerminalName, string rHS)
 {
     name = nonTerminalName;
-    buildRule(rHS);
+    vector<string>productions = splitByChar(rHS, '|');
+    buildRule(productions);
 }
 Rule::~Rule()
 {
@@ -19,10 +21,10 @@ vector<string>  Rule::getProductionsString()
     return this -> productionsString;
 }
 
-void Rule::buildRule(string rHS)
+void Rule::buildRule(vector<string>productions)
 {
 
-    vector<string>productions = splitByChar(rHS, '|');
+
     this->productionsString = productions;
     for (string s : productions)
     {
@@ -50,4 +52,38 @@ void Rule::setName(string newName)
 void Rule::setProductions(vector<Production*> productions)
 {
     this->productions = productions;
+}
+vector<RuleComponent*> Rule::getFirst() {
+    return first;
+}
+void Rule::putFirst(vector<RuleComponent*> first) {
+    removeDubLicates(first);
+    this->first = first;
+}
+vector<Production*> Rule::getProductions(){
+    return productions;
+}
+void Rule::toString() {
+    cout << "Name: " << name << endl;
+    cout << "first: ";
+    for (RuleComponent* c: first) {
+        cout << c->getName() << " ";
+    }
+    cout << endl;
+}
+void Rule::removeDubLicates(vector<RuleComponent*>& v) {
+    vector<RuleComponent*> c;
+    for (int i = 0; i < v.size(); i++) {
+        bool found = false;
+        for (int j = 0; j < c.size(); j++) {
+            if(v[i]->getName() == c[j]->getName()) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            c.push_back(v[i]);
+        }
+    }
+    v = c;
 }
