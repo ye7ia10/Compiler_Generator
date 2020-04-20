@@ -3,6 +3,7 @@
 Rule::Rule(string nonTerminalName, vector<string> rHS)
 {
     name = nonTerminalName;
+
     buildRule(rHS);
 }
 Rule::Rule(string nonTerminalName, string rHS)
@@ -28,6 +29,7 @@ void Rule::buildRule(vector<string>productions)
     this->productionsString = productions;
     for (string s : productions)
     {
+        trim(s);
         Production* production = new Production(s);
         this->productions.push_back(production);
     }

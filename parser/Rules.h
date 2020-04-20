@@ -15,7 +15,7 @@ class Rules
         void removeLeftRecursion();
         bool hasLeftRecusrion(string CurNonTerm, vector<string> currentRuleProd);
         vector<string> replaceNons (vector<string> curProd, string tempName , vector<string> tempProd);
-        void EliminateLRCurrenRule(vector<string>currentRuleProd, string curNon);
+        void EliminateLRCurrenRule(vector<string>currentRuleProd, string curNon, map<string, Rule*> &newMap);
         map <string, Rule*>  getRules();
 
     protected:

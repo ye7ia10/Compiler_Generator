@@ -5,6 +5,11 @@ Parser::Parser(string fileName)
 
     rules = new Rules();
     AnalyzeRules* analyze = new AnalyzeRules(fileName, rules);
+
+    rules->removeLeftRecursion();
+
+
+
     rules->calcFirst();
     for (auto r : rules->getRules()) {
         r.second->toString();

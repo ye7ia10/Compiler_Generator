@@ -2,7 +2,7 @@
 #include "Rule.h"
 #include <string>
 #include <string.h>
-
+const string epsilon = "\'\\L\'";
 Rules::Rules()
 {
     //ctor
@@ -18,35 +18,51 @@ void Rules::removeLeftRecursion()
     int InitialNonTerminals = rules.size();
     map<string, Rule*>::iterator it;
     map<string, Rule*>::iterator InnerIt;
+    map<string, Rule*> newMap;
     int i = 0, j = 0;
     for ( it = rules.begin(); it != rules.end(), i < InitialNonTerminals; it++ )
     {
         string CurNonTerm = it -> first;
         Rule *currentRule = it -> second;
         vector<string> currentRuleProd = currentRule->getProductionsString();
+
+        j = 0;
         for (InnerIt = rules.begin(); j < i ; InnerIt++)  /*** iterate on the previous ***/
         {
             string TempNonTerm = InnerIt -> first;
             Rule *TempRule = InnerIt -> second;
             vector<string> TempRuleProd = TempRule->getProductionsString();
+
+
             currentRuleProd = replaceNons(currentRuleProd,TempNonTerm, TempRuleProd);
+
             j++;
         }
+
         if (hasLeftRecusrion(CurNonTerm, currentRuleProd))
         {
             //remove left Recursion
-            EliminateLRCurrenRule(currentRuleProd, CurNonTerm);
+
+            EliminateLRCurrenRule(currentRuleProd, CurNonTerm, newMap);
+        } else {
+            Rule* NewRule = new Rule(CurNonTerm, currentRuleProd);
+            rules[CurNonTerm] = NewRule;
+            newMap[CurNonTerm] = NewRule;
         }
         i++;
+
     }
+    rules = newMap;
 }
-void Rules::EliminateLRCurrenRule(vector<string>currentRuleProd, string curNon)
+void Rules::EliminateLRCurrenRule(vector<string>currentRuleProd, string curNon, map<string, Rule*> &newMap)
 {
 
     vector<string> alphas;
     vector<string> betas;
+
     for (int i = 0; i < currentRuleProd.size() ; i++)
     {
+
         string firstWord = currentRuleProd[i].substr(0, currentRuleProd[i].find(" "));
         if (firstWord == curNon)
         {
@@ -55,24 +71,28 @@ void Rules::EliminateLRCurrenRule(vector<string>currentRuleProd, string curNon)
         }
         else
         {
-            if (firstWord != "\L")
+            if (firstWord != epsilon)
             {
                 betas.push_back(currentRuleProd[i] + " " +curNon + "`");
             }
             else
             {
-                betas.push_back("\\L");
+                betas.push_back(epsilon);
             }
         }
     }
-    alphas.push_back("\\L");
-    Rule CurModified(curNon, betas);    /*** after modify the RHS of current Rule ***/
-    Rule NewRule (curNon + "`", alphas);   /*** new Rule for the dashed Non-Terminal ***/
-    rules.insert(pair<string, Rule*>(curNon,&CurModified));    /*** pointer a7o mali4 da3wa ***/
-    rules.insert(pair<string, Rule*>(curNon + "`",&NewRule));
+    alphas.push_back(epsilon);
+    Rule* CurModified = new Rule(curNon, betas);    /*** after modify the RHS of current Rule ***/
+    Rule* NewRule = new Rule(curNon + "`", alphas);   /*** new Rule for the dashed Non-Terminal ***/
+    rules[curNon] = CurModified;
+    newMap[curNon] = CurModified;
+    newMap[curNon + "`"] = NewRule;
+    //rules[curNon + "`"] = NewRule;
+
 }
 bool Rules::hasLeftRecusrion(string CurNonTerm, vector<string> currentRuleProd)
 {
+
     for (int i = 0; i < currentRuleProd.size() ; i++)
     {
         string firstWord = currentRuleProd[i].substr(0, currentRuleProd[i].find(" "));
@@ -92,14 +112,15 @@ vector<string> Rules::replaceNons (vector<string> curProd, string tempName, vect
         string firstWord = curProd[i].substr(0, curProd[i].find(" "));
         if (firstWord == tempName)
         {
-            if (curProd[i].size() > 1)
+
+            if (curProd[i].size() > firstWord.size())
             {
                 string sentence= " " + curProd[i].substr(curProd[i].find_first_of(" \t")+1);
                 for (int j = 0; j < tempProd.size() ; j++)
                 {
-                    if (tempProd[i] != "\L") /*** if not epsilon ***/
+                    if (tempProd[j] != epsilon) /*** if not epsilon ***/
                     {
-                        res.push_back(tempProd[i] + sentence);
+                        res.push_back(tempProd[j] + sentence);
                     }
                     else  /*** epsilon ***/
                     {
@@ -111,7 +132,7 @@ vector<string> Rules::replaceNons (vector<string> curProd, string tempName, vect
             {
                 for (int j = 0; j < tempProd.size() ; j++)
                 {
-                    res.push_back(tempProd[i]);
+                    res.push_back(tempProd[j]);
                 }
             }
         }
@@ -165,7 +186,7 @@ void Rules::removeLeftFactoring()
                 prefix = prefix.substr(0, prefix.length() - 1);
             }
 
-            if (prefix != "" && prefix != "\\L" && prefix != " " && prefix != "\'")
+            if (prefix != "" && prefix != epsilon && prefix != " " && prefix != "\'")
             {
                 modifyRule(productionString, prefix, it->second);
                 addRuleLeftFactoring(productionString, prefix, it->first, it->second);
@@ -192,7 +213,7 @@ void Rules::removeLeftFactoring()
                             prefixString = prefixString.substr(0, prefixString.length() - 1);
                         }
 
-                        if (prefixString != "" && prefixString != "\\L" && prefixString != " " && prefixString != "\'")
+                        if (prefixString != "" && prefixString != epsilon && prefixString != " " && prefixString != "\'")
                         {
                             partialModifiedRule(productionString, prefixString, it->first, it->second);
                             flag = true;
@@ -322,7 +343,7 @@ void Rules::modifyRule(vector<string> &modifiedRule, string prefix, Rule* curren
     for (int i = 0; i < modifiedRule.size(); i++)
     {
 
-        if (modifiedRule[i].length() >= prefix.length() && modifiedRule[i] != "\\L")
+        if (modifiedRule[i].length() >= prefix.length() && modifiedRule[i] != epsilon)
         {
 
             string s = modifiedRule[i];
@@ -336,7 +357,7 @@ void Rules::modifyRule(vector<string> &modifiedRule, string prefix, Rule* curren
 
             if (modifiedRule[i].length() == 0)
             {
-                modifiedRule[i] = "\\L";
+                modifiedRule[i] = epsilon;
             }
         }
     }
@@ -413,7 +434,7 @@ void Rules::partialModifiedRule(vector<string> &modifiedRule, string prefix, str
     for (int i = 0; i < modifiedRule.size(); i++)
     {
 
-        if (modifiedRule[i].length() >= prefix.length() && modifiedRule[i] != "\\L")
+        if (modifiedRule[i].length() >= prefix.length() && modifiedRule[i] != epsilon)
         {
 
             string s = modifiedRule[i];
@@ -441,7 +462,7 @@ void Rules::partialModifiedRule(vector<string> &modifiedRule, string prefix, str
 
             if (modifiedRule[i].length() == 0)
             {
-                modifiedRule[i] = "\\L";
+                modifiedRule[i] = epsilon;
             }
         }
     }
@@ -494,12 +515,15 @@ void Rules::addRule(Rule* rule)
 }
 
 vector<RuleComponent*>Rules::calcFirstByRec(Rule* r) {
+
+
     vector<RuleComponent*> allF;
     for (Production* p : r->getProductions()) {
         if(p->getRlueComponent(0)->isTerminal()) {
             allF.push_back(p->getRlueComponent(0));
             p->addFirst({p->getRlueComponent(0)});
         } else {
+
             Rule* ruleOfFollow = rules[p->getRlueComponent(0)->getName()];
             vector<RuleComponent*> subFirst = calcFirstByRec(ruleOfFollow);
             p->addFirst(subFirst);
@@ -511,6 +535,7 @@ vector<RuleComponent*>Rules::calcFirstByRec(Rule* r) {
 void Rules::calcFirst() {
     for (auto r : rules) {
         if (r.second->getFirst().size() == 0) {
+
             vector<RuleComponent*> c = calcFirstByRec(r.second);
             r.second->putFirst(c);
         }
