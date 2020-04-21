@@ -23,7 +23,10 @@ void AnalyzeRules::buildRules(string fileName, Rules* rules) {
             /* an error found as the rule should have exactly one equal '=' */
         } else {
             Rule* rule = new Rule(splited[0], splited[1]);
-            rule->setFirstRule(firstRule);
+             rule->setFirstRule(firstRule);
+            if (firstRule){
+             rules->setFirstRule(splited[0]);
+            }
             firstRule = false;
             rules->addRule(rule);
         }

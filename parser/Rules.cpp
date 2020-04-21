@@ -546,6 +546,7 @@ map <string, Rule*>  Rules::getRules() {
 }
 
 void Rules::calcFollow(){
+    addDollarToFirstRule();
     map<string, Rule*>::iterator it;
     for (it = rules.begin(); it != rules.end() ; it++){
         string nonTe = it->first;
@@ -560,15 +561,24 @@ void Rules::calcFollow(){
     }
 }
 
+void Rules::addDollarToFirstRule(){
+    map<string, Rule*>::iterator it;
+    for (it = rules.begin(); it != rules.end() ; it++){
+         if (it->first == getFirstRule()){  /*** if first non terminal push dollar sign ***/
+          Rule *currentRule = it -> second;
+          RuleComponent* component = new RuleComponent("$");
+          currentRule ->addFollow(component);
+        }
+    }
+}
+
 void Rules::getFollow(map<string, Rule*>::iterator it, string nonTe, set<string>& vis){
 
     if (vis.find(nonTe) != vis.end()) {
         return;
     }
     vis.insert(nonTe);
-    map<string, Rule*>::iterator Fit;
-    Fit = rules.begin();
-    if (Fit-> first == nonTe){  /*** if first non terminal push dollar sign ***/
+    if (nonTe == getFirstRule()){  /*** if first non terminal push dollar sign ***/
           Rule *currentRule = it -> second;
           RuleComponent* component = new RuleComponent("$");
           currentRule ->addFollow(component);
@@ -622,4 +632,12 @@ void Rules::getFollowByFirst(RuleComponent* nextComponent, int idxComponent,
          }
     }
     vis.erase(components[idxComponent]->getName());
+}
+
+void Rules::setFirstRule(string non){
+    this->firstRuleString = non;
+}
+
+string Rules::getFirstRule(){
+    return this->firstRuleString;
 }

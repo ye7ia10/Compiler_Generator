@@ -21,6 +21,9 @@ class Rules
         void getFollowByFirst(RuleComponent* nextComponent, int idxComponent,
             map<string, Rule*>::iterator it, map<string, Rule*>::iterator itMap,
             vector<RuleComponent*> components, set<string>& vis);
+        void addDollarToFirstRule();
+        void setFirstRule(string rule);
+        string getFirstRule();
 
     protected:
 
@@ -36,6 +39,7 @@ class Rules
     void partialModifiedRule(vector<string> &modifiedRule, string prefix, string nonTerminal, Rule* currentRule);
     bool mycomp(string a, string b);
     vector<RuleComponent*>calcFirstByRec(Rule* r);
+    string firstRuleString;
     map<string, bool> visitedFollow;
 
 };
