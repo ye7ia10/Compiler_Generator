@@ -23,8 +23,8 @@ void PredictiveTable::buildTable(Rules* rules)
 {
     cout << "build rules" << endl;
     map <string, Rule*>::iterator it;
-
-    it = rules->getRules().begin();
+    map <string, Rule*> mp = rules->getRules();
+    it = mp.begin();
     nonTerminalNumber = 0;
     terminalNumber = 0;
     for(string terminalName : rules->getTerminalNames())
@@ -49,48 +49,45 @@ void PredictiveTable::buildTable(Rules* rules)
     int terminalN;
     int nonTerminalN;
     bool hasEpsilon = false;
-    cout << "it " << it->first << endl;
     while (it != rules->getRules().end())
     {
-        cout << "rules" << endl;
+        //cout << "rules" << endl;
         Rule* rule = it->second;
         string ruleName = rule->getName();
-        cout << "rule name" << ruleName << endl;
+        //cout << "rule name" << ruleName << endl;
         vector<Production*> productions = rule->getProductions();
 
         for (int i=0 ; i<productions.size() ; i++)
-        {cout << "production" << endl;
+        {//cout << "production" << endl;
             Production* production = productions[i];
             for (RuleComponent* ruleCompForFirst : production->getFirst())
             {
                 if(ruleCompForFirst->getName() != epsilon)
-                {
+                {cout <<"first " << ruleCompForFirst->getName()<<endl;
                     terminalN = terminals[ruleCompForFirst->getName()];
                     nonTerminalN = nonTerminals[ruleName];
-                    if(table[nonTerminalN][terminalN] == "" || (table[nonTerminalN][terminalN] == production->getName()))
-                    {
+                    if(table[nonTerminalN][terminalN] == "")
+                    {cout << "table"<<endl;
                         table[nonTerminalN][terminalN] = production->getName();
                     }
-                    else
+                   /* else
                     {
                         //error for ambiguity
-                    }
+                    }*/
                 }
                 else
-                {
+                {cout <<"epsilon " << ruleCompForFirst->getName()<<endl;
                     hasEpsilon = true;
                     for (RuleComponent* ruleCompForFollow : rule->getFollowVector())
                     {
+                        cout <<"follow " << ruleCompForFollow->getName()<<endl;
                         terminalN = terminals[ruleCompForFollow->getName()];
                         nonTerminalN = nonTerminals[ruleName];
                         if(table[nonTerminalN][terminalN] == "")
-                        {
+                        {cout << "table"<<endl;
                             table[nonTerminalN][terminalN] = production->getName();
                         }
-                        else
-                        {
-                            //error for ambiguity
-                        }
+
                     }
                 }
             }
@@ -102,13 +99,17 @@ void PredictiveTable::buildTable(Rules* rules)
                     nonTerminalN = nonTerminals[ruleName];
                     if(table[nonTerminalN][terminalN] == ""){
                         table[nonTerminalN][terminalN] = synch;
+                        cout << "synch"<<endl;
                     }
                 }
                 hasEpsilon = false;
             }
         }
+    cout<<"************************************************"<<endl;
     it++;
     }
+    cout <<"a7a1"<<endl;
+    cout << "size" << terminals.size() << endl;
     for (int i=0 ; i<=nonTerminalNumber ; i++){
         for(int j=0 ; j<=terminalNumber ; j++){
             if (table[i][j] == "")
@@ -116,7 +117,10 @@ void PredictiveTable::buildTable(Rules* rules)
         }
     }
     unordered_map<string,int>:: iterator p;
+    cout <<"a7a1"<<endl;
+    cout << "size" << terminals.size() << endl;
     for (p = terminals.begin() ; p!=terminals.end() ; p++){
+            cout <<"a7a"<<endl;
         cout << p->first << "     ";
     }
     cout << endl;

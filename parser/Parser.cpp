@@ -20,6 +20,11 @@ Parser::Parser(string fileName)
         cout << "***********\n";
 
     }
+     map <string, Rule*>::iterator it;
+
+    it = rules->getRules().begin();
+    Rule* rule = it->second;
+    cout << "a7a" << rule->getName() << endl;
     PredictiveTable* table = new PredictiveTable(rules);
 }
 
