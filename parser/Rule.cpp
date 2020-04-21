@@ -63,7 +63,7 @@ void Rule::putFirst(vector<RuleComponent*> first) {
     this->first = first;
 }
 vector<Production*> Rule::getProductions(){
-    return productions;
+    return this->productions;
 }
 void Rule::toString() {
     cout << "Name: " << name << endl;

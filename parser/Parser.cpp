@@ -1,5 +1,5 @@
 #include "Parser.h"
-
+#include "PredictiveTable.h"
 Parser::Parser(string fileName)
 {
 
@@ -7,7 +7,7 @@ Parser::Parser(string fileName)
     AnalyzeRules* analyze = new AnalyzeRules(fileName, rules);
 
     rules->removeLeftRecursion();
-
+    rules->removeLeftFactoring();
 
 
     rules->calcFirst();
@@ -20,6 +20,7 @@ Parser::Parser(string fileName)
         cout << "***********\n";
 
     }
+    PredictiveTable* table = new PredictiveTable(rules);
 }
 
 Parser::~Parser()

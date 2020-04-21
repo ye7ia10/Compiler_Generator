@@ -5,6 +5,8 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <bits/stdc++.h>
+#include <string>
 const string epsilon = "\'\\L\'";
 const string synch = "Synch";
 
@@ -19,6 +21,7 @@ PredictiveTable::~PredictiveTable()
 }
 void PredictiveTable::buildTable(Rules* rules)
 {
+    cout << "build rules" << endl;
     map <string, Rule*>::iterator it;
 
     it = rules->getRules().begin();
@@ -26,14 +29,18 @@ void PredictiveTable::buildTable(Rules* rules)
     terminalNumber = 0;
     for(string terminalName : rules->getTerminalNames())
     {
+        cout << terminalName << "   ";
         terminals[terminalName] = terminalNumber;
         terminalNumber++;
     }
+    cout << endl;
     for(string nonTerminalName : rules->getNonTerminalNames())
     {
+        cout << nonTerminalName<<  "   ";
         nonTerminals[nonTerminalName] = nonTerminalNumber;
         nonTerminalNumber++;
     }
+    cout << endl;
     table.resize(nonTerminalNumber+1);
     for(int i=0 ; i<=nonTerminalNumber ; i++)
     {
@@ -42,12 +49,18 @@ void PredictiveTable::buildTable(Rules* rules)
     int terminalN;
     int nonTerminalN;
     bool hasEpsilon = false;
+    cout << "it " << it->first << endl;
     while (it != rules->getRules().end())
     {
+        cout << "rules" << endl;
         Rule* rule = it->second;
         string ruleName = rule->getName();
-        for (Production* production : rule->getProductions())
-        {
+        cout << "rule name" << ruleName << endl;
+        vector<Production*> productions = rule->getProductions();
+
+        for (int i=0 ; i<productions.size() ; i++)
+        {cout << "production" << endl;
+            Production* production = productions[i];
             for (RuleComponent* ruleCompForFirst : production->getFirst())
             {
                 if(ruleCompForFirst->getName() != epsilon)
@@ -94,12 +107,24 @@ void PredictiveTable::buildTable(Rules* rules)
                 hasEpsilon = false;
             }
         }
-
+    it++;
     }
     for (int i=0 ; i<=nonTerminalNumber ; i++){
         for(int j=0 ; j<=terminalNumber ; j++){
             if (table[i][j] == "")
                 table[i][j] == "error";
         }
+    }
+    unordered_map<string,int>:: iterator p;
+    for (p = terminals.begin() ; p!=terminals.end() ; p++){
+        cout << p->first << "     ";
+    }
+    cout << endl;
+    p = nonTerminals.begin();
+    for (int i=0 ; i<=nonTerminalNumber ; i++){
+        for (int j=0 ; j<=terminalNumber ; j++){
+            cout << p->first << "     " << table[i][j] << endl;
+        }
+        p++;
     }
 }

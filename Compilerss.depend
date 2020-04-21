@@ -645,7 +645,7 @@
 	"PredictiveTable.h"
 	"AnalyzeRules.h"
 
-1587500170 m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\rules.h
+1587500653 m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\rules.h
 	"Rule.h"
 
 1587500141 m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\rule.h
@@ -672,25 +672,26 @@
 	"../lexical/include/readFile.h"
 	"../lexical/include/stringParsing.h"
 
-1587453987 source:m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\parser.cpp
+1587502601 source:m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\parser.cpp
 	"Parser.h"
+	"PredictiveTable.h"
 
 1587500170 source:m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\production.cpp
 	"Production.h"
 
-1587500141 source:m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\rule.cpp
+1587506548 source:m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\rule.cpp
 	"Rule.h"
 
 1587371612 source:m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\rulecomponent.cpp
 	"RuleComponent.h"
 
-1587500170 source:m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\rules.cpp
+1587505704 source:m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\rules.cpp
 	"Rules.h"
 	"Rule.h"
 	<string>
 	<string.h>
 
-1587500170 source:m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\predictivetable.cpp
+1587506300 source:m:\college\csed3rd\2nd term\compilers\phase1\compiler_generator\parser\predictivetable.cpp
 	"PredictiveTable.h"
 	"Rules.h"
 	"Rule.h"
@@ -698,4 +699,6 @@
 	<iostream>
 	<algorithm>
 	<vector>
+	<bits/stdc++.h>
+	<string>
 

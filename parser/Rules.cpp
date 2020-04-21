@@ -521,6 +521,7 @@ vector<RuleComponent*>Rules::calcFirstByRec(Rule* r) {
     for (Production* p : r->getProductions()) {
         if(p->getRlueComponent(0)->isTerminal()) {
             allF.push_back(p->getRlueComponent(0));
+            if(find(terminalNames.begin(),terminalNames.end(),p->getRlueComponent(0)->getName()) == terminalNames.end())
             terminalNames.push_back(p->getRlueComponent(0)->getName());
             p->addFirst({p->getRlueComponent(0)});
         } else {
@@ -583,6 +584,7 @@ void Rules::getFollow(map<string, Rule*>::iterator it, string nonTe, set<string>
           Rule *currentRule = it -> second;
           RuleComponent* component = new RuleComponent("$");
           currentRule ->addFollow(component);
+          if(find(terminalNames.begin(),terminalNames.end(),component->getName()) == terminalNames.end())
           terminalNames.push_back(component->getName());
     }
     map<string, Rule*>::iterator itMap;
@@ -617,6 +619,7 @@ void Rules::getFollowByFirst(RuleComponent* nextComponent, int idxComponent,
     if (nextComponent->isTerminal()){
         Rule *currentRule = it -> second;
         currentRule ->addFollow(nextComponent);
+        if(find(terminalNames.begin(),terminalNames.end(),nextComponent->getName()) == terminalNames.end())
         terminalNames.push_back(nextComponent->getName());
     } else {
          vector<RuleComponent*> nextComponentFirst = rules[nextComponent->getName()]->getFirst();
@@ -624,6 +627,7 @@ void Rules::getFollowByFirst(RuleComponent* nextComponent, int idxComponent,
             if (nextComponentFirst[i]->getName() != epsilon){
                 Rule *currentRule = it -> second;
                 currentRule ->addFollow(nextComponentFirst[i]);
+                if(find(terminalNames.begin(),terminalNames.end(),nextComponentFirst[i]->getName()) == terminalNames.end())
                 terminalNames.push_back(nextComponentFirst[i]->getName());
             } else {
                 if (idxComponent+2 == components.size()){
