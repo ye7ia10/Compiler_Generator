@@ -306,12 +306,12 @@
 1587071994 source:/home/ahmed/Documents/javaCompiler/Compiler_Generator/parser/PredictiveTable.cpp
 	"PredictiveTable.h"
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\lexical\src\conversiondfa.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\lexical\src\conversiondfa.cpp
 	"../include/conversionDfa.h"
 	<algorithm>
 	"../include/stringParsing.h"
 
-1587152802 c:\users\owner\desktop\compiler_generator\lexical\include\conversiondfa.h
+1587434328 c:\users\owner\desktop\compiler_generator\lexical\include\conversiondfa.h
 	<iostream>
 	<vector>
 	<sstream>
@@ -322,110 +322,118 @@
 	<bits/stdc++.h>
 	"State.h"
 
-1587152802 c:\users\owner\desktop\compiler_generator\lexical\include\state.h
+1587434328 c:\users\owner\desktop\compiler_generator\lexical\include\state.h
 	"stringParsing.h"
 	<bits/stdc++.h>
 
-1587152802 c:\users\owner\desktop\compiler_generator\lexical\include\stringparsing.h
+1587434328 c:\users\owner\desktop\compiler_generator\lexical\include\stringparsing.h
 	<bits/stdc++.h>
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\lexical\src\lexicalanalyzergenerator.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\lexical\src\lexicalanalyzergenerator.cpp
 	"../include/LexicalAnalyzerGenerator.h"
 
-1587152802 c:\users\owner\desktop\compiler_generator\lexical\include\lexicalanalyzergenerator.h
+1587434328 c:\users\owner\desktop\compiler_generator\lexical\include\lexicalanalyzergenerator.h
 	"conversionDfa.h"
 	"RegularParser.h"
 	"stringParsing.h"
 	"readFile.h"
 	"Token.h"
 
-1587152802 c:\users\owner\desktop\compiler_generator\lexical\include\regularparser.h
+1587434328 c:\users\owner\desktop\compiler_generator\lexical\include\regularparser.h
 	"NFA.h"
 	"stringParsing.h"
 
-1587152802 c:\users\owner\desktop\compiler_generator\lexical\include\nfa.h
+1587434328 c:\users\owner\desktop\compiler_generator\lexical\include\nfa.h
 	"stringParsing.h"
 	"State.h"
 	<bits/stdc++.h>
 
-1587152802 c:\users\owner\desktop\compiler_generator\lexical\include\readfile.h
+1587434328 c:\users\owner\desktop\compiler_generator\lexical\include\readfile.h
 	<bits/stdc++.h>
 	<sstream>
 	<string>
 	<fstream>
 
-1587152802 c:\users\owner\desktop\compiler_generator\lexical\include\token.h
+1587434328 c:\users\owner\desktop\compiler_generator\lexical\include\token.h
 	<bits/stdc++.h>
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\lexical\src\nfa.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\lexical\src\nfa.cpp
 	"../include/NFA.h"
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\lexical\src\readfile.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\lexical\src\readfile.cpp
 	"../include/readFile.h"
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\lexical\src\regularparser.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\lexical\src\regularparser.cpp
 	"../include/RegularParser.h"
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\lexical\src\state.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\lexical\src\state.cpp
 	"State.h"
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\lexical\src\stringparsing.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\lexical\src\stringparsing.cpp
 	"../include/stringParsing.h"
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\lexical\src\token.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\lexical\src\token.cpp
 	"../include/Token.h"
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\main.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\main.cpp
 	<iostream>
 	<vector>
 	<algorithm>
 	"lexical/include/LexicalAnalyzerGenerator.h"
+	"parser/Parser.h"
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\parser\analyzerules.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\parser\analyzerules.cpp
 	"AnalyzeRules.h"
 	"Rules.h"
+	"../lexical/include/readFile.h"
+	"../lexical/include/stringParsing.h"
 
-1587152802 c:\users\owner\desktop\compiler_generator\parser\analyzerules.h
+1587434328 c:\users\owner\desktop\compiler_generator\parser\analyzerules.h
 	"Rules.h"
 	"Rule.h"
 
-1587163577 c:\users\owner\desktop\compiler_generator\parser\rules.h
+1587434328 c:\users\owner\desktop\compiler_generator\parser\rules.h
 	"Rule.h"
 
-1587155305 c:\users\owner\desktop\compiler_generator\parser\rule.h
+1587434328 c:\users\owner\desktop\compiler_generator\parser\rule.h
+	"../lexical/include/stringParsing.h"
 	"Production.h"
 
-1587152802 c:\users\owner\desktop\compiler_generator\parser\production.h
+1587434328 c:\users\owner\desktop\compiler_generator\parser\production.h
+	"../lexical/include/stringParsing.h"
 	"RuleComponent.h"
 
-1587152802 c:\users\owner\desktop\compiler_generator\parser\rulecomponent.h
+1587434328 c:\users\owner\desktop\compiler_generator\parser\rulecomponent.h
 	<bits/stdc++.h>
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\parser\parser.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\parser\parser.cpp
 	"Parser.h"
 
-1587152802 c:\users\owner\desktop\compiler_generator\parser\parser.h
+1587434328 c:\users\owner\desktop\compiler_generator\parser\parser.h
 	"Rules.h"
 	"PredictiveTable.h"
 	"AnalyzeRules.h"
 
-1587152802 c:\users\owner\desktop\compiler_generator\parser\predictivetable.h
+1587434328 c:\users\owner\desktop\compiler_generator\parser\predictivetable.h
 	"Rules.h"
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\parser\predictivetable.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\parser\predictivetable.cpp
 	"PredictiveTable.h"
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\parser\production.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\parser\production.cpp
 	"Production.h"
 
-1587155549 source:c:\users\owner\desktop\compiler_generator\parser\rule.cpp
+1587434858 source:c:\users\owner\desktop\compiler_generator\parser\rule.cpp
 	"Rule.h"
 
-1587152802 source:c:\users\owner\desktop\compiler_generator\parser\rulecomponent.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\parser\rulecomponent.cpp
 	"RuleComponent.h"
 
-1587155429 source:c:\users\owner\desktop\compiler_generator\parser\rules.cpp
+1587434328 source:c:\users\owner\desktop\compiler_generator\parser\rules.cpp
 	"Rules.h"
+	"Rule.h"
+	<string>
+	<string.h>
 
 1587222300 source:d:\my folders\csed\compiler_phase1\compiler_generator\lexical\src\conversiondfa.cpp
 	"../include/conversionDfa.h"

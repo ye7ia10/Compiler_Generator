@@ -100,5 +100,16 @@ vector<RuleComponent*> Rule::getFollowVector (){
 }
 
 void Rule::addFollow(RuleComponent* c) {
-    follow.push_back(c);
+    bool exist = false;
+    for (int i = 0; i < follow.size() ; i++){
+        if (follow[i] -> getName() == c->getName()){
+            exist = true;
+        }
+    }
+
+    if (!exist){
+         follow.push_back(c);
+    }
+
+
 }
