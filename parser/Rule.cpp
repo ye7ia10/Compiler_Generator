@@ -111,5 +111,11 @@ void Rule::addFollow(RuleComponent* c) {
          follow.push_back(c);
     }
 
+}
+void Rule::setFirstRule(bool firstRule) {
+    this->firstRule = firstRule;
+}
 
+bool Rule::isFirstRule(){
+    return firstRule;
 }

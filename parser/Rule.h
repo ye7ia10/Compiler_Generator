@@ -20,11 +20,13 @@ class Rule
         void toString();
         vector<RuleComponent*> getFollowVector();
         void addFollow(RuleComponent* c);
+        void setFirstRule(bool firstRule);
+        bool isFirstRule();
     protected:
 
     private:
     string name;
-
+    bool firstRule = false;
     vector<RuleComponent*> first;
     vector<RuleComponent*> follow;
     vector<string> productionsString;

@@ -16,12 +16,15 @@ void AnalyzeRules::buildRules(string fileName, Rules* rules) {
 
     vector<string> lines = readFile(fileName);
     lines = splitRules(lines);
+    bool firstRule = true;
     for (string s : lines) {
         vector<string> splited = splitByChar(s, '=');
         if (splited.size() != 2) {
             /* an error found as the rule should have exactly one equal '=' */
         } else {
             Rule* rule = new Rule(splited[0], splited[1]);
+            rule->setFirstRule(firstRule);
+            firstRule = false;
             rules->addRule(rule);
         }
     }
