@@ -60,3 +60,9 @@ void Production::removeDubLicates(vector<RuleComponent*>& v) {
     }
     v = c;
 }
+vector<RuleComponent*>Production::getFirst(){
+    return first;
+}
+string Production::getName(){
+    return name;
+}

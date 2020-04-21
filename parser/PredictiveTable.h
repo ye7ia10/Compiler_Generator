@@ -14,8 +14,8 @@ class PredictiveTable
     void buildTable(Rules* rules);
     int terminalNumber;
     int nonTerminalNumber;
-    map<string, int> terminals;
-    map<string, int> nonTerminals;
+    unordered_map<string, int> terminals;
+    unordered_map<string, int> nonTerminals;
     vector<vector<string>>table;
 };
 

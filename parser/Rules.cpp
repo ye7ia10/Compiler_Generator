@@ -521,6 +521,7 @@ vector<RuleComponent*>Rules::calcFirstByRec(Rule* r) {
     for (Production* p : r->getProductions()) {
         if(p->getRlueComponent(0)->isTerminal()) {
             allF.push_back(p->getRlueComponent(0));
+            terminalNames.push_back(p->getRlueComponent(0)->getName());
             p->addFirst({p->getRlueComponent(0)});
         } else {
 
@@ -582,6 +583,7 @@ void Rules::getFollow(map<string, Rule*>::iterator it, string nonTe, set<string>
           Rule *currentRule = it -> second;
           RuleComponent* component = new RuleComponent("$");
           currentRule ->addFollow(component);
+          terminalNames.push_back(component->getName());
     }
     map<string, Rule*>::iterator itMap;
     for (itMap = rules.begin(); itMap != rules.end() ; itMap++){
@@ -615,12 +617,14 @@ void Rules::getFollowByFirst(RuleComponent* nextComponent, int idxComponent,
     if (nextComponent->isTerminal()){
         Rule *currentRule = it -> second;
         currentRule ->addFollow(nextComponent);
+        terminalNames.push_back(nextComponent->getName());
     } else {
          vector<RuleComponent*> nextComponentFirst = rules[nextComponent->getName()]->getFirst();
          for (int i = 0; i < nextComponentFirst.size() ; i++){
             if (nextComponentFirst[i]->getName() != epsilon){
                 Rule *currentRule = it -> second;
                 currentRule ->addFollow(nextComponentFirst[i]);
+                terminalNames.push_back(nextComponentFirst[i]->getName());
             } else {
                 if (idxComponent+2 == components.size()){
 
@@ -634,10 +638,18 @@ void Rules::getFollowByFirst(RuleComponent* nextComponent, int idxComponent,
     vis.erase(components[idxComponent]->getName());
 }
 
+
 void Rules::setFirstRule(string non){
     this->firstRuleString = non;
 }
 
 string Rules::getFirstRule(){
     return this->firstRuleString;
+}
+vector<string>Rules::getTerminalNames(){
+    return terminalNames;
+}
+vector<string>Rules::getNonTerminalNames(){
+    return NonTerminalsNames;
+
 }

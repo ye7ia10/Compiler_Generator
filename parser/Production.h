@@ -13,6 +13,8 @@ class Production
         RuleComponent* getRlueComponent(int i);
         void addFirst(vector<RuleComponent*> first);
         void toString();
+        vector<RuleComponent*> getFirst();
+        string getName();
     protected:
         string name;
         vector<RuleComponent*> first;
