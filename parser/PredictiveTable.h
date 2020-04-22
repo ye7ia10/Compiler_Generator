@@ -4,19 +4,20 @@
 
 class PredictiveTable
 {
-    public:
-        PredictiveTable(Rules* rules);
-        virtual ~PredictiveTable();
-
-    protected:
-
-    private:
-    void buildTable(Rules* rules);
-    int terminalNumber;
-    int nonTerminalNumber;
+public:
+    PredictiveTable(Rules* rules);
+    virtual ~PredictiveTable();
     unordered_map<string, int> terminals;
     unordered_map<string, int> nonTerminals;
     vector<vector<string>>table;
+
+protected:
+
+private:
+    void buildTable(Rules* rules);
+    int terminalNumber;
+    int nonTerminalNumber;
+
 };
 
 #endif // PREDICTIVETABLE_H

@@ -44,7 +44,9 @@ void Rules::removeLeftRecursion()
             //remove left Recursion
 
             EliminateLRCurrenRule(currentRuleProd, CurNonTerm, newMap);
-        } else {
+        }
+        else
+        {
             Rule* NewRule = new Rule(CurNonTerm, currentRuleProd);
             rules[CurNonTerm] = NewRule;
             newMap[CurNonTerm] = NewRule;
@@ -162,11 +164,11 @@ void Rules::removeLeftFactoring()
 
         sort(productionString.begin(), productionString.end());
 
-        for (int i = 0; i < productionString.size(); i++)
+        /*for (int i = 0; i < productionString.size(); i++)
         {
             cout<<productionString[i] + " | ";
         }
-        cout<<endl;
+        cout<<endl;*/
 
         if (productionString.size() == 1)
         {
@@ -175,7 +177,7 @@ void Rules::removeLeftFactoring()
         {
             string prefix = commonPrefix(productionString, 0, productionString.size());
 
-            cout<< prefix<<endl;
+            // cout<< prefix<<endl;
 
             if (prefix[0] == '\'' && prefix[1] == ' ')
             {
@@ -202,7 +204,7 @@ void Rules::removeLeftFactoring()
 
                         string prefixString = commonPrefix(productionString, i, j + 1);
 
-                        cout<< prefixString <<endl;
+                        // cout<< prefixString <<endl;
 
                         if (prefixString[0] == '\'' && prefixString[1] == ' ')
                         {
@@ -244,13 +246,14 @@ void Rules::removeLeftFactoring()
         }
     }
 
-    cout<<endl;
+    cout << "Non Terminals Symbols:" << endl;
     for (int i = 0; i < this->NonTerminalsNames.size(); i++)
     {
         cout<< NonTerminalsNames[i]<<endl;
     }
 
     cout<<endl;
+    cout<< "Rules: " <<endl;
     map <string, Rule*>::iterator i;
 
     for (i = rules.begin(); i != rules.end(); i++)
@@ -271,6 +274,8 @@ void Rules::removeLeftFactoring()
             }
         }
     }
+    cout<<endl;
+    cout<<endl;
 
 }
 
@@ -372,22 +377,22 @@ void Rules::addRuleLeftFactoring(vector<string> &modifiedRule, string prefix, st
 
     string oldNonTermianl = this->NonTerminalsNames[index];
 
-    this->NonTerminalsNames[index] = this->NonTerminalsNames[index] + "\'";
+    string newNonTerminal = this->NonTerminalsNames[index] + "`";
 
     while (true)
     {
         if (std::find(this->NonTerminalsNames.begin(), this->NonTerminalsNames.end(),
-                      this->NonTerminalsNames[index]) == this->NonTerminalsNames.end())
-        {
-            this->NonTerminalsNames[index] = this->NonTerminalsNames[index] + "\'";
-        }
-        else
+                      newNonTerminal) == this->NonTerminalsNames.end())
         {
             break;
         }
+        else
+        {
+            newNonTerminal = newNonTerminal + "`";
+        }
     }
 
-    currentRule->setName(this->NonTerminalsNames[index]);
+    currentRule->setName(newNonTerminal);
 
     vector<Production*> newProductions;
     for (int i = 0; i < modifiedRule.size(); i++)
@@ -399,7 +404,7 @@ void Rules::addRuleLeftFactoring(vector<string> &modifiedRule, string prefix, st
     currentRule->setProductions(newProductions);
     this->addRule(currentRule);
 
-    Rule* rule = new Rule(oldNonTermianl, prefix + " " + this->NonTerminalsNames[index]);
+    Rule* rule = new Rule(oldNonTermianl, prefix + " " + newNonTerminal);
     this->addRule(rule);
 
 }
@@ -414,7 +419,7 @@ void Rules::partialModifiedRule(vector<string> &modifiedRule, string prefix, str
 
     int flag = 0;
 
-    string newNonTerminal = this->NonTerminalsNames[index] + "\'";
+    string newNonTerminal = this->NonTerminalsNames[index] + "`";
 
     while (true)
     {
@@ -425,7 +430,7 @@ void Rules::partialModifiedRule(vector<string> &modifiedRule, string prefix, str
         }
         else
         {
-            newNonTerminal = newNonTerminal + "\'";
+            newNonTerminal = newNonTerminal + "`";
 
         }
     }
@@ -474,7 +479,7 @@ void Rules::partialModifiedRule(vector<string> &modifiedRule, string prefix, str
     vector<Production*> newProductions;
     for (int i = 0; i < modifiedRule.size(); i++)
     {
-        cout<<modifiedRule[i] + " "<<endl;
+        // cout<<modifiedRule[i] + " "<<endl;
         Production* production = new Production(modifiedRule[i]);
         newProductions.push_back(production);
     }
@@ -487,16 +492,32 @@ void Rules::partialModifiedRule(vector<string> &modifiedRule, string prefix, str
         //cout<<newRule[i]<<endl;
         if (i == 0)
         {
-            newRuleStr += newRule[i];
+            if (newRule[i].length() == 0)
+            {
+                newRuleStr += epsilon;
+            }
+            else
+            {
+                newRuleStr += newRule[i];
+            }
+
             //cout<<newRuleStr<<endl;
         }
         else
         {
-            newRuleStr += "| " + newRule[i];
+            if (newRule[i].length() == 0)
+            {
+                newRuleStr += "| " + epsilon;
+            }
+            else
+            {
+                newRuleStr += "| " + newRule[i];
+            }
+
         }
     }
 
-    cout<<newRuleStr<<endl;
+    // cout<<newRuleStr<<endl;
 
     Rule* rule = new Rule(newNonTerminal, newRuleStr);
     this->addRule(rule);
@@ -511,20 +532,31 @@ bool Rules::mycomp(string a, string b)
 void Rules::addRule(Rule* rule)
 {
     rules[rule->getName()] = rule;
-    NonTerminalsNames.push_back(rule->getName());
+
+
+    if(std::find(NonTerminalsNames.begin(), NonTerminalsNames.end(), rule->getName()) == NonTerminalsNames.end())
+    {
+        NonTerminalsNames.push_back(rule->getName());
+    }
+
 }
 
-vector<RuleComponent*>Rules::calcFirstByRec(Rule* r) {
+vector<RuleComponent*>Rules::calcFirstByRec(Rule* r)
+{
 
 
     vector<RuleComponent*> allF;
-    for (Production* p : r->getProductions()) {
-        if(p->getRlueComponent(0)->isTerminal()) {
+    for (Production* p : r->getProductions())
+    {
+        if(p->getRlueComponent(0)->isTerminal())
+        {
             allF.push_back(p->getRlueComponent(0));
             if(find(terminalNames.begin(),terminalNames.end(),p->getRlueComponent(0)->getName()) == terminalNames.end())
-            terminalNames.push_back(p->getRlueComponent(0)->getName());
+                terminalNames.push_back(p->getRlueComponent(0)->getName());
             p->addFirst({p->getRlueComponent(0)});
-        } else {
+        }
+        else
+        {
 
             Rule* ruleOfFollow = rules[p->getRlueComponent(0)->getName()];
             vector<RuleComponent*> subFirst = calcFirstByRec(ruleOfFollow);
@@ -534,25 +566,32 @@ vector<RuleComponent*>Rules::calcFirstByRec(Rule* r) {
     }
     return allF;
 }
-void Rules::calcFirst() {
-    for (auto r : rules) {
-        if (r.second->getFirst().size() == 0) {
+void Rules::calcFirst()
+{
+    for (auto r : rules)
+    {
+        if (r.second->getFirst().size() == 0)
+        {
 
             vector<RuleComponent*> c = calcFirstByRec(r.second);
             r.second->putFirst(c);
         }
     }
 }
-map <string, Rule*>  Rules::getRules() {
+map <string, Rule*>  Rules::getRules()
+{
     return rules;
 }
 
-void Rules::calcFollow(){
+void Rules::calcFollow()
+{
     addDollarToFirstRule();
     map<string, Rule*>::iterator it;
-    for (it = rules.begin(); it != rules.end() ; it++){
+    for (it = rules.begin(); it != rules.end() ; it++)
+    {
         string nonTe = it->first;
-        if (visitedFollow[nonTe]){
+        if (visitedFollow[nonTe])
+        {
             continue;
         }
         set<string>s;
@@ -563,42 +602,55 @@ void Rules::calcFollow(){
     }
 }
 
-void Rules::addDollarToFirstRule(){
+void Rules::addDollarToFirstRule()
+{
     map<string, Rule*>::iterator it;
-    for (it = rules.begin(); it != rules.end() ; it++){
-         if (it->first == getFirstRule()){  /*** if first non terminal push dollar sign ***/
-          Rule *currentRule = it -> second;
-          RuleComponent* component = new RuleComponent("$");
-          currentRule ->addFollow(component);
+    for (it = rules.begin(); it != rules.end() ; it++)
+    {
+        if (it->first == getFirstRule())   /*** if first non terminal push dollar sign ***/
+        {
+            Rule *currentRule = it -> second;
+            RuleComponent* component = new RuleComponent("$");
+            currentRule ->addFollow(component);
         }
     }
 }
 
-void Rules::getFollow(map<string, Rule*>::iterator it, string nonTe, set<string>& vis){
+void Rules::getFollow(map<string, Rule*>::iterator it, string nonTe, set<string>& vis)
+{
 
-    if (vis.find(nonTe) != vis.end()) {
+    if (vis.find(nonTe) != vis.end())
+    {
         return;
     }
     vis.insert(nonTe);
-    if (nonTe == getFirstRule()){  /*** if first non terminal push dollar sign ***/
-          Rule *currentRule = it -> second;
-          RuleComponent* component = new RuleComponent("$");
-          currentRule ->addFollow(component);
-          if(find(terminalNames.begin(),terminalNames.end(),component->getName()) == terminalNames.end())
-          terminalNames.push_back(component->getName());
+    if (nonTe == getFirstRule())   /*** if first non terminal push dollar sign ***/
+    {
+        Rule *currentRule = it -> second;
+        RuleComponent* component = new RuleComponent("$");
+        currentRule ->addFollow(component);
+        if(find(terminalNames.begin(),terminalNames.end(),component->getName()) == terminalNames.end())
+            terminalNames.push_back(component->getName());
     }
     map<string, Rule*>::iterator itMap;
-    for (itMap = rules.begin(); itMap != rules.end() ; itMap++){
+    for (itMap = rules.begin(); itMap != rules.end() ; itMap++)
+    {
         vector<Production*> Productions = itMap->second->getProductions();
-        for (int i = 0; i < Productions.size() ; i++){
+        for (int i = 0; i < Productions.size() ; i++)
+        {
             vector<RuleComponent*> components = Productions[i]-> elements;
-            for (int j = 0; j < components.size() ; j++){
-                if (components[j]->getName() == nonTe){
-                    if (j == components.size()-1 && nonTe != itMap->first){
-                         getFollow(it, itMap->first, vis);
-                    } else if (j != components.size()-1) {
+            for (int j = 0; j < components.size() ; j++)
+            {
+                if (components[j]->getName() == nonTe)
+                {
+                    if (j == components.size()-1 && nonTe != itMap->first)
+                    {
+                        getFollow(it, itMap->first, vis);
+                    }
+                    else if (j != components.size()-1)
+                    {
                         set<string>newVis;
-                         getFollowByFirst(components[j+1], j, it, itMap,components, newVis);
+                        getFollowByFirst(components[j+1], j, it, itMap,components, newVis);
                     }
                 }
             }
@@ -607,53 +659,69 @@ void Rules::getFollow(map<string, Rule*>::iterator it, string nonTe, set<string>
     vis.erase(nonTe);
 }
 void Rules::getFollowByFirst(RuleComponent* nextComponent, int idxComponent,
-        map<string, Rule*>::iterator it, map<string, Rule*>::iterator itMap,
-        vector<RuleComponent*> components, set<string>& vis){
+                             map<string, Rule*>::iterator it, map<string, Rule*>::iterator itMap,
+                             vector<RuleComponent*> components, set<string>& vis)
+{
 
 
-    if (vis.find(components[idxComponent]->getName()) != vis.end()) {
+    if (vis.find(components[idxComponent]->getName()) != vis.end())
+    {
         return;
     }
     vis.insert(components[idxComponent]->getName());
 
-    if (nextComponent->isTerminal()){
+    if (nextComponent->isTerminal())
+    {
         Rule *currentRule = it -> second;
         currentRule ->addFollow(nextComponent);
         if(find(terminalNames.begin(),terminalNames.end(),nextComponent->getName()) == terminalNames.end())
-        terminalNames.push_back(nextComponent->getName());
-    } else {
-         vector<RuleComponent*> nextComponentFirst = rules[nextComponent->getName()]->getFirst();
-         for (int i = 0; i < nextComponentFirst.size() ; i++){
-            if (nextComponentFirst[i]->getName() != epsilon){
+            terminalNames.push_back(nextComponent->getName());
+    }
+    else
+    {
+        vector<RuleComponent*> nextComponentFirst = rules[nextComponent->getName()]->getFirst();
+        for (int i = 0; i < nextComponentFirst.size() ; i++)
+        {
+            if (nextComponentFirst[i]->getName() != epsilon)
+            {
                 Rule *currentRule = it -> second;
                 currentRule ->addFollow(nextComponentFirst[i]);
                 if(find(terminalNames.begin(),terminalNames.end(),nextComponentFirst[i]->getName()) == terminalNames.end())
-                terminalNames.push_back(nextComponentFirst[i]->getName());
-            } else {
-                if (idxComponent+2 == components.size()){
+                    terminalNames.push_back(nextComponentFirst[i]->getName());
+            }
+            else
+            {
+                if (idxComponent+2 == components.size())
+                {
 
                     getFollow(it, itMap->first, vis);
-                } else {
-                    getFollowByFirst(components[idxComponent+2], idxComponent+1 , it, itMap, components, vis);
+                }
+                else
+                {
+                    getFollowByFirst(components[idxComponent+2], idxComponent+1, it, itMap, components, vis);
                 }
             }
-         }
+        }
     }
     vis.erase(components[idxComponent]->getName());
 }
 
 
-void Rules::setFirstRule(string non){
+void Rules::setFirstRule(string non)
+{
     this->firstRuleString = non;
 }
 
-string Rules::getFirstRule(){
+string Rules::getFirstRule()
+{
     return this->firstRuleString;
 }
-vector<string>Rules::getTerminalNames(){
+vector<string>Rules::getTerminalNames()
+{
     return terminalNames;
 }
-vector<string>Rules::getNonTerminalNames(){
+vector<string>Rules::getNonTerminalNames()
+{
     return NonTerminalsNames;
 
 }
