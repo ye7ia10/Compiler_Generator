@@ -29,16 +29,27 @@ void PredictiveTable::buildTable(Rules* rules)
     terminalNumber = 0;
     for(string terminalName : rules->getTerminalNames())
     {
-        cout << terminalName << "   ";
-        terminals[terminalName] = terminalNumber;
-        terminalNumber++;
+
+        if(terminalName != epsilon)
+        {
+            cout << terminalName << "   ";
+            terminals[terminalName] = terminalNumber;
+            terminalNumber++;
+        }
     }
     cout << endl;
+
     for(string nonTerminalName : rules->getNonTerminalNames())
     {
         cout << nonTerminalName<<  "   ";
         nonTerminals[nonTerminalName] = nonTerminalNumber;
         nonTerminalNumber++;
+        if(auto i=mp.find(nonTerminalName+"\`") != mp.end())
+        {
+            cout << nonTerminalName+"\`" <<  "   ";
+            nonTerminals[nonTerminalName+"\`"] = nonTerminalNumber;
+            nonTerminalNumber++;
+        }
     }
     cout << endl;
     table.resize(nonTerminalNumber+1);
@@ -46,37 +57,47 @@ void PredictiveTable::buildTable(Rules* rules)
     {
         table[i].resize(terminalNumber+1);
     }
+    for (int i=0 ; i<=nonTerminalNumber ; i++)
+    {
+        for(int j=0 ; j<=terminalNumber ; j++)
+        {
+            table[i][j] == "";
+        }
+    }
     int terminalN;
     int nonTerminalN;
     bool hasEpsilon = false;
-    while (it != rules->getRules().end())
+    while (it != mp.end())
     {
-        //cout << "rules" << endl;
         Rule* rule = it->second;
         string ruleName = rule->getName();
-        //cout << "rule name" << ruleName << endl;
+        cout << "rule name " << ruleName << endl;
         vector<Production*> productions = rule->getProductions();
 
         for (int i=0 ; i<productions.size() ; i++)
-        {//cout << "production" << endl;
+        {
             Production* production = productions[i];
             for (RuleComponent* ruleCompForFirst : production->getFirst())
             {
                 if(ruleCompForFirst->getName() != epsilon)
-                {cout <<"first " << ruleCompForFirst->getName()<<endl;
+                {
+                    hasEpsilon = false;
                     terminalN = terminals[ruleCompForFirst->getName()];
                     nonTerminalN = nonTerminals[ruleName];
                     if(table[nonTerminalN][terminalN] == "")
-                    {cout << "table"<<endl;
+                    {
+                        cout << "Putting for first in:" <<nonTerminalN<< " "<< terminalN << "terminal: "<< ruleCompForFirst->getName()<<
+                             "production: "<<production->getName()<<endl;
                         table[nonTerminalN][terminalN] = production->getName();
                     }
-                   /* else
-                    {
-                        //error for ambiguity
-                    }*/
+                    /* else
+                     {
+                         //error for ambiguity
+                     }*/
                 }
                 else
-                {cout <<"epsilon " << ruleCompForFirst->getName()<<endl;
+                {
+                    cout <<"epsilon " << ruleCompForFirst->getName()<<endl;
                     hasEpsilon = true;
                     for (RuleComponent* ruleCompForFollow : rule->getFollowVector())
                     {
@@ -84,51 +105,61 @@ void PredictiveTable::buildTable(Rules* rules)
                         terminalN = terminals[ruleCompForFollow->getName()];
                         nonTerminalN = nonTerminals[ruleName];
                         if(table[nonTerminalN][terminalN] == "")
-                        {cout << "table"<<endl;
+                        {
+                            cout << "Putting for follow in:" <<nonTerminalN << " "<< terminalN << "terminal: "<< ruleCompForFollow->getName()<<
+                                 "production: "<<production->getName()<<endl;
                             table[nonTerminalN][terminalN] = production->getName();
                         }
 
                     }
                 }
             }
-            if(!hasEpsilon)
-            {
-                for (RuleComponent* ruleCompForSynch : rule->getFollowVector())
-                {
-                    terminalN = terminals[ruleCompForSynch->getName()];
-                    nonTerminalN = nonTerminals[ruleName];
-                    if(table[nonTerminalN][terminalN] == ""){
-                        table[nonTerminalN][terminalN] = synch;
-                        cout << "synch"<<endl;
-                    }
-                }
-                hasEpsilon = false;
-            }
+
         }
-    cout<<"************************************************"<<endl;
-    it++;
+        if(!hasEpsilon)
+        {
+            for (RuleComponent* ruleCompForSynch : rule->getFollowVector())
+            {
+                terminalN = terminals[ruleCompForSynch->getName()];
+                nonTerminalN = nonTerminals[ruleName];
+                if(table[nonTerminalN][terminalN] == "")
+                {
+                    table[nonTerminalN][terminalN] = synch;
+                    cout << "Putting for synch in:" <<nonTerminalN<< " "<< terminalN << "terminal: "<< ruleCompForSynch->getName()<<endl;
+                }
+            }
+            hasEpsilon = false;
+        }
+        cout<<"************************************************"<<endl;
+        it++;
     }
-    cout <<"a7a1"<<endl;
-    cout << "size" << terminals.size() << endl;
-    for (int i=0 ; i<=nonTerminalNumber ; i++){
-        for(int j=0 ; j<=terminalNumber ; j++){
+    for (int i=0 ; i<=nonTerminalNumber ; i++)
+    {
+        for(int j=0 ; j<=terminalNumber ; j++)
+        {
             if (table[i][j] == "")
-                table[i][j] == "error";
+                table[i][j] = "error";
         }
     }
     unordered_map<string,int>:: iterator p;
-    cout <<"a7a1"<<endl;
-    cout << "size" << terminals.size() << endl;
-    for (p = terminals.begin() ; p!=terminals.end() ; p++){
-            cout <<"a7a"<<endl;
-        cout << p->first << "     ";
+    cout << " \t";
+    p = terminals.begin();
+    while(p != terminals.end())
+    {
+        cout << p->first << "\t";
+        p++;
     }
     cout << endl;
     p = nonTerminals.begin();
-    for (int i=0 ; i<=nonTerminalNumber ; i++){
-        for (int j=0 ; j<=terminalNumber ; j++){
-            cout << p->first << "     " << table[i][j] << endl;
+    while (p != nonTerminals.end())
+    {
+        cout << p->first << "\t" ;
+        for (int j=0 ; j<=terminalNumber ; j++)
+        {
+            cout << table[p->second][j] << "\t";
         }
+        cout << endl;
         p++;
     }
 }
+
