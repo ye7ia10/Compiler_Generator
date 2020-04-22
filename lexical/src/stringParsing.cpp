@@ -114,7 +114,6 @@ string addNumber(string s, int x)
     }
     return ans;
 }
-
 vector<string>splitByChar(string s, char c)
 {
     vector<string>v;
@@ -135,6 +134,7 @@ vector<string>splitByChar(string s, char c)
             str += s[i];
         }
     }
+    trim(str);
     if (str.size() > 0)
     {
         v.push_back(str);
