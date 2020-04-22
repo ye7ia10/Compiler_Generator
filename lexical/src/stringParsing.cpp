@@ -25,6 +25,7 @@ void deleteExtraSpaces(string& str)
     {
         if (str[i] == ' ' && (i && s[s.size() - 1] == ' '))
             continue;
+
         s += str[i];
     }
     trim(s);
@@ -131,6 +132,38 @@ vector<string>splitByChar(string s, char c)
         }
         else
         {
+            str += s[i];
+        }
+    }
+    if (str.size() > 0)
+    {
+        v.push_back(str);
+    }
+    return v;
+}
+vector<string>splitByEgual(string s)
+{
+    vector<string>v;
+    trim(s);
+    deleteExtraSpaces(s);
+
+    string str = "";
+    bool found = false;
+    for (int i = 0; i < s.size(); i++)
+    {
+
+            if (s[i] == '=' && !found)
+            {
+
+                trim(str);
+                if (str.size())
+                    v.push_back(str);
+                str = "";
+                found = true;
+        }
+        else
+        {
+
             str += s[i];
         }
     }

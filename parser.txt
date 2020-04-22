@@ -1,17 +1,17 @@
-# A = B
-# B = C | B C
-# C = D
-| E
-| F
-| G
-# D = H 'id' ';'
-# H = 'int' | 'float'
-# E = 'if' '(' M ')' '{' C '}' 'else' '{' C '}'
-# F = 'while' '(' M ')' '{' C '}'
-# G = 'id' '=' M ';'
-# M = N
-| N 'relop' N
-# N = X | Z X | N 'addop' X
-# X = Y| X 'mulop' Y
-# Y = 'id' | 'num' | '(' M ')'
-# Z = '+' | '-'
+#A = B
+#B = C |B C
+#C = D
+|E
+|F
+|G
+#D = H 'id' ';'
+#H = 'int' |'float'
+#E = 'if' '(' M ')' '{' C '}' 'else' '{' C '}'
+#F = 'while' '(' M ')' '{' C '}'
+#G = 'id' '=' M ';'
+#M = N
+|N 'relop' N
+#N = X |Z X |N 'addop' X
+#X = Y|X 'mulop' Y
+#Y = 'id' |'num' |'(' M ')'
+#Z = '+' |'-'

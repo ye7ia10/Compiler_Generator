@@ -533,7 +533,6 @@ void Rules::addRule(Rule* rule)
 {
     rules[rule->getName()] = rule;
 
-
     if(std::find(NonTerminalsNames.begin(), NonTerminalsNames.end(), rule->getName()) == NonTerminalsNames.end())
     {
         NonTerminalsNames.push_back(rule->getName());
@@ -547,9 +546,10 @@ vector<RuleComponent*>Rules::calcFirstByRec(Rule* r)
 
     vector<RuleComponent*> allF;
     for (Production* p : r->getProductions())
-    {
+    {//cout<<r->getName()<<endl;
+
         if(p->getRlueComponent(0)->isTerminal())
-        {
+        {//cout<<r->getName() << "    T"<<endl;
             allF.push_back(p->getRlueComponent(0));
             if(find(terminalNames.begin(),terminalNames.end(),p->getRlueComponent(0)->getName()) == terminalNames.end())
                 terminalNames.push_back(p->getRlueComponent(0)->getName());
@@ -557,7 +557,7 @@ vector<RuleComponent*>Rules::calcFirstByRec(Rule* r)
         }
         else
         {
-
+//cout<<r->getName() << "    NT"<<endl;
             Rule* ruleOfFollow = rules[p->getRlueComponent(0)->getName()];
             vector<RuleComponent*> subFirst = calcFirstByRec(ruleOfFollow);
             p->addFirst(subFirst);
@@ -569,11 +569,13 @@ vector<RuleComponent*>Rules::calcFirstByRec(Rule* r)
 void Rules::calcFirst()
 {
     for (auto r : rules)
-    {
-        if (r.second->getFirst().size() == 0)
+    {Rule* rule = r.second;
+        if (rule->getFirst().size() == 0)
         {
 
-            vector<RuleComponent*> c = calcFirstByRec(r.second);
+cout<<rule->getName()<<endl;
+            vector<RuleComponent*> c = calcFirstByRec(rule);
+            cout<<rule->getName()<<endl;
             r.second->putFirst(c);
         }
     }

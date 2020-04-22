@@ -18,7 +18,7 @@ void AnalyzeRules::buildRules(string fileName, Rules* rules) {
     lines = splitRules(lines);
     bool firstRule = true;
     for (string s : lines) {
-        vector<string> splited = splitByChar(s, '=');
+        vector<string> splited = splitByEgual(s);
         if (splited.size() != 2) {
             /* an error found as the rule should have exactly one equal '=' */
         } else {
@@ -28,6 +28,7 @@ void AnalyzeRules::buildRules(string fileName, Rules* rules) {
              rules->setFirstRule(splited[0]);
             }
             firstRule = false;
+            cout << "parsing: " << rule ->getName() << "->" << splited[1] <<endl;
             rules->addRule(rule);
         }
     }

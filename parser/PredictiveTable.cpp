@@ -52,14 +52,14 @@ void PredictiveTable::buildTable(Rules* rules)
         }
     }
     cout << endl;
-    table.resize(nonTerminalNumber+1);
-    for(int i=0 ; i<=nonTerminalNumber ; i++)
+    table.resize(nonTerminalNumber);
+    for(int i=0 ; i<nonTerminalNumber ; i++)
     {
-        table[i].resize(terminalNumber+1);
+        table[i].resize(terminalNumber);
     }
-    for (int i=0 ; i<=nonTerminalNumber ; i++)
+    for (int i=0 ; i<nonTerminalNumber ; i++)
     {
-        for(int j=0 ; j<=terminalNumber ; j++)
+        for(int j=0 ; j<terminalNumber ; j++)
         {
             table[i][j] == "";
         }
@@ -133,9 +133,9 @@ void PredictiveTable::buildTable(Rules* rules)
         cout<<"************************************************"<<endl;
         it++;
     }
-    for (int i=0 ; i<=nonTerminalNumber ; i++)
+    for (int i=0 ; i<nonTerminalNumber ; i++)
     {
-        for(int j=0 ; j<=terminalNumber ; j++)
+        for(int j=0 ; j<terminalNumber ; j++)
         {
             if (table[i][j] == "")
                 table[i][j] = "error";
@@ -150,11 +150,12 @@ void PredictiveTable::buildTable(Rules* rules)
         p++;
     }
     cout << endl;
+    cout << terminalNumber << endl;
     p = nonTerminals.begin();
     while (p != nonTerminals.end())
     {
         cout << p->first << "\t" ;
-        for (int j=0 ; j<=terminalNumber ; j++)
+        for (int j=0 ; j<terminalNumber ; j++)
         {
             cout << table[p->second][j] << "\t";
         }

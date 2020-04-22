@@ -33,5 +33,8 @@ string addNumber(string s, int x);
 
 /* split string s to vector of strings by separator charachter c */
 vector<string>splitByChar(string s, char c);
+/*split string s to vector of strings by separator for first = only*/
+vector<string>splitByEgual(string s);
+
 
 #endif // STRINGPARSING_H_INCLUDED
