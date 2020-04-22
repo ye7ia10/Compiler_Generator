@@ -146,7 +146,7 @@ void PredictiveTable::buildTable(Rules* rules)
     p = terminals.begin();
     while(p != terminals.end())
     {
-        cout << p->first << "\t";
+        cout << left << setw(5) << setfill(' ') <<  p->first << "\t";
         p++;
     }
     cout << endl;
@@ -157,10 +157,50 @@ void PredictiveTable::buildTable(Rules* rules)
         cout << p->first << "\t" ;
         for (int j=0 ; j<terminalNumber ; j++)
         {
-            cout << table[p->second][j] << "\t";
+            cout << left << setw(5) << setfill(' ') << table[p->second][j] << "\t";
         }
         cout << endl;
         p++;
+    }
+
+     ofstream fout;
+    fout.open("PredectiveTable.txt");
+    string sep = " |";
+    int noOfC = ((terminalNumber+1)*45) + (sep.size()*terminalNumber+2);
+    string line = sep + string(noOfC-1,'-') + '|';
+    if (fout.is_open())
+    {   fout << line << endl << sep;
+        unordered_map<string,int>:: iterator f;
+        f = terminals.begin();
+        fout << left << setw(45) << ""<< sep;
+        while(f != terminals.end())
+        {
+            fout << left << setw(45) << f->first << sep;
+            f++;
+        }
+
+       /* f = terminals.begin();
+         while(f != terminals.end())
+        {
+            fout << "---------------------------------------------" ;
+            f++;
+        }
+        fout << "---------------------------------------------" ;
+        fout << endl;*/
+        f = nonTerminals.begin();
+        while (f != nonTerminals.end())
+        {
+            fout << endl << line << endl << sep;
+            fout << left << setw(45) << f->first << sep;
+            for (int j=0 ; j<terminalNumber ; j++)
+            {
+                fout << left << setw(45) << table[f->second][j] << sep;
+            }
+
+            f++;
+        }
+        fout << endl << line ;
+        fout.close();
     }
 }
 
