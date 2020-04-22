@@ -167,6 +167,7 @@ vector<string>splitByEgual(string s)
             str += s[i];
         }
     }
+    trim(str);
     if (str.size() > 0)
     {
         v.push_back(str);
