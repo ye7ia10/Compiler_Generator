@@ -10,6 +10,7 @@ public:
     unordered_map<string, int> terminals;
     unordered_map<string, int> nonTerminals;
     vector<vector<string>>table;
+    void predectiveTableFilePrint();
 
 protected:
 

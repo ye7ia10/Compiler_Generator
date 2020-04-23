@@ -32,7 +32,7 @@ void PredictiveTable::buildTable(Rules* rules)
 
         if(terminalName != epsilon)
         {
-            cout << terminalName << "   ";
+            cout << terminalName << "   " << terminalNumber << "   ";
             terminals[terminalName] = terminalNumber;
             terminalNumber++;
         }
@@ -41,12 +41,12 @@ void PredictiveTable::buildTable(Rules* rules)
 
     for(string nonTerminalName : rules->getNonTerminalNames())
     {
-        cout << nonTerminalName<<  "   ";
+        cout << nonTerminalName<<  "   " << nonTerminalNumber << "   " ;;
         nonTerminals[nonTerminalName] = nonTerminalNumber;
         nonTerminalNumber++;
         if(auto i=mp.find(nonTerminalName+"\`") != mp.end())
         {
-            cout << nonTerminalName+"\`" <<  "   ";
+            cout << nonTerminalName+"\`" <<  "   "<< nonTerminalNumber << "   " ;;
             nonTerminals[nonTerminalName+"\`"] = nonTerminalNumber;
             nonTerminalNumber++;
         }
@@ -141,7 +141,7 @@ void PredictiveTable::buildTable(Rules* rules)
                 table[i][j] = "error";
         }
     }
-    unordered_map<string,int>:: iterator p;
+    /*unordered_map<string,int>:: iterator p;
     cout << " \t";
     p = terminals.begin();
     while(p != terminals.end())
@@ -161,42 +161,52 @@ void PredictiveTable::buildTable(Rules* rules)
         }
         cout << endl;
         p++;
-    }
+    }*/
 
-     ofstream fout;
+    predectiveTableFilePrint();
+}
+void PredictiveTable::predectiveTableFilePrint()
+{
+    ofstream fout;
     fout.open("PredectiveTable.txt");
     string sep = " |";
     int noOfC = ((terminalNumber+1)*45) + (sep.size()*terminalNumber+2);
     string line = sep + string(noOfC-1,'-') + '|';
     if (fout.is_open())
-    {   fout << line << endl << sep;
+    {
+        fout << line << endl << sep;
         unordered_map<string,int>:: iterator f;
         f = terminals.begin();
         fout << left << setw(45) << ""<< sep;
+        int i=0;
         while(f != terminals.end())
         {
-            fout << left << setw(45) << f->first << sep;
+            if (f->second == i)
+            {
+                fout << left << setw(45) << f->first << sep;
+                f = terminals.begin();
+                i++;
+            }
             f++;
         }
 
-       /* f = terminals.begin();
-         while(f != terminals.end())
-        {
-            fout << "---------------------------------------------" ;
-            f++;
-        }
-        fout << "---------------------------------------------" ;
-        fout << endl;*/
+        i = 0;
         f = nonTerminals.begin();
         while (f != nonTerminals.end())
         {
-            fout << endl << line << endl << sep;
-            fout << left << setw(45) << f->first << sep;
-            for (int j=0 ; j<terminalNumber ; j++)
+            if(f->second == i)
             {
-                fout << left << setw(45) << table[f->second][j] << sep;
-            }
+                fout << endl << line << endl << sep;
+                fout << left << setw(45) << f->first << sep;
 
+                for (int j=0 ; j<terminalNumber ; j++)
+                {
+                    fout << left << setw(45) << table[f->second][j] << sep;
+                }
+
+                f = nonTerminals.begin();
+                i++;
+            }
             f++;
         }
         fout << endl << line ;
