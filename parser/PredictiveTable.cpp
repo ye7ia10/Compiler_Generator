@@ -25,33 +25,64 @@ void PredictiveTable::buildTable(Rules* rules)
     map <string, Rule*>::iterator it;
     map <string, Rule*> mp = rules->getRules();
     it = mp.begin();
+    terminals.clear();
+    nonTerminals.clear();
     nonTerminalNumber = 0;
     terminalNumber = 0;
-    for(string terminalName : rules->getTerminalNames())
+    while(it != mp.end())
     {
-
-        if(terminalName != epsilon)
+        Rule* rule = it->second;
+        string nonTerminalName = rule->getName();
+        if(nonTerminals.find(nonTerminalName) == nonTerminals.end())
         {
-            cout << terminalName << "   " << terminalNumber << "   ";
-            terminals[terminalName] = terminalNumber;
-            terminalNumber++;
-        }
-    }
-    cout << endl;
-
-    for(string nonTerminalName : rules->getNonTerminalNames())
-    {
-        cout << nonTerminalName<<  "   " << nonTerminalNumber << "   " ;;
-        nonTerminals[nonTerminalName] = nonTerminalNumber;
-        nonTerminalNumber++;
-        if(auto i=mp.find(nonTerminalName+"\`") != mp.end())
-        {
-            cout << nonTerminalName+"\`" <<  "   "<< nonTerminalNumber << "   " ;;
-            nonTerminals[nonTerminalName+"\`"] = nonTerminalNumber;
+            nonTerminals[nonTerminalName] = nonTerminalNumber;
             nonTerminalNumber++;
+            //cout << nonTerminalName <<  "   " << nonTerminalNumber << "   " ;
+            if(mp.find(nonTerminalName+"\`") != mp.end())
+            {
+                //cout << nonTerminalName+"\`" <<  "   "<< nonTerminalNumber << "   " ;;
+                nonTerminals[nonTerminalName+"\`"] = nonTerminalNumber;
+                nonTerminalNumber++;
+            }
+        }
+        for (Production* production : rule->getProductions())
+        {
+            vector<RuleComponent*> ruleComponent = production->getElements();
+            for(RuleComponent* comp : ruleComponent)
+            {
+                if(comp->isTerminal())
+                {
+                    string terminalName = comp->getName();
+                    if(terminalName!=epsilon && terminals.find(terminalName)==terminals.end())
+                    {
+                        terminals[terminalName] = terminalNumber;
+                        //cout << terminalName << "   " << terminalNumber << "   ";
+                        terminalNumber++;
+
+                    }
+                }
+            }
+        }
+        it++;
+    }
+    it = mp.begin();
+    terminals["$"] = terminalNumber;
+    terminalNumber++;
+    //terminals[""] = terminalNumber+1;
+    //nonTerminals[""] = nonTerminalNumber+1;
+
+    for (int k=0 ; k<terminalNumber ; k++)
+    {
+        for(auto i=terminals.begin() ; i!=terminals.end() ; i++)
+        {
+            if(i->second == k)
+                cout << i->first << "   " << i->second << endl;
         }
     }
+
+
     cout << endl;
+
     table.resize(nonTerminalNumber);
     for(int i=0 ; i<nonTerminalNumber ; i++)
     {
@@ -64,6 +95,8 @@ void PredictiveTable::buildTable(Rules* rules)
             table[i][j] == "";
         }
     }
+    cout << "terminal size: " << terminalNumber<< endl;
+
     int terminalN;
     int nonTerminalN;
     bool hasEpsilon = false;
@@ -141,28 +174,6 @@ void PredictiveTable::buildTable(Rules* rules)
                 table[i][j] = "error";
         }
     }
-    /*unordered_map<string,int>:: iterator p;
-    cout << " \t";
-    p = terminals.begin();
-    while(p != terminals.end())
-    {
-        cout << left << setw(5) << setfill(' ') <<  p->first << "\t";
-        p++;
-    }
-    cout << endl;
-    cout << terminalNumber << endl;
-    p = nonTerminals.begin();
-    while (p != nonTerminals.end())
-    {
-        cout << p->first << "\t" ;
-        for (int j=0 ; j<terminalNumber ; j++)
-        {
-            cout << left << setw(5) << setfill(' ') << table[p->second][j] << "\t";
-        }
-        cout << endl;
-        p++;
-    }*/
-
     predectiveTableFilePrint();
 }
 void PredictiveTable::predectiveTableFilePrint()
@@ -170,44 +181,39 @@ void PredictiveTable::predectiveTableFilePrint()
     ofstream fout;
     fout.open("PredectiveTable.txt");
     string sep = " |";
-    int noOfC = ((terminalNumber+1)*45) + (sep.size()*terminalNumber+2);
-    string line = sep + string(noOfC-1,'-') + '|';
+    int noOfC = ((terminalNumber+1)*45) + (sep.size()*terminalNumber+1);
+    string line = sep + string(noOfC-1,'-') + " |";
     if (fout.is_open())
     {
         fout << line << endl << sep;
-        unordered_map<string,int>:: iterator f;
-        f = terminals.begin();
         fout << left << setw(45) << ""<< sep;
-        int i=0;
-        while(f != terminals.end())
+        for (int i=0 ; i<terminalNumber ; i++)
         {
-            if (f->second == i)
+            for(auto it=terminals.begin() ; it!=terminals.end() ; it++)
             {
-                fout << left << setw(45) << f->first << sep;
-                f = terminals.begin();
-                i++;
+                if (it->second == i)
+
+                    fout << left << setw(45) << it->first << sep;
+
             }
-            f++;
         }
 
-        i = 0;
-        f = nonTerminals.begin();
-        while (f != nonTerminals.end())
+        for(int i=0 ; i<nonTerminalNumber ; i++)
         {
-            if(f->second == i)
+            for (auto it=nonTerminals.begin() ; it!=nonTerminals.end() ; it++)
             {
-                fout << endl << line << endl << sep;
-                fout << left << setw(45) << f->first << sep;
-
-                for (int j=0 ; j<terminalNumber ; j++)
+                if(it->second == i)
                 {
-                    fout << left << setw(45) << table[f->second][j] << sep;
-                }
+                    fout << endl << line << endl << sep;
+                    fout << left << setw(45) << it->first << sep;
 
-                f = nonTerminals.begin();
-                i++;
+                    for (int j=0 ; j<terminalNumber ; j++)
+                    {
+                        fout << left << setw(45) << table[it->second][j] << sep;
+                    }
+
+                }
             }
-            f++;
         }
         fout << endl << line ;
         fout.close();

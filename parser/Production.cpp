@@ -66,3 +66,6 @@ vector<RuleComponent*>Production::getFirst(){
 string Production::getName(){
     return name;
 }
+vector<RuleComponent*>Production::getElements(){
+    return elements;
+}

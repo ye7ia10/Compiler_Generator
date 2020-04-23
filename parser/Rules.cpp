@@ -546,14 +546,16 @@ vector<RuleComponent*>Rules::calcFirstByRec(Rule* r)
 
     vector<RuleComponent*> allF;
     for (Production* p : r->getProductions())
-    {//cout<<r->getName()<<endl;
+    {
+        //cout<<r->getName()<<endl;
 
         if(p->getRlueComponent(0)->isTerminal())
-        {//cout<<r->getName() << "    T"<<endl;
+        {
+            //cout<<r->getName() << "    T"<<endl;
             allF.push_back(p->getRlueComponent(0));
             if(find(terminalNames.begin(),terminalNames.end(),p->getRlueComponent(0)->getName()) == terminalNames.end())
                 terminalNames.push_back(p->getRlueComponent(0)->getName());
-            p->addFirst({p->getRlueComponent(0)});
+                p->addFirst({p->getRlueComponent(0)});
         }
         else
         {
@@ -569,11 +571,12 @@ vector<RuleComponent*>Rules::calcFirstByRec(Rule* r)
 void Rules::calcFirst()
 {
     for (auto r : rules)
-    {Rule* rule = r.second;
+    {
+        Rule* rule = r.second;
         if (rule->getFirst().size() == 0)
         {
 
-cout<<rule->getName()<<endl;
+            cout<<rule->getName()<<endl;
             vector<RuleComponent*> c = calcFirstByRec(rule);
             cout<<rule->getName()<<endl;
             r.second->putFirst(c);
@@ -614,6 +617,8 @@ void Rules::addDollarToFirstRule()
             Rule *currentRule = it -> second;
             RuleComponent* component = new RuleComponent("$");
             currentRule ->addFollow(component);
+            if(find(terminalNames.begin(),terminalNames.end(),component->getName()) == terminalNames.end())
+                terminalNames.push_back(component->getName());
         }
     }
 }
