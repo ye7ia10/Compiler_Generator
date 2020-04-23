@@ -75,7 +75,7 @@ void Parser::parsingLines(string startSymbol, PredictiveTable* predictiveTable)
                     string tableEntry = predictiveTable->table[predictiveTable->nonTerminals[x]]
                                         [predictiveTable->terminals["\'" + lineGroup[tokenPointer].toString() + "\'"]];
 
-                    if (tableEntry == "error")
+                    if (tableEntry == "Error")
                     {
                         /* error */
                         errorFlag = true;

@@ -9,6 +9,8 @@
 #include <string>
 const string epsilon = "\'\\L\'";
 const string synch = "Synch";
+const string assignSymbol = "\'=\'";
+const string assignText = "\'assign\'";
 
 PredictiveTable::PredictiveTable(Rules* rules)
 {
@@ -55,6 +57,10 @@ void PredictiveTable::buildTable(Rules* rules)
                     string terminalName = comp->getName();
                     if(terminalName!=epsilon && terminals.find(terminalName)==terminals.end())
                     {
+                        if (terminalName == assignSymbol){
+                                cout<<"founddddddddddddddddd" << endl;
+                            terminalName = assignText;
+                        }
                         terminals[terminalName] = terminalNumber;
                         //cout << terminalName << "   " << terminalNumber << "   ";
                         terminalNumber++;
@@ -116,6 +122,8 @@ void PredictiveTable::buildTable(Rules* rules)
                 {
                     hasEpsilon = false;
                     terminalN = terminals[ruleCompForFirst->getName()];
+                    if(ruleCompForFirst->getName() == assignSymbol)
+                        terminalN = terminals[assignText];
                     nonTerminalN = nonTerminals[ruleName];
                     if(table[nonTerminalN][terminalN] == "")
                     {
@@ -136,6 +144,8 @@ void PredictiveTable::buildTable(Rules* rules)
                     {
                         cout <<"follow " << ruleCompForFollow->getName()<<endl;
                         terminalN = terminals[ruleCompForFollow->getName()];
+                        if(ruleCompForFollow->getName() == assignSymbol)
+                            terminalN = terminals[assignText];
                         nonTerminalN = nonTerminals[ruleName];
                         if(table[nonTerminalN][terminalN] == "")
                         {
@@ -171,7 +181,7 @@ void PredictiveTable::buildTable(Rules* rules)
         for(int j=0 ; j<terminalNumber ; j++)
         {
             if (table[i][j] == "")
-                table[i][j] = "error";
+                table[i][j] = "Error";
         }
     }
     predectiveTableFilePrint();
