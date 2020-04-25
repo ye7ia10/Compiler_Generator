@@ -735,7 +735,7 @@
 	"stringParsing.h"
 	<bits/stdc++.h>
 
-1587544531 d:\my folders\compiler_generator\lexical\include\stringparsing.h
+1587577489 d:\my folders\compiler_generator\lexical\include\stringparsing.h
 	<bits/stdc++.h>
 
 1587544531 source:d:\my folders\compiler_generator\lexical\src\lexicalanalyzergenerator.cpp
@@ -778,25 +778,25 @@
 1587544531 source:d:\my folders\compiler_generator\lexical\src\state.cpp
 	"State.h"
 
-1587544531 source:d:\my folders\compiler_generator\lexical\src\stringparsing.cpp
+1587647452 source:d:\my folders\compiler_generator\lexical\src\stringparsing.cpp
 	"../include/stringParsing.h"
 
 1587544531 source:d:\my folders\compiler_generator\lexical\src\token.cpp
 	"../include/Token.h"
 
-1587544531 source:d:\my folders\compiler_generator\main.cpp
+1587651836 source:d:\my folders\compiler_generator\main.cpp
 	<iostream>
 	<vector>
 	<algorithm>
 	"lexical/include/LexicalAnalyzerGenerator.h"
 	"parser/Parser.h"
 
-1587550384 d:\my folders\compiler_generator\parser\parser.h
+1587805852 d:\my folders\compiler_generator\parser\parser.h
 	"Rules.h"
 	"PredictiveTable.h"
-	"ParsedLine.h"
 	"AnalyzeRules.h"
 	"Token.h"
+	"ParsingAction.h"
 
 1587544531 d:\my folders\compiler_generator\parser\rules.h
 	"Rule.h"
@@ -812,24 +812,25 @@
 1587544531 d:\my folders\compiler_generator\parser\rulecomponent.h
 	<bits/stdc++.h>
 
-1587552335 d:\my folders\compiler_generator\parser\predictivetable.h
+1587647452 d:\my folders\compiler_generator\parser\predictivetable.h
 	"Rules.h"
 
 1587544531 d:\my folders\compiler_generator\parser\analyzerules.h
 	"Rules.h"
 	"Rule.h"
 
-1587544531 source:d:\my folders\compiler_generator\parser\analyzerules.cpp
+1587577489 source:d:\my folders\compiler_generator\parser\analyzerules.cpp
 	"AnalyzeRules.h"
 	"Rules.h"
 	"../lexical/include/readFile.h"
 	"../lexical/include/stringParsing.h"
 
-1587555976 source:d:\my folders\compiler_generator\parser\parser.cpp
+1587805966 source:d:\my folders\compiler_generator\parser\parser.cpp
 	"Parser.h"
 	"PredictiveTable.h"
+	"ParsingAction.h"
 
-1587544531 source:d:\my folders\compiler_generator\parser\predictivetable.cpp
+1587741372 source:d:\my folders\compiler_generator\parser\predictivetable.cpp
 	"PredictiveTable.h"
 	"Rules.h"
 	"Rule.h"
@@ -840,7 +841,7 @@
 	<bits/stdc++.h>
 	<string>
 
-1587544531 source:d:\my folders\compiler_generator\parser\production.cpp
+1587741372 source:d:\my folders\compiler_generator\parser\production.cpp
 	"Production.h"
 
 1587544531 source:d:\my folders\compiler_generator\parser\rule.cpp
@@ -849,7 +850,7 @@
 1587544531 source:d:\my folders\compiler_generator\parser\rulecomponent.cpp
 	"RuleComponent.h"
 
-1587554633 source:d:\my folders\compiler_generator\parser\rules.cpp
+1587741372 source:d:\my folders\compiler_generator\parser\rules.cpp
 	"Rules.h"
 	"Rule.h"
 	<string>
@@ -872,4 +873,10 @@
 
 1587597489 source:c:\users\owner\desktop\compiler_generator\parser\parsedline.cpp
 	"ParsedLine.h"
+
+1587803641 d:\my folders\compiler_generator\parser\parsingaction.h
+	<bits/stdc++.h>
+
+1587803677 source:d:\my folders\compiler_generator\parser\parsingaction.cpp
+	"ParsingAction.h"
 

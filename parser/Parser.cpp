@@ -1,8 +1,9 @@
 #include "Parser.h"
 #include "PredictiveTable.h"
-Parser::Parser(string fileName)
+#include "ParsingAction.h"
+Parser::Parser(string fileName, vector<Token> tokenVec)
 {
-
+    this->outputLexical = tokenVec;
     rules = new Rules();
     AnalyzeRules* analyze = new AnalyzeRules(fileName, rules);
 
@@ -23,98 +24,260 @@ Parser::Parser(string fileName)
 
     }
 
-    PredictiveTable* table = new PredictiveTable(rules);
+    this->table = new PredictiveTable(rules);
 }
 
-void Parser::parsingLines(string startSymbol, PredictiveTable* predictiveTable)
+void Parser::parsingLines(string startSymbol)
 {
-    vector<Token> lineGroup;
-    for (int i = 0; i < this->outputLexical.size() - 1;)
+    cout << endl;
+    cout << "=========== Starting Of Parsing Tracking ==========="<<endl;
+    cout << endl;
+
+
+    Token token("DollarSign", "$", -1, false);
+    this->outputLexical.push_back(token);
+
+    // Start the algorithm of LL(1) Parser
+    stack<string> st;
+
+    st.push("$");
+    st.push(startSymbol);
+
+    int tokenPointer = 0;
+    vector<ParsingAction> parsedOutput;
+
+    ParsingAction startParsing("StartSymbol", startSymbol);
+    parsedOutput.push_back(startParsing);
+    bool errorFlag = false;
+
+    while(st.size() != 1)
     {
-        if (this->outputLexical[i].getLine() == this->outputLexical[i+1].getLine())
+        string x = st.top();
+        cout << "Top of the stack: " + x<<endl;
+
+        std::unordered_map<std::string,int>::const_iterator exist;
+
+        if (x == "\'=\'")
         {
-            lineGroup.push_back(this->outputLexical[i]);
-            i++;
+            exist = table->terminals.find ("\'assign\'");
         }
         else
         {
-            lineGroup.push_back(this->outputLexical[i]);
+            exist = table->terminals.find (x);
+        }
 
-            // Start the algorithm of LL(1) Parser
-            stack<string> st;
+        if (exist != table->terminals.end())
+        {
+            cout << x + " It is a terminal"<<endl;
 
-            st.push("$");
-            st.push(startSymbol);
-
-            int tokenPointer = 0;
-            vector<string> parsedOutput;
-            bool errorFlag = false;
-
-            while(st.size() != 1)
+            if (x == "\'=\'")
             {
-                string x = st.top();
-
-                std::unordered_map<std::string,int>::const_iterator exist = predictiveTable->terminals.find (x);
-
-                if (exist != predictiveTable->terminals.end())
+                if ("\'assign\'" == "\'" + this->outputLexical[tokenPointer].toString() + "\'")
                 {
-                    if (x == "\'" + lineGroup[tokenPointer].toString() + "\'")
+
+                    if (this->outputLexical.size() > tokenPointer)
                     {
-                        parsedOutput.push_back(lineGroup[tokenPointer].toString());
                         tokenPointer++;
-                        st.pop();
                     }
-                    else
-                    {
-                        /* error */
-                        errorFlag = true;
-                    }
+                    st.pop();
+
+                    cout << x + " is accepted"<<endl;
+                    cout <<endl;
                 }
                 else
                 {
-                    string tableEntry = predictiveTable->table[predictiveTable->nonTerminals[x]]
-                                        [predictiveTable->terminals["\'" + lineGroup[tokenPointer].toString() + "\'"]];
+                    /* error */
+                    errorFlag = true;
+                    st.pop();
 
-                    if (tableEntry == "Error")
-                    {
-                        /* error */
-                        errorFlag = true;
-                    }
-                    else if (tableEntry == "Synch")
-                    {
+                    ParsingAction parsingAction("ErrorTerminal", "Error: missing " + x);
+                    parsedOutput.push_back(parsingAction);
+                    cout << x + " is not equal " + "\'" + this->outputLexical[tokenPointer].toString() + "\'"<<endl;
+                    cout <<endl;
 
-                    }
-                    else
-                    {
-                        vector<string> splited = splitByChar(tableEntry, ' ');
-                        for (int j = splited.size() - 1; j >= 0; j--)
-                        {
-                            if (splited[j] != " ")
-                            {
-                                st.push(splited[j]);
-                            }
-
-                        }
-                        parsedOutput.push_back(tableEntry);
-                    }
                 }
             }
-            // End of the algorithm
-
-            string str = "";
-            for (int j = 0; j < lineGroup.size(); j++)
+            else
             {
-                str += lineGroup[j].toString() + " ";
+                if (x == "\'" + this->outputLexical[tokenPointer].toString() + "\'")
+                {
+
+                    if (this->outputLexical.size() > tokenPointer)
+                    {
+                        tokenPointer++;
+                    }
+                    st.pop();
+
+                    cout << x + " is accepted"<<endl;
+                    cout <<endl;
+                }
+                else
+                {
+                    /* error */
+                    errorFlag = true;
+                    st.pop();
+
+                    ParsingAction parsingAction("ErrorTerminal", "Error: missing " + x);
+                    parsedOutput.push_back(parsingAction);
+                    cout << x + " is not equal " + "\'" + this->outputLexical[tokenPointer].toString() + "\'"<<endl;
+                    cout <<endl;
+                }
             }
 
-            ParsedLine parsedObj(str, parsedOutput, i, errorFlag);
-            this->outputParser.push_back(parsedObj);
+        }
+        else
+        {
 
-            lineGroup.clear();
-            i++;
+            cout << x + " It is a non terminal"<<endl;
+
+            string tableEntry;
+
+            if (this->outputLexical[tokenPointer].toString() == "$")
+            {
+                tableEntry = this->table->table[this->table->nonTerminals[x]]
+                             [this->table->terminals[this->outputLexical[tokenPointer].toString()]];
+            }
+            else
+            {
+                tableEntry = this->table->table[this->table->nonTerminals[x]]
+                             [this->table->terminals["\'" + this->outputLexical[tokenPointer].toString() + "\'"]];
+            }
+
+
+            cout << "Table Entry: " + tableEntry<<endl;
+
+            if (tableEntry == "Error")
+            {
+                /* error */
+                errorFlag = true;
+
+
+
+                if (this->outputLexical.size() > tokenPointer)
+                {
+                    ParsingAction parsingAction("ErrorTable", "Error:(illegal " + x + ") - discarded" + this->outputLexical[tokenPointer].toString());
+                    parsedOutput.push_back(parsingAction);
+
+                    tokenPointer++;
+                    cout<< "Move the pointer of the input by 1"<< endl;
+                    cout<< endl;
+                }
+                else
+                {
+                    ParsingAction parsingAction("Failed", "No Acceptance");
+                    parsedOutput.push_back(parsingAction);
+                    cout << "No way for acceptance" <<endl;
+                    cout<< endl;
+                    break;
+                }
+
+
+            }
+            else if (tableEntry == "Synch")
+            {
+                st.pop();
+                cout << "There is a Synch & Pop the top of the stack" <<endl;
+                cout<< endl;
+            }
+            else
+            {
+                if (tableEntry == "\'\\L\'")
+                {
+                    st.pop();
+                    ParsingAction parsingAction(x, tableEntry);
+                    parsedOutput.push_back(parsingAction);
+                    cout<< "Pop the non terminal"<<endl;
+                    cout<<endl;
+                }
+                else
+                {
+                    st.pop();
+                    vector<string> splited = splitByChar(tableEntry, ' ');
+                    for (int j = splited.size() - 1; j >= 0; j--)
+                    {
+                        if (splited[j] != " ")
+                        {
+                            cout << "Pushed: " + splited[j]<<endl;
+                            st.push(splited[j]);
+                        }
+
+                    }
+                    ParsingAction parsingAction(x, tableEntry);
+                    parsedOutput.push_back(parsingAction);
+                    cout<< endl;
+                }
+
+            }
         }
     }
 
+    cout << "End Parsing"<<endl;
+    cout << endl;
+    // End of the algorithm
+
+    vector<string> printedOutput;
+
+    cout<<parsedOutput[0].getProduction()<<endl;
+    printedOutput.push_back(parsedOutput[0].getProduction());
+    outputStore.push_back(parsedOutput[0].getProduction());
+
+    for (int i = 1; i < parsedOutput.size(); i++)
+    {
+        if (parsedOutput[i].getRule() == "ErrorTerminal")
+        {
+            outputStore.push_back(parsedOutput[i].getProduction());
+            cout<< parsedOutput[i].getProduction() <<endl;
+        }
+        else if (parsedOutput[i].getRule() == "ErrorTable")
+        {
+            outputStore.push_back(parsedOutput[i].getProduction());
+            cout<< parsedOutput[i].getProduction() <<endl;
+        }
+        else if (parsedOutput[i].getRule() == "Failed")
+        {
+            outputStore.push_back(parsedOutput[i].getProduction());
+            cout<< parsedOutput[i].getProduction() <<endl;
+            break;
+        }
+        else
+        {
+            if (parsedOutput[i].getProduction() == "\'\\L\'")
+            {
+                string strBefore(printedOutput[printedOutput.size() - 1]);
+
+                replace(strBefore, parsedOutput[i].getRule(), "");
+
+                outputStore.push_back(strBefore);
+                cout<<strBefore<<endl;
+
+                printedOutput.push_back(strBefore);
+
+            }
+            else
+            {
+                string strBefore(printedOutput[printedOutput.size() - 1]);
+
+                replace(strBefore, parsedOutput[i].getRule(), parsedOutput[i].getProduction());
+
+                outputStore.push_back(strBefore);
+                cout<<strBefore<<endl;
+
+                printedOutput.push_back(strBefore);
+            }
+        }
+    }
+
+
+}
+
+void Parser::replace(std::string& str, const std::string& from, const std::string& to) {
+    if(from.empty())
+        return;
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
+    }
 }
 
 Parser::~Parser()

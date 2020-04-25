@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-/*
+
 
     LexicalAnalyzerGenerator lexicalAnalyzerGenerator;
 
@@ -25,18 +25,20 @@ int main()
 
 
     lexicalAnalyzerGenerator.applyInput("input.txt");
-    for (int i = 0; i < lexicalAnalyzerGenerator.tokenVec.size(); i++)
+    /*for (int i = 0; i < lexicalAnalyzerGenerator.tokenVec.size(); i++)
     {
 
         myfile <<  lexicalAnalyzerGenerator.tokenVec[i].toString() << endl;
 
     }
 
-    myfile.close();
+    myfile.close();*/
 
-*/
 
-    Parser *parser = new Parser("parser.txt");
+
+    Parser parser("parser.txt", lexicalAnalyzerGenerator.tokenVec);
+    parser.parsingLines("A");
+
 
     return 0;
 }

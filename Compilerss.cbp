@@ -58,10 +58,10 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="parser/AnalyzeRules.cpp" />
 		<Unit filename="parser/AnalyzeRules.h" />
-		<Unit filename="parser/ParsedLine.cpp" />
-		<Unit filename="parser/ParsedLine.h" />
 		<Unit filename="parser/Parser.cpp" />
 		<Unit filename="parser/Parser.h" />
+		<Unit filename="parser/ParsingAction.cpp" />
+		<Unit filename="parser/ParsingAction.h" />
 		<Unit filename="parser/PredictiveTable.cpp" />
 		<Unit filename="parser/PredictiveTable.h" />
 		<Unit filename="parser/Production.cpp" />

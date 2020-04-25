@@ -2,16 +2,17 @@
 #define PARSER_H
 #include "Rules.h"
 #include "PredictiveTable.h"
-#include "ParsedLine.h"
 #include "AnalyzeRules.h"
 #include "Token.h"
+#include "ParsingAction.h"
 class Parser
 {
     public:
         /* parse table and build rules and predictive table*/
-        Parser(string fileName);
+        Parser(string fileName, vector<Token> tokenVec);
         virtual ~Parser();
-        vector<ParsedLine> outputParser;
+        vector<ParsingAction> outputParser;
+        void parsingLines(string startSymbol);
 
 
     protected:
@@ -20,7 +21,10 @@ class Parser
     Rules* rules;
     PredictiveTable* table;
     vector<Token> outputLexical;
-    void parsingLines(string startSymbol, PredictiveTable* table);
+    vector<string> outputStore;
+    void replace(std::string& str, const std::string& from, const std::string& to);
+
+
 
 };
 
