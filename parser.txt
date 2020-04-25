@@ -1,17 +1,17 @@
-# A = B
-# B = C | B C
-# C = D
-| E
-| F
-| G
-# D = H 'id' ';'
-# H = 'int' | 'float'
-# E = 'if' '(' M ')' '{' C '}' 'else' '{' C '}'
-# F = 'while' '(' M ')' '{' C '}'
-# G = 'id' '=' M ';'
-# M = N
-| N 'relop' N
-# N = X | Z X | N 'addop' X
-# X = Y|X 'mulop' Y
-# Y = 'id' | 'num' | '(' M ')'
-# Z = '+' | '-'
+# METHOD_BODY = STATEMENT_LIST
+# STATEMENT_LIST = STATEMENT | STATEMENT_LIST STATEMENT
+# STATEMENT = DECLARATION
+| IF
+| WHILE
+| ASSIGNMENT
+# DECLARATION = PRIMITIVE_TYPE 'id' ';'
+# PRIMITIVE_TYPE = 'int' | 'float'
+# IF = 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}'
+# WHILE = 'while' '(' EXPRESSION ')' '{' STATEMENT '}'
+# ASSIGNMENT = 'id' '=' EXPRESSION ';'
+# EXPRESSION = SIMPLE_EXPRESSION EXPRESSION`
+# EXPRESSION` = '\L' | 'relop' SIMPLE_EXPRESSION
+# SIMPLE_EXPRESSION = TERM | SIGN TERM | SIMPLE_EXPRESSION 'addop' TERM
+# TERM = FACTOR | TERM 'mulop' FACTOR 
+# FACTOR = 'id' | 'num' | '(' EXPRESSION ')'
+# SIGN = '+' | '-' 

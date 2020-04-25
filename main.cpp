@@ -37,7 +37,7 @@ int main()
 
 
     Parser parser("parser.txt", lexicalAnalyzerGenerator.tokenVec);
-    parser.parsingLines("A");
+    parser.parsingLines();
 
 
     return 0;

@@ -784,14 +784,14 @@
 1587544531 source:d:\my folders\compiler_generator\lexical\src\token.cpp
 	"../include/Token.h"
 
-1587651836 source:d:\my folders\compiler_generator\main.cpp
+1587849227 source:d:\my folders\compiler_generator\main.cpp
 	<iostream>
 	<vector>
 	<algorithm>
 	"lexical/include/LexicalAnalyzerGenerator.h"
 	"parser/Parser.h"
 
-1587805852 d:\my folders\compiler_generator\parser\parser.h
+1587849234 d:\my folders\compiler_generator\parser\parser.h
 	"Rules.h"
 	"PredictiveTable.h"
 	"AnalyzeRules.h"
@@ -825,7 +825,7 @@
 	"../lexical/include/readFile.h"
 	"../lexical/include/stringParsing.h"
 
-1587805966 source:d:\my folders\compiler_generator\parser\parser.cpp
+1587849221 source:d:\my folders\compiler_generator\parser\parser.cpp
 	"Parser.h"
 	"PredictiveTable.h"
 	"ParsingAction.h"

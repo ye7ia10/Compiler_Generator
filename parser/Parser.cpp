@@ -8,7 +8,7 @@ Parser::Parser(string fileName, vector<Token> tokenVec)
     AnalyzeRules* analyze = new AnalyzeRules(fileName, rules);
 
     rules->removeLeftRecursion();
-    rules->removeLeftFactoring();
+    //rules->removeLeftFactoring();
 
 
     rules->calcFirst();
@@ -25,9 +25,11 @@ Parser::Parser(string fileName, vector<Token> tokenVec)
     }
 
     this->table = new PredictiveTable(rules);
+
+    startSymbol = rules->getFirstRule();
 }
 
-void Parser::parsingLines(string startSymbol)
+void Parser::parsingLines()
 {
     cout << endl;
     cout << "=========== Starting Of Parsing Tracking ==========="<<endl;
@@ -271,13 +273,10 @@ void Parser::parsingLines(string startSymbol)
 }
 
 void Parser::replace(std::string& str, const std::string& from, const std::string& to) {
-    if(from.empty())
+    size_t start_pos = str.find(from);
+    if(start_pos == std::string::npos)
         return;
-    size_t start_pos = 0;
-    while((start_pos = str.find(from, start_pos)) != std::string::npos) {
-        str.replace(start_pos, from.length(), to);
-        start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
-    }
+    str.replace(start_pos, from.length(), to);
 }
 
 Parser::~Parser()

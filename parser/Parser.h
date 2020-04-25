@@ -12,7 +12,7 @@ class Parser
         Parser(string fileName, vector<Token> tokenVec);
         virtual ~Parser();
         vector<ParsingAction> outputParser;
-        void parsingLines(string startSymbol);
+        void parsingLines();
 
 
     protected:
@@ -22,6 +22,7 @@ class Parser
     PredictiveTable* table;
     vector<Token> outputLexical;
     vector<string> outputStore;
+    string startSymbol;
     void replace(std::string& str, const std::string& from, const std::string& to);
 
 
