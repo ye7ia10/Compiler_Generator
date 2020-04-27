@@ -181,7 +181,7 @@ void PredictiveTable::buildTable(Rules* rules)
 void PredictiveTable::predectiveTableFilePrint()
 {
     ofstream fout;
-    fout.open("PredectiveTable.txt");
+    fout.open("PredictiveTable.txt");
     string sep = " |";
     int noOfC = ((terminalNumber+1)*40) + (sep.size()*terminalNumber+1);
     string line = sep + string(noOfC-1,'-') + " |";

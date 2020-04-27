@@ -24,7 +24,6 @@ public:
     void addDollarToFirstRule();
     void setFirstRule(string rule);
     string getFirstRule();
-    vector<string> getTerminalNames();
     vector<string> getNonTerminalNames();
 
 
@@ -33,7 +32,7 @@ protected:
 private:
     map <string, Rule*> rules;
     vector<string> NonTerminalsNames;
-    vector<string> terminalNames;
+
     void modifyRule(vector<string> &modifiedRule, string prefix, Rule* currentRule);
     void addRuleLeftFactoring(vector<string> &modifiedRule, string prefix, string nonTerminal, Rule* currentRule);
     bool mycomp(string a, string b);

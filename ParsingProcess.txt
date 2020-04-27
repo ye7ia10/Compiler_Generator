@@ -1,0 +1,335 @@
+Rules: 
+
+ASSIGNMENT--------------> 'id' '=' EXPRESSION ';' 
+DECLARATION--------------> PRIMITIVE_TYPE 'id' ';' 
+EXPRESSION--------------> SIMPLE_EXPRESSION EXPRESSION` 
+EXPRESSION`--------------> '\L' | 'relop' SIMPLE_EXPRESSION 
+FACTOR--------------> 'id' | 'num' | '(' EXPRESSION ')' 
+IF--------------> 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' 
+METHOD_BODY--------------> STATEMENT_LIST 
+PRIMITIVE_TYPE--------------> 'int' | 'float' 
+SIGN--------------> '+' | '-' 
+SIMPLE_EXPRESSION--------------> TERM SIMPLE_EXPRESSION` | '+' TERM SIMPLE_EXPRESSION` | '-' TERM SIMPLE_EXPRESSION` 
+SIMPLE_EXPRESSION`--------------> 'addop' TERM SIMPLE_EXPRESSION` | '\L' 
+STATEMENT--------------> 'int' 'id' ';' | 'float' 'id' ';' | 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' | WHILE | 'id' '=' EXPRESSION ';' 
+STATEMENT_LIST--------------> 'int' 'id' ';' STATEMENT_LIST` | 'float' 'id' ';' STATEMENT_LIST` | 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` | WHILE STATEMENT_LIST` | 'id' '=' EXPRESSION ';' STATEMENT_LIST` 
+STATEMENT_LIST`--------------> STATEMENT STATEMENT_LIST` | '\L' 
+TERM--------------> 'id' TERM` | 'num' TERM` | '(' EXPRESSION ')' TERM` 
+TERM`--------------> 'mulop' FACTOR TERM` | '\L' 
+WHILE--------------> 'while' '(' EXPRESSION ')' '{' STATEMENT '}' 
+
+
+||============================Starting Of Parsing Tracking=============================||                          
+||                                                                                     ||
+||Top of the stack: METHOD_BODY                                                        ||
+||METHOD_BODY is a non terminal                                                        ||
+||Table Entry: STATEMENT_LIST                                                          ||
+||Pushed: STATEMENT_LIST                                                               ||
+||                                                                                     ||
+||Top of the stack: STATEMENT_LIST                                                     ||
+||STATEMENT_LIST is a non terminal                                                     ||
+||Table Entry: 'int' 'id' ';' STATEMENT_LIST`                                          ||
+||Pushed: STATEMENT_LIST`                                                              ||
+||Pushed: ';'                                                                          ||
+||Pushed: 'id'                                                                         ||
+||Pushed: 'int'                                                                        ||
+||                                                                                     ||
+||Top of the stack: 'int'                                                              ||
+||'int' is a terminal                                                                  ||
+||'int' is accepted                                                                    ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: ';'                                                                ||
+||';' is a terminal                                                                    ||
+||';' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: STATEMENT_LIST`                                                    ||
+||STATEMENT_LIST` is a non terminal                                                    ||
+||Table Entry: STATEMENT STATEMENT_LIST`                                               ||
+||Pushed: STATEMENT_LIST`                                                              ||
+||Pushed: STATEMENT                                                                    ||
+||                                                                                     ||
+||Top of the stack: STATEMENT                                                          ||
+||STATEMENT is a non terminal                                                          ||
+||Table Entry: 'id' '=' EXPRESSION ';'                                                 ||
+||Pushed: ';'                                                                          ||
+||Pushed: EXPRESSION                                                                   ||
+||Pushed: '='                                                                          ||
+||Pushed: 'id'                                                                         ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: '='                                                                ||
+||'=' is a terminal                                                                    ||
+||'=' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: EXPRESSION                                                         ||
+||EXPRESSION is a non terminal                                                         ||
+||Table Entry: SIMPLE_EXPRESSION EXPRESSION`                                           ||
+||Pushed: EXPRESSION`                                                                  ||
+||Pushed: SIMPLE_EXPRESSION                                                            ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION                                                  ||
+||SIMPLE_EXPRESSION is a non terminal                                                  ||
+||Table Entry: TERM SIMPLE_EXPRESSION`                                                 ||
+||Pushed: SIMPLE_EXPRESSION`                                                           ||
+||Pushed: TERM                                                                         ||
+||                                                                                     ||
+||Top of the stack: TERM                                                               ||
+||TERM is a non terminal                                                               ||
+||Table Entry: 'num' TERM`                                                             ||
+||Pushed: TERM`                                                                        ||
+||Pushed: 'num'                                                                        ||
+||                                                                                     ||
+||Top of the stack: 'num'                                                              ||
+||'num' is a terminal                                                                  ||
+||'num' is accepted                                                                    ||
+||                                                                                     ||
+||Top of the stack: TERM`                                                              ||
+||TERM` is a non terminal                                                              ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION`                                                 ||
+||SIMPLE_EXPRESSION` is a non terminal                                                 ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: EXPRESSION`                                                        ||
+||EXPRESSION` is a non terminal                                                        ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: ';'                                                                ||
+||';' is a terminal                                                                    ||
+||';' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: STATEMENT_LIST`                                                    ||
+||STATEMENT_LIST` is a non terminal                                                    ||
+||Table Entry: STATEMENT STATEMENT_LIST`                                               ||
+||Pushed: STATEMENT_LIST`                                                              ||
+||Pushed: STATEMENT                                                                    ||
+||                                                                                     ||
+||Top of the stack: STATEMENT                                                          ||
+||STATEMENT is a non terminal                                                          ||
+||Table Entry: 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}'      ||
+||Pushed: '}'                                                                          ||
+||Pushed: STATEMENT                                                                    ||
+||Pushed: '{'                                                                          ||
+||Pushed: 'else'                                                                       ||
+||Pushed: '}'                                                                          ||
+||Pushed: STATEMENT                                                                    ||
+||Pushed: '{'                                                                          ||
+||Pushed: ')'                                                                          ||
+||Pushed: EXPRESSION                                                                   ||
+||Pushed: '('                                                                          ||
+||Pushed: 'if'                                                                         ||
+||                                                                                     ||
+||Top of the stack: 'if'                                                               ||
+||'if' is a terminal                                                                   ||
+||'if' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: '('                                                                ||
+||'(' is a terminal                                                                    ||
+||'(' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: EXPRESSION                                                         ||
+||EXPRESSION is a non terminal                                                         ||
+||Table Entry: SIMPLE_EXPRESSION EXPRESSION`                                           ||
+||Pushed: EXPRESSION`                                                                  ||
+||Pushed: SIMPLE_EXPRESSION                                                            ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION                                                  ||
+||SIMPLE_EXPRESSION is a non terminal                                                  ||
+||Table Entry: TERM SIMPLE_EXPRESSION`                                                 ||
+||Pushed: SIMPLE_EXPRESSION`                                                           ||
+||Pushed: TERM                                                                         ||
+||                                                                                     ||
+||Top of the stack: TERM                                                               ||
+||TERM is a non terminal                                                               ||
+||Table Entry: 'id' TERM`                                                              ||
+||Pushed: TERM`                                                                        ||
+||Pushed: 'id'                                                                         ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: TERM`                                                              ||
+||TERM` is a non terminal                                                              ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION`                                                 ||
+||SIMPLE_EXPRESSION` is a non terminal                                                 ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: EXPRESSION`                                                        ||
+||EXPRESSION` is a non terminal                                                        ||
+||Table Entry:  'relop' SIMPLE_EXPRESSION                                              ||
+||Pushed: SIMPLE_EXPRESSION                                                            ||
+||Pushed: 'relop'                                                                      ||
+||                                                                                     ||
+||Top of the stack: 'relop'                                                            ||
+||'relop' is a terminal                                                                ||
+||'relop' is accepted                                                                  ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION                                                  ||
+||SIMPLE_EXPRESSION is a non terminal                                                  ||
+||Table Entry: TERM SIMPLE_EXPRESSION`                                                 ||
+||Pushed: SIMPLE_EXPRESSION`                                                           ||
+||Pushed: TERM                                                                         ||
+||                                                                                     ||
+||Top of the stack: TERM                                                               ||
+||TERM is a non terminal                                                               ||
+||Table Entry: 'num' TERM`                                                             ||
+||Pushed: TERM`                                                                        ||
+||Pushed: 'num'                                                                        ||
+||                                                                                     ||
+||Top of the stack: 'num'                                                              ||
+||'num' is a terminal                                                                  ||
+||'num' is accepted                                                                    ||
+||                                                                                     ||
+||Top of the stack: TERM`                                                              ||
+||TERM` is a non terminal                                                              ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION`                                                 ||
+||SIMPLE_EXPRESSION` is a non terminal                                                 ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: ')'                                                                ||
+||')' is a terminal                                                                    ||
+||')' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: '{'                                                                ||
+||'{' is a terminal                                                                    ||
+||'{' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: STATEMENT                                                          ||
+||STATEMENT is a non terminal                                                          ||
+||Table Entry: 'id' '=' EXPRESSION ';'                                                 ||
+||Pushed: ';'                                                                          ||
+||Pushed: EXPRESSION                                                                   ||
+||Pushed: '='                                                                          ||
+||Pushed: 'id'                                                                         ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: '='                                                                ||
+||'=' is a terminal                                                                    ||
+||'=' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: EXPRESSION                                                         ||
+||EXPRESSION is a non terminal                                                         ||
+||Table Entry: SIMPLE_EXPRESSION EXPRESSION`                                           ||
+||Pushed: EXPRESSION`                                                                  ||
+||Pushed: SIMPLE_EXPRESSION                                                            ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION                                                  ||
+||SIMPLE_EXPRESSION is a non terminal                                                  ||
+||Table Entry: TERM SIMPLE_EXPRESSION`                                                 ||
+||Pushed: SIMPLE_EXPRESSION`                                                           ||
+||Pushed: TERM                                                                         ||
+||                                                                                     ||
+||Top of the stack: TERM                                                               ||
+||TERM is a non terminal                                                               ||
+||Table Entry: 'num' TERM`                                                             ||
+||Pushed: TERM`                                                                        ||
+||Pushed: 'num'                                                                        ||
+||                                                                                     ||
+||Top of the stack: 'num'                                                              ||
+||'num' is a terminal                                                                  ||
+||'num' is accepted                                                                    ||
+||                                                                                     ||
+||Top of the stack: TERM`                                                              ||
+||TERM` is a non terminal                                                              ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION`                                                 ||
+||SIMPLE_EXPRESSION` is a non terminal                                                 ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: EXPRESSION`                                                        ||
+||EXPRESSION` is a non terminal                                                        ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: ';'                                                                ||
+||';' is a terminal                                                                    ||
+||';' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: '}'                                                                ||
+||'}' is a terminal                                                                    ||
+||'}' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: 'else'                                                             ||
+||'else' is a terminal                                                                 ||
+||'else' is not equal '$'                                                              ||
+||                                                                                     ||
+||Top of the stack: '{'                                                                ||
+||'{' is a terminal                                                                    ||
+||'{' is not equal '$'                                                                 ||
+||                                                                                     ||
+||Top of the stack: STATEMENT                                                          ||
+||STATEMENT is a non terminal                                                          ||
+||Table Entry: Synch                                                                   ||
+||There is a Synch & Pop the top of the stack                                          ||
+||                                                                                     ||
+||Top of the stack: '}'                                                                ||
+||'}' is a terminal                                                                    ||
+||'}' is not equal '$'                                                                 ||
+||                                                                                     ||
+||Top of the stack: STATEMENT_LIST`                                                    ||
+||STATEMENT_LIST` is a non terminal                                                    ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||=====================================End Parsing=====================================||                                   
+
+METHOD_BODY
+STATEMENT_LIST
+'int' 'id' ';' STATEMENT_LIST`
+'int' 'id' ';' STATEMENT STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' EXPRESSION ';' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' SIMPLE_EXPRESSION EXPRESSION` ';' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' TERM SIMPLE_EXPRESSION` EXPRESSION` ';' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num' TERM` SIMPLE_EXPRESSION` EXPRESSION` ';' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'  SIMPLE_EXPRESSION` EXPRESSION` ';' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'   EXPRESSION` ';' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' STATEMENT STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' SIMPLE_EXPRESSION EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' TERM SIMPLE_EXPRESSION` EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id' TERM` SIMPLE_EXPRESSION` EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'  SIMPLE_EXPRESSION` EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'   EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' SIMPLE_EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' TERM SIMPLE_EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num' TERM` SIMPLE_EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'  SIMPLE_EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' EXPRESSION ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' SIMPLE_EXPRESSION EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' TERM SIMPLE_EXPRESSION` EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' 'num' TERM` SIMPLE_EXPRESSION` EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' 'num'  SIMPLE_EXPRESSION` EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' 'num'   EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' 'num'    ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
+Error: missing 'else'
+Error: missing '{'
+Error: missing '}'
+'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' 'num'    ';' '}' 'else' '{' STATEMENT '}' 

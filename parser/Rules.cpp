@@ -246,6 +246,42 @@ void Rules::removeLeftFactoring()
         it++;
 
     }
+     //cout<<endl;
+    ofstream fout;
+    fout.open("ParsingProcess.txt");
+    if (fout.is_open(), std::ios_base::app){
+        cout<< "Rules: " <<endl;
+        fout<< "Rules: " <<endl;
+        map <string, Rule*>::iterator i;
+
+        for (i = rules.begin(); i != rules.end(); i++)
+        {
+            cout<<endl;
+            fout<<endl;
+
+            cout<< i->first + "--------------> ";
+            fout<< i->first + "--------------> ";
+
+            for (int j = 0; j < i->second->productions.size(); j++)
+            {
+                if (j != 0)
+                {
+                    cout<< "| ";
+                    fout<< "| ";
+                }
+                for (int x = 0; x < i->second->productions[j]->elements.size(); x++)
+                {
+                    cout<< i->second->productions[j]->elements[x]->getName() + " ";
+                    fout<< i->second->productions[j]->elements[x]->getName() + " ";
+                }
+            }
+        }
+        cout<<endl;
+        cout<<endl;
+        fout<<endl;
+        fout<<endl;
+        fout.close();
+    }
 }
 
 void Rules::modifyRule(vector<string> &modifiedRule, string prefix, Rule* currentRule)
@@ -404,8 +440,6 @@ void Rules::addDollarToFirstRule()
             Rule *currentRule = it -> second;
             RuleComponent* component = new RuleComponent("$");
             currentRule ->addFollow(component);
-            if(find(terminalNames.begin(),terminalNames.end(),component->getName()) == terminalNames.end())
-                terminalNames.push_back(component->getName());
         }
     }
 }
@@ -423,8 +457,6 @@ void Rules::getFollow(map<string, Rule*>::iterator it, string nonTe, set<string>
         Rule *currentRule = it -> second;
         RuleComponent* component = new RuleComponent("$");
         currentRule ->addFollow(component);
-        if(find(terminalNames.begin(),terminalNames.end(),component->getName()) == terminalNames.end())
-            terminalNames.push_back(component->getName());
     }
     map<string, Rule*>::iterator itMap;
     for (itMap = rules.begin(); itMap != rules.end() ; itMap++)
@@ -468,8 +500,6 @@ void Rules::getFollowByFirst(RuleComponent* nextComponent, int idxComponent,
     {
         Rule *currentRule = it -> second;
         currentRule ->addFollow(nextComponent);
-        if(find(terminalNames.begin(),terminalNames.end(),nextComponent->getName()) == terminalNames.end())
-            terminalNames.push_back(nextComponent->getName());
     }
     else
     {
@@ -480,8 +510,6 @@ void Rules::getFollowByFirst(RuleComponent* nextComponent, int idxComponent,
             {
                 Rule *currentRule = it -> second;
                 currentRule ->addFollow(nextComponentFirst[i]);
-                if(find(terminalNames.begin(),terminalNames.end(),nextComponentFirst[i]->getName()) == terminalNames.end())
-                    terminalNames.push_back(nextComponentFirst[i]->getName());
             }
             else
             {
@@ -509,10 +537,6 @@ void Rules::setFirstRule(string non)
 string Rules::getFirstRule()
 {
     return this->firstRuleString;
-}
-vector<string>Rules::getTerminalNames()
-{
-    return terminalNames;
 }
 vector<string>Rules::getNonTerminalNames()
 {
