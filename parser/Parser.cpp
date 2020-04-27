@@ -8,12 +8,12 @@ Parser::Parser(string fileName, vector<Token> tokenVec)
     AnalyzeRules* analyze = new AnalyzeRules(fileName, rules);
 
     rules->removeLeftRecursion();
-    //rules->removeLeftFactoring();
+    rules->removeLeftFactoring();
 
 
     rules->calcFirst();
     rules->calcFollow();
-    for (auto r : rules->getRules())
+    /*for (auto r : rules->getRules())
     {
         r.second->toString();
         for (Production* p : r.second->getProductions())
@@ -22,7 +22,7 @@ Parser::Parser(string fileName, vector<Token> tokenVec)
         }
         cout << "***********\n";
 
-    }
+    }*/
 
     this->table = new PredictiveTable(rules);
 
@@ -70,7 +70,7 @@ void Parser::parsingLines()
 
         if (exist != table->terminals.end())
         {
-            cout << x + " It is a terminal"<<endl;
+            cout << x + " is a terminal"<<endl;
 
             if (x == "\'=\'")
             {
@@ -130,7 +130,7 @@ void Parser::parsingLines()
         else
         {
 
-            cout << x + " It is a non terminal"<<endl;
+            cout << x + " is a non terminal"<<endl;
 
             string tableEntry;
 
@@ -272,7 +272,8 @@ void Parser::parsingLines()
 
 }
 
-void Parser::replace(std::string& str, const std::string& from, const std::string& to) {
+void Parser::replace(std::string& str, const std::string& from, const std::string& to)
+{
     size_t start_pos = str.find(from);
     if(start_pos == std::string::npos)
         return;

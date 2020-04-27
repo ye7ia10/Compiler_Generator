@@ -12,23 +12,29 @@ AnalyzeRules::~AnalyzeRules()
 {
     //dtor
 }
-void AnalyzeRules::buildRules(string fileName, Rules* rules) {
+void AnalyzeRules::buildRules(string fileName, Rules* rules)
+{
 
     vector<string> lines = readFile(fileName);
     lines = splitRules(lines);
     bool firstRule = true;
-    for (string s : lines) {
+    for (string s : lines)
+    {
         vector<string> splited = splitByEgual(s);
-        if (splited.size() != 2) {
+        if (splited.size() != 2)
+        {
             /* an error found as the rule should have exactly one equal '=' */
-        } else {
+        }
+        else
+        {
             Rule* rule = new Rule(splited[0], splited[1]);
-             rule->setFirstRule(firstRule);
-            if (firstRule){
-             rules->setFirstRule(splited[0]);
+            rule->setFirstRule(firstRule);
+            if (firstRule)
+            {
+                rules->setFirstRule(splited[0]);
             }
             firstRule = false;
-            cout << "parsing: " << rule ->getName() << "->" << splited[1] <<endl;
+            //cout << "parsing: " << rule ->getName() << "->" << splited[1] <<endl;
             rules->addRule(rule);
         }
     }
@@ -36,40 +42,57 @@ void AnalyzeRules::buildRules(string fileName, Rules* rules) {
 }
 
 
-vector<string> AnalyzeRules::splitRules(vector<string> lines) {
+vector<string> AnalyzeRules::splitRules(vector<string> lines)
+{
     vector<string>v;
     string res = "";
-    if (lines.size() == 0) return v;
-    for (int i = 0; i < lines.size(); i++) {
+    if (lines.size() == 0)
+        return v;
+    for (int i = 0; i < lines.size(); i++)
+    {
         trim(lines[i]);
-        if (lines[i].size()) {
-            if (res.size()) {
-                if (lines[i][0] == '#') {
-                    if (res[0] == '#') {
+        if (lines[i].size())
+        {
+            if (res.size())
+            {
+                if (lines[i][0] == '#')
+                {
+                    if (res[0] == '#')
+                    {
                         string s = res.substr(1, res.size() - 1);
                         trim(s);
                         if (s.size())
                             v.push_back(s);
-                    } else {
+                    }
+                    else
+                    {
                         /* an error found as the rule does not start with # */
 
                     }
                     res = lines[i];
-                } else {
+                }
+                else
+                {
                     res += " " + lines[i];
                 }
-            } else {
+            }
+            else
+            {
                 res = lines[i];
             }
         }
     }
-    if (res.size()) {
-        if (res[0] == '#') {
+    if (res.size())
+    {
+        if (res[0] == '#')
+        {
             string s = res.substr(1, res.size() - 1);
             trim(s);
             if (s.size())
                 v.push_back(s);
-        } else {
+        }
+        else
+        {
             /* an error found as the rule does not start with # */
 
         }

@@ -66,17 +66,17 @@ vector<Production*> Rule::getProductions(){
     return this->productions;
 }
 void Rule::toString() {
-    cout << "Name: " << name << endl;
-    cout << "first: ";
+    //cout << "Name: " << name << endl;
+    //cout << "first: ";
     for (RuleComponent* c: first) {
-        cout << c->getName() << " ";
+      //  cout << c->getName() << " ";
     }
-    cout << endl;
-    cout << "Follow: ";
+   // cout << endl;
+    //cout << "Follow: ";
     for (RuleComponent* c: follow) {
-        cout << c->getName() << " ";
+        //cout << c->getName() << " ";
     }
-    cout << endl;
+     //cout << endl;
 
 }
 void Rule::removeDubLicates(vector<RuleComponent*>& v) {

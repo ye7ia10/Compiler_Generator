@@ -34,17 +34,14 @@ private:
     map <string, Rule*> rules;
     vector<string> NonTerminalsNames;
     vector<string> terminalNames;
-    int findMinLength(vector<string> arr, int startIndex, int endIndex);
-    bool allContainsPrefix(vector<string> arr, string str,
-                           int start, int end, int startIndex, int endIndex);
-    string commonPrefix(vector<string> arr, int startIndex, int endIndex);
     void modifyRule(vector<string> &modifiedRule, string prefix, Rule* currentRule);
     void addRuleLeftFactoring(vector<string> &modifiedRule, string prefix, string nonTerminal, Rule* currentRule);
-    void partialModifiedRule(vector<string> &modifiedRule, string prefix, string nonTerminal, Rule* currentRule);
     bool mycomp(string a, string b);
     vector<RuleComponent*>calcFirstByRec(Rule* r);
     string firstRuleString;
     map<string, bool> visitedFollow;
+    void otherOccurences (vector<vector<string>> &splited, string &prefix, int searchStart, int prefixNo, int compNo);
+    int getLastindex (vector<string> &s, int start, int arrSize);
 
 };
 

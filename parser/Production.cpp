@@ -37,12 +37,12 @@ void Production::addFirst(vector<RuleComponent*> first) {
 
 
 void Production::toString() {
-    cout << "Production name: " << name << endl;
-    cout << "First: ";
+    //cout << "Production name: " << name << endl;
+    //cout << "First: ";
     for (RuleComponent* c : first) {
-        cout << c->getName() << " ";
+       // cout << c->getName() << " ";
     }
-    cout << endl;
+    //cout << endl;
 }
 void Production::removeDubLicates(vector<RuleComponent*>& v) {
     vector<RuleComponent*> c;

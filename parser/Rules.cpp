@@ -154,192 +154,98 @@ void Rules::removeLeftFactoring()
 
     while (it != rules.end())
     {
-        bool iteratorUpdated = false;
         vector<string> productionString = it->second->getProductionsString();
-
-        for (int i = 0; i < productionString.size(); i++)
-        {
-            productionString[i] = std::regex_replace(productionString[i], std::regex("^\\s+"), std::string(""));
-        }
-
         sort(productionString.begin(), productionString.end());
-
-        /*for (int i = 0; i < productionString.size(); i++)
-        {
-            cout<<productionString[i] + " | ";
-        }
-        cout<<endl;*/
-
+        vector<vector<string>> splited;
+        string prefix;
         if (productionString.size() == 1)
         {
         }
         else
         {
-            string prefix = commonPrefix(productionString, 0, productionString.size());
-
-            // cout<< prefix<<endl;
-
-            if (prefix[0] == '\'' && prefix[1] == ' ')
+            int searchEnd = getLastindex(productionString,0,productionString.size());
+            for(int i=0 ; i<productionString.size() ; i++)
             {
-                prefix = prefix.substr(2, prefix.length());
+                vector<string> temp = splitByChar(productionString[i],' ');
+                splited.push_back(temp);
+                //cout << productionString[i]<<endl;
             }
-            else if (prefix[prefix.length() - 1] == '\'' && prefix[prefix.length() - 2] == ' ')
+            int searchStart = 0;
+            while (searchStart < productionString.size())
             {
-                prefix = prefix.substr(0, prefix.length() - 1);
-            }
+                //cout << "a:" << searchStart << endl;
 
-            if (prefix != "" && prefix != epsilon && prefix != " " && prefix != "\'")
-            {
-                modifyRule(productionString, prefix, it->second);
-                addRuleLeftFactoring(productionString, prefix, it->first, it->second);
-            }
-            else
-            {
-
-                for (int i = 0; i < productionString.size() - 1; i++)
+                for (int i=searchStart+1 ; i<=searchEnd ; i++)
                 {
-                    bool flag = false;
-                    for (int j = productionString.size() - 1; j > i; j--)
-                    {
-
-                        string prefixString = commonPrefix(productionString, i, j + 1);
-
-                        // cout<< prefixString <<endl;
-
-                        if (prefixString[0] == '\'' && prefixString[1] == ' ')
-                        {
-                            prefixString = prefixString.substr(2, prefixString.length());
-                        }
-                        else if (prefixString[prefixString.length() - 1] == '\'' && prefixString[prefixString.length() - 2] == ' ')
-                        {
-                            prefixString = prefixString.substr(0, prefixString.length() - 1);
-                        }
-
-                        if (prefixString != "" && prefixString != epsilon && prefixString != " " && prefixString != "\'")
-                        {
-                            partialModifiedRule(productionString, prefixString, it->first, it->second);
-                            flag = true;
-                            break;
-                        }
-                    }
-                    if (flag)
-                    {
-                        iteratorUpdated = true;
-
-                        if (it == rules.begin())
-                        {
-                        }
-                        else
-                        {
-                            advance(it, -1);
-                        }
+                    if(splited[searchStart][0] != splited[i][0])
+                        searchStart++;
+                    else
                         break;
-                    }
+                }
+
+                int prefixNo = 0;
+                prefix = splited[searchStart][0];
+                for(int i=searchStart ; i<searchEnd ; i++)
+                {
+                    if(splited[i][0] == splited[i+1][0])
+                        prefixNo++;
+                    else
+                        break;
+                }
+                if(prefixNo==0)
+                {
+                    prefix = "";
+                }
+                otherOccurences(splited,prefix,searchStart,prefixNo,1);
+
+                int matchbegin = searchStart;
+                int matchEnd = searchStart + prefixNo;
+                //cout << "prefix: " << prefix << endl << "begin: " << matchbegin << endl << "End: " << matchEnd << endl << "*******************" << endl;
+                searchStart = searchEnd + 1;
+                searchEnd = getLastindex(productionString,searchStart,productionString.size());
+                //cout << searchStart<<endl;
+                //cout << searchEnd<<endl;
+            }
+        }
+        if(prefix.length()>0)
+        {
+            modifyRule(productionString,prefix,it->second);
+            addRuleLeftFactoring(productionString,prefix,it->first,it->second);
+        }
+
+        /*cout << "Non Terminals Symbols:" << endl;
+        for (int i = 0; i < this->NonTerminalsNames.size(); i++)
+        {
+            cout<< NonTerminalsNames[i]<<endl;
+        }
+
+        //cout<<endl;
+        //cout<< "RulesLF: " <<endl;
+        map <string, Rule*>::iterator i;
+
+        for (i = rules.begin(); i != rules.end(); i++)
+        {
+            cout<<endl;
+
+            cout<< i->first + "-> ";
+
+            for (int j = 0; j < i->second->productions.size(); j++)
+            {
+                if (j != 0)
+                {
+                    cout<< "| ";
+                }
+                for (int x = 0; x < i->second->productions[j]->elements.size(); x++)
+                {
+                    cout<< i->second->productions[j]->elements[x]->getName() + " ";
                 }
             }
-
-
         }
-        if (!iteratorUpdated)
-        {
-            it++;
-        }
-    }
-
-    cout << "Non Terminals Symbols:" << endl;
-    for (int i = 0; i < this->NonTerminalsNames.size(); i++)
-    {
-        cout<< NonTerminalsNames[i]<<endl;
-    }
-
-    cout<<endl;
-    cout<< "Rules: " <<endl;
-    map <string, Rule*>::iterator i;
-
-    for (i = rules.begin(); i != rules.end(); i++)
-    {
         cout<<endl;
+        cout<<endl;*/
+        it++;
 
-        cout<< i->first + "-> ";
-
-        for (int j = 0; j < i->second->productions.size(); j++)
-        {
-            if (j != 0)
-            {
-                cout<< "| ";
-            }
-            for (int x = 0; x < i->second->productions[j]->elements.size(); x++)
-            {
-                cout<< i->second->productions[j]->elements[x]->getName() + " ";
-            }
-        }
     }
-    cout<<endl;
-    cout<<endl;
-
-}
-
-int Rules::findMinLength(vector<string> arr, int startIndex, int endIndex)
-{
-    int min = INT_MAX;
-
-    for (int i = startIndex; i < endIndex; i++)
-        if (arr[i].length() < min)
-            min = arr[i].length();
-
-    return (min);
-}
-
-bool Rules::allContainsPrefix(vector<string> arr, string str,
-                              int start, int end, int startIndex, int endIndex)
-{
-    for (int i = startIndex; i < endIndex; i++)
-    {
-        for (int j = start; j <= end; j++)
-            if (arr[i][j] != str[j])
-            {
-                return false;
-            }
-    }
-
-    return true;
-}
-
-string Rules::commonPrefix(vector<string> arr, int startIndex, int endIndex)
-{
-
-    int index = findMinLength(arr, startIndex, endIndex);
-    string prefix = ""; // Our resultant string
-
-    // We will do an in-place binary search on the
-    // first string of the array in the range 0 to
-    // index
-    int low = 0, high = index;
-
-    while (low <= high)
-    {
-        // Same as (low + high)/2, but avoids overflow
-        // for large low and high
-        int mid = low + (high - low) / 2;
-
-        if (allContainsPrefix(arr, arr[startIndex], low, mid, startIndex, endIndex))
-        {
-            // If all the strings in the input array contains
-            // this prefix then append this substring to
-            // our answer
-            prefix = prefix + arr[startIndex].substr(low, mid - low + 1);
-
-            //cout<< prefix << endl;
-
-            // And then go for the right part
-            low = mid + 1;
-        }
-
-        else // Go for the left part
-            high = mid - 1;
-    }
-
-    return (prefix);
 }
 
 void Rules::modifyRule(vector<string> &modifiedRule, string prefix, Rule* currentRule)
@@ -409,120 +315,6 @@ void Rules::addRuleLeftFactoring(vector<string> &modifiedRule, string prefix, st
 
 }
 
-void Rules::partialModifiedRule(vector<string> &modifiedRule, string prefix, string nonTerminal, Rule* currentRule)
-{
-
-    std::vector<string>::iterator it = std::find(NonTerminalsNames.begin(), NonTerminalsNames.end(), nonTerminal);
-    int index = std::distance(NonTerminalsNames.begin(), it);
-
-    vector<string> newRule;
-
-    int flag = 0;
-
-    string newNonTerminal = this->NonTerminalsNames[index] + "`";
-
-    while (true)
-    {
-        if (std::find(this->NonTerminalsNames.begin(), this->NonTerminalsNames.end(),
-                      newNonTerminal) == this->NonTerminalsNames.end())
-        {
-            break;
-        }
-        else
-        {
-            newNonTerminal = newNonTerminal + "`";
-
-        }
-    }
-
-
-    for (int i = 0; i < modifiedRule.size(); i++)
-    {
-
-        if (modifiedRule[i].length() >= prefix.length() && modifiedRule[i] != epsilon)
-        {
-
-            string s = modifiedRule[i];
-
-            std::string::size_type y = s.find(prefix);
-
-            if (i != std::string::npos && prefix == modifiedRule[i].substr(0, prefix.length()))
-            {
-                if (flag == 0)
-                {
-                    newRule.push_back(modifiedRule[i].substr(prefix.length(), modifiedRule[i].length()));
-                    modifiedRule[i].erase(prefix.length(), modifiedRule[i].length());
-                    modifiedRule[i] = modifiedRule[i] + " " + newNonTerminal;
-
-                    flag++;
-                }
-                else
-                {
-                    //cout << prefix + "=======" + modifiedRule[i]<<endl;
-                    newRule.push_back(modifiedRule[i].substr(prefix.length(), modifiedRule[i].length()));
-                    modifiedRule.erase(modifiedRule.begin() + i);
-                    i--;
-                }
-            }
-
-            if (modifiedRule[i].length() == 0)
-            {
-                modifiedRule[i] = epsilon;
-            }
-        }
-    }
-
-    currentRule->setProductionString(modifiedRule);
-
-    //cout << modifiedRule.size()<< endl;
-
-    vector<Production*> newProductions;
-    for (int i = 0; i < modifiedRule.size(); i++)
-    {
-        // cout<<modifiedRule[i] + " "<<endl;
-        Production* production = new Production(modifiedRule[i]);
-        newProductions.push_back(production);
-    }
-
-    currentRule->setProductions(newProductions);
-
-    string newRuleStr = "";
-    for (int i = 0; i < newRule.size(); i++)
-    {
-        //cout<<newRule[i]<<endl;
-        if (i == 0)
-        {
-            if (newRule[i].length() == 0)
-            {
-                newRuleStr += epsilon;
-            }
-            else
-            {
-                newRuleStr += newRule[i];
-            }
-
-            //cout<<newRuleStr<<endl;
-        }
-        else
-        {
-            if (newRule[i].length() == 0)
-            {
-                newRuleStr += "| " + epsilon;
-            }
-            else
-            {
-                newRuleStr += "| " + newRule[i];
-            }
-
-        }
-    }
-
-    // cout<<newRuleStr<<endl;
-
-    Rule* rule = new Rule(newNonTerminal, newRuleStr);
-    this->addRule(rule);
-
-}
 
 bool Rules::mycomp(string a, string b)
 {
@@ -547,19 +339,14 @@ vector<RuleComponent*>Rules::calcFirstByRec(Rule* r)
     vector<RuleComponent*> allF;
     for (Production* p : r->getProductions())
     {
-        //cout<<r->getName()<<endl;
 
         if(p->getRlueComponent(0)->isTerminal())
         {
-            //cout<<r->getName() << "    T"<<endl;
             allF.push_back(p->getRlueComponent(0));
-            if(find(terminalNames.begin(),terminalNames.end(),p->getRlueComponent(0)->getName()) == terminalNames.end())
-                terminalNames.push_back(p->getRlueComponent(0)->getName());
-                p->addFirst({p->getRlueComponent(0)});
+            p->addFirst({p->getRlueComponent(0)});
         }
         else
         {
-//cout<<r->getName() << "    NT"<<endl;
             Rule* ruleOfFollow = rules[p->getRlueComponent(0)->getName()];
             vector<RuleComponent*> subFirst = calcFirstByRec(ruleOfFollow);
             p->addFirst(subFirst);
@@ -576,9 +363,9 @@ void Rules::calcFirst()
         if (rule->getFirst().size() == 0)
         {
 
-            cout<<rule->getName()<<endl;
+            //cout<<rule->getName()<<endl;
             vector<RuleComponent*> c = calcFirstByRec(rule);
-            cout<<rule->getName()<<endl;
+            //cout<<rule->getName()<<endl;
             r.second->putFirst(c);
         }
     }
@@ -731,4 +518,35 @@ vector<string>Rules::getNonTerminalNames()
 {
     return NonTerminalsNames;
 
+}
+int Rules::getLastindex (vector<string> &s, int start, int arrSize)
+{
+    int arrEnd = arrSize-1;
+    while (start < arrSize && s[start][0] != s[arrEnd][0])
+    {
+        arrEnd--;
+    }
+    return arrEnd;
+}
+void Rules::otherOccurences (vector<vector<string>> &splited, string &prefix, int searchStart, int prefixNo, int compNo)
+{
+    bool found = false;
+
+    for (int i=searchStart ; i<=searchStart+prefixNo-1 ; i++)
+    {
+        if(splited[i][compNo] == splited[i+1][compNo])
+        {
+            found = true;
+        }
+        else
+        {
+            found = false;
+            break;
+        }
+    }
+    if (found)
+    {
+        prefix = prefix + splited[searchStart][compNo];
+        otherOccurences(splited,prefix,searchStart,prefixNo,compNo+1);
+    }
 }
