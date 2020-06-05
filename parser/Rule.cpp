@@ -94,6 +94,10 @@ void Rule::removeDubLicates(vector<RuleComponent*>& v) {
         }
     }
     v = c;
+    int a = 5;
+    int b = 8;
+    int *d = &a;
+    d = &b;
 }
 vector<RuleComponent*> Rule::getFollowVector (){
     return this -> follow;

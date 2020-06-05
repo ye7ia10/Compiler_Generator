@@ -2,11 +2,11 @@ letter = a-z | A-Z
 digit = 0 - 9
 digits = digit+
 {boolean int float}
-num: digit+ | digit+ . digits ( \L | E digits)
+num: digit+ | digit+ . digit+ ( \L | E digit+)
 relop: \=\= | !\= | > | >\= | < | <\=
-assign: =
-{ if else while }
-[; , \( \) { }]
-addop: \+ | -
+assign: \=
+{if else while int float private public class}
+[; , \( \) \{ \}]
+addop: \+ | \-
 mulop: \* | /
 id: letter (letter|digit)*

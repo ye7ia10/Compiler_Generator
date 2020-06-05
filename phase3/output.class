@@ -1,0 +1,26 @@
+0: iload_1
+1: iload_4
+2: iload_3
+3: imul
+4: iadd
+5: istore 2
+6: iload_2
+7: iload_3
+8: if_icmpgt 10
+9: goto 15
+10: iload_2
+11: sipush 2
+12: idiv
+13: istore 2
+14: goto 21
+15: iload_3
+16: sipush 2
+17: imul
+18: iload_4
+19: iadd
+20: istore 3
+21: iload_4
+22: sipush 4
+23: imul
+24: istore 4
+25: return

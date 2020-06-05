@@ -1,0 +1,13 @@
+int yehia;
+int ahmed;
+int samy;
+int wakeel;
+
+ahmed = yehia + wakeel * samy;
+if (ahmed > samy) {
+	ahmed = ahmed / 2;
+} else {
+	samy = samy * 2 + wakeel;
+}
+
+wakeel = wakeel * 4;

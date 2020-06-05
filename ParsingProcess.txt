@@ -1,18 +1,24 @@
 Rules: 
 
-ASSIGNMENT--------------> 'id' '=' EXPRESSION ';' 
+ASSIGNMENT--------------> 'id' 'assign' EXPRESSION ';' 
+CLASS_BODY--------------> DECLARATION | 'id' 'assign' EXPRESSION ';' | METHOD_LIST | '\L' 
+CLASS_DECL--------------> MODIFIER 'class' 'id' '{' CLASS_BODY '}' 
 DECLARATION--------------> PRIMITIVE_TYPE 'id' ';' 
 EXPRESSION--------------> SIMPLE_EXPRESSION EXPRESSION` 
 EXPRESSION`--------------> '\L' | 'relop' SIMPLE_EXPRESSION 
 FACTOR--------------> 'id' | 'num' | '(' EXPRESSION ')' 
 IF--------------> 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' 
 METHOD_BODY--------------> STATEMENT_LIST 
+METHOD_DECL--------------> MODIFIER PRIMITIVE_TYPE 'id' '(' ')' '{' METHOD_BODY '}' 
+METHOD_LIST--------------> MODIFIER PRIMITIVE_TYPE 'id' '(' ')' '{' METHOD_BODY '}' METHOD_LIST` 
+METHOD_LIST`--------------> METHOD_DECL METHOD_LIST` | '\L' 
+MODIFIER--------------> 'private' | 'public' 
 PRIMITIVE_TYPE--------------> 'int' | 'float' 
 SIGN--------------> '+' | '-' 
 SIMPLE_EXPRESSION--------------> TERM SIMPLE_EXPRESSION` | '+' TERM SIMPLE_EXPRESSION` | '-' TERM SIMPLE_EXPRESSION` 
 SIMPLE_EXPRESSION`--------------> 'addop' TERM SIMPLE_EXPRESSION` | '\L' 
-STATEMENT--------------> 'int' 'id' ';' | 'float' 'id' ';' | 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' | WHILE | 'id' '=' EXPRESSION ';' 
-STATEMENT_LIST--------------> 'int' 'id' ';' STATEMENT_LIST` | 'float' 'id' ';' STATEMENT_LIST` | 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` | WHILE STATEMENT_LIST` | 'id' '=' EXPRESSION ';' STATEMENT_LIST` 
+STATEMENT--------------> 'int' 'id' ';' | 'float' 'id' ';' | 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' | WHILE | 'id' 'assign' EXPRESSION ';' 
+STATEMENT_LIST--------------> 'int' 'id' ';' STATEMENT_LIST` | 'float' 'id' ';' STATEMENT_LIST` | 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` | WHILE STATEMENT_LIST` | 'id' 'assign' EXPRESSION ';' STATEMENT_LIST` 
 STATEMENT_LIST`--------------> STATEMENT STATEMENT_LIST` | '\L' 
 TERM--------------> 'id' TERM` | 'num' TERM` | '(' EXPRESSION ')' TERM` 
 TERM`--------------> 'mulop' FACTOR TERM` | '\L' 
@@ -20,6 +26,89 @@ WHILE--------------> 'while' '(' EXPRESSION ')' '{' STATEMENT '}'
 
 
 ||============================Starting Of Parsing Tracking=============================||                          
+||                                                                                     ||
+||Top of the stack: CLASS_DECL                                                         ||
+||CLASS_DECL is a non terminal                                                         ||
+||Table Entry: MODIFIER 'class' 'id' '{' CLASS_BODY '}'                                ||
+||Pushed: '}'                                                                          ||
+||Pushed: CLASS_BODY                                                                   ||
+||Pushed: '{'                                                                          ||
+||Pushed: 'id'                                                                         ||
+||Pushed: 'class'                                                                      ||
+||Pushed: MODIFIER                                                                     ||
+||                                                                                     ||
+||Top of the stack: MODIFIER                                                           ||
+||MODIFIER is a non terminal                                                           ||
+||Table Entry: 'public'                                                                ||
+||Pushed: 'public'                                                                     ||
+||                                                                                     ||
+||Top of the stack: 'public'                                                           ||
+||'public' is a terminal                                                               ||
+||'public' is accepted                                                                 ||
+||                                                                                     ||
+||Top of the stack: 'class'                                                            ||
+||'class' is a terminal                                                                ||
+||'class' is accepted                                                                  ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: '{'                                                                ||
+||'{' is a terminal                                                                    ||
+||'{' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: CLASS_BODY                                                         ||
+||CLASS_BODY is a non terminal                                                         ||
+||Table Entry: METHOD_LIST                                                             ||
+||Pushed: METHOD_LIST                                                                  ||
+||                                                                                     ||
+||Top of the stack: METHOD_LIST                                                        ||
+||METHOD_LIST is a non terminal                                                        ||
+||Table Entry: MODIFIER PRIMITIVE_TYPE 'id' '(' ')' '{' METHOD_BODY '}' METHOD_LIST`   ||
+||Pushed: METHOD_LIST`                                                                 ||
+||Pushed: '}'                                                                          ||
+||Pushed: METHOD_BODY                                                                  ||
+||Pushed: '{'                                                                          ||
+||Pushed: ')'                                                                          ||
+||Pushed: '('                                                                          ||
+||Pushed: 'id'                                                                         ||
+||Pushed: PRIMITIVE_TYPE                                                               ||
+||Pushed: MODIFIER                                                                     ||
+||                                                                                     ||
+||Top of the stack: MODIFIER                                                           ||
+||MODIFIER is a non terminal                                                           ||
+||Table Entry: 'private'                                                               ||
+||Pushed: 'private'                                                                    ||
+||                                                                                     ||
+||Top of the stack: 'private'                                                          ||
+||'private' is a terminal                                                              ||
+||'private' is accepted                                                                ||
+||                                                                                     ||
+||Top of the stack: PRIMITIVE_TYPE                                                     ||
+||PRIMITIVE_TYPE is a non terminal                                                     ||
+||Table Entry: 'int'                                                                   ||
+||Pushed: 'int'                                                                        ||
+||                                                                                     ||
+||Top of the stack: 'int'                                                              ||
+||'int' is a terminal                                                                  ||
+||'int' is accepted                                                                    ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: '('                                                                ||
+||'(' is a terminal                                                                    ||
+||'(' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: ')'                                                                ||
+||')' is a terminal                                                                    ||
+||')' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: '{'                                                                ||
+||'{' is a terminal                                                                    ||
+||'{' is accepted                                                                      ||
 ||                                                                                     ||
 ||Top of the stack: METHOD_BODY                                                        ||
 ||METHOD_BODY is a non terminal                                                        ||
@@ -54,19 +143,27 @@ WHILE--------------> 'while' '(' EXPRESSION ')' '{' STATEMENT '}'
 ||                                                                                     ||
 ||Top of the stack: STATEMENT                                                          ||
 ||STATEMENT is a non terminal                                                          ||
-||Table Entry: 'id' '=' EXPRESSION ';'                                                 ||
-||Pushed: ';'                                                                          ||
+||Table Entry: WHILE                                                                   ||
+||Pushed: WHILE                                                                        ||
+||                                                                                     ||
+||Top of the stack: WHILE                                                              ||
+||WHILE is a non terminal                                                              ||
+||Table Entry: 'while' '(' EXPRESSION ')' '{' STATEMENT '}'                            ||
+||Pushed: '}'                                                                          ||
+||Pushed: STATEMENT                                                                    ||
+||Pushed: '{'                                                                          ||
+||Pushed: ')'                                                                          ||
 ||Pushed: EXPRESSION                                                                   ||
-||Pushed: '='                                                                          ||
-||Pushed: 'id'                                                                         ||
+||Pushed: '('                                                                          ||
+||Pushed: 'while'                                                                      ||
 ||                                                                                     ||
-||Top of the stack: 'id'                                                               ||
-||'id' is a terminal                                                                   ||
-||'id' is accepted                                                                     ||
+||Top of the stack: 'while'                                                            ||
+||'while' is a terminal                                                                ||
+||'while' is accepted                                                                  ||
 ||                                                                                     ||
-||Top of the stack: '='                                                                ||
-||'=' is a terminal                                                                    ||
-||'=' is accepted                                                                      ||
+||Top of the stack: '('                                                                ||
+||'(' is a terminal                                                                    ||
+||'(' is accepted                                                                      ||
 ||                                                                                     ||
 ||Top of the stack: EXPRESSION                                                         ||
 ||EXPRESSION is a non terminal                                                         ||
@@ -79,6 +176,124 @@ WHILE--------------> 'while' '(' EXPRESSION ')' '{' STATEMENT '}'
 ||Table Entry: TERM SIMPLE_EXPRESSION`                                                 ||
 ||Pushed: SIMPLE_EXPRESSION`                                                           ||
 ||Pushed: TERM                                                                         ||
+||                                                                                     ||
+||Top of the stack: TERM                                                               ||
+||TERM is a non terminal                                                               ||
+||Table Entry: 'id' TERM`                                                              ||
+||Pushed: TERM`                                                                        ||
+||Pushed: 'id'                                                                         ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: TERM`                                                              ||
+||TERM` is a non terminal                                                              ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION`                                                 ||
+||SIMPLE_EXPRESSION` is a non terminal                                                 ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: EXPRESSION`                                                        ||
+||EXPRESSION` is a non terminal                                                        ||
+||Table Entry:  'relop' SIMPLE_EXPRESSION                                              ||
+||Pushed: SIMPLE_EXPRESSION                                                            ||
+||Pushed: 'relop'                                                                      ||
+||                                                                                     ||
+||Top of the stack: 'relop'                                                            ||
+||'relop' is a terminal                                                                ||
+||'relop' is accepted                                                                  ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION                                                  ||
+||SIMPLE_EXPRESSION is a non terminal                                                  ||
+||Table Entry: TERM SIMPLE_EXPRESSION`                                                 ||
+||Pushed: SIMPLE_EXPRESSION`                                                           ||
+||Pushed: TERM                                                                         ||
+||                                                                                     ||
+||Top of the stack: TERM                                                               ||
+||TERM is a non terminal                                                               ||
+||Table Entry: 'num' TERM`                                                             ||
+||Pushed: TERM`                                                                        ||
+||Pushed: 'num'                                                                        ||
+||                                                                                     ||
+||Top of the stack: 'num'                                                              ||
+||'num' is a terminal                                                                  ||
+||'num' is accepted                                                                    ||
+||                                                                                     ||
+||Top of the stack: TERM`                                                              ||
+||TERM` is a non terminal                                                              ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION`                                                 ||
+||SIMPLE_EXPRESSION` is a non terminal                                                 ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: ')'                                                                ||
+||')' is a terminal                                                                    ||
+||')' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: '{'                                                                ||
+||'{' is a terminal                                                                    ||
+||'{' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: STATEMENT                                                          ||
+||STATEMENT is a non terminal                                                          ||
+||Table Entry: 'id' 'assign' EXPRESSION ';'                                            ||
+||Pushed: ';'                                                                          ||
+||Pushed: EXPRESSION                                                                   ||
+||Pushed: 'assign'                                                                     ||
+||Pushed: 'id'                                                                         ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: 'assign'                                                           ||
+||'assign' is a terminal                                                               ||
+||'assign' is accepted                                                                 ||
+||                                                                                     ||
+||Top of the stack: EXPRESSION                                                         ||
+||EXPRESSION is a non terminal                                                         ||
+||Table Entry: SIMPLE_EXPRESSION EXPRESSION`                                           ||
+||Pushed: EXPRESSION`                                                                  ||
+||Pushed: SIMPLE_EXPRESSION                                                            ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION                                                  ||
+||SIMPLE_EXPRESSION is a non terminal                                                  ||
+||Table Entry: TERM SIMPLE_EXPRESSION`                                                 ||
+||Pushed: SIMPLE_EXPRESSION`                                                           ||
+||Pushed: TERM                                                                         ||
+||                                                                                     ||
+||Top of the stack: TERM                                                               ||
+||TERM is a non terminal                                                               ||
+||Table Entry: 'id' TERM`                                                              ||
+||Pushed: TERM`                                                                        ||
+||Pushed: 'id'                                                                         ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: TERM`                                                              ||
+||TERM` is a non terminal                                                              ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION`                                                 ||
+||SIMPLE_EXPRESSION` is a non terminal                                                 ||
+||Table Entry: 'addop' TERM SIMPLE_EXPRESSION`                                         ||
+||Pushed: SIMPLE_EXPRESSION`                                                           ||
+||Pushed: TERM                                                                         ||
+||Pushed: 'addop'                                                                      ||
+||                                                                                     ||
+||Top of the stack: 'addop'                                                            ||
+||'addop' is a terminal                                                                ||
+||'addop' is accepted                                                                  ||
 ||                                                                                     ||
 ||Top of the stack: TERM                                                               ||
 ||TERM is a non terminal                                                               ||
@@ -108,6 +323,10 @@ WHILE--------------> 'while' '(' EXPRESSION ')' '{' STATEMENT '}'
 ||Top of the stack: ';'                                                                ||
 ||';' is a terminal                                                                    ||
 ||';' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: '}'                                                                ||
+||'}' is a terminal                                                                    ||
+||'}' is accepted                                                                      ||
 ||                                                                                     ||
 ||Top of the stack: STATEMENT_LIST`                                                    ||
 ||STATEMENT_LIST` is a non terminal                                                    ||
@@ -216,19 +435,19 @@ WHILE--------------> 'while' '(' EXPRESSION ')' '{' STATEMENT '}'
 ||                                                                                     ||
 ||Top of the stack: STATEMENT                                                          ||
 ||STATEMENT is a non terminal                                                          ||
-||Table Entry: 'id' '=' EXPRESSION ';'                                                 ||
+||Table Entry: 'id' 'assign' EXPRESSION ';'                                            ||
 ||Pushed: ';'                                                                          ||
 ||Pushed: EXPRESSION                                                                   ||
-||Pushed: '='                                                                          ||
+||Pushed: 'assign'                                                                     ||
 ||Pushed: 'id'                                                                         ||
 ||                                                                                     ||
 ||Top of the stack: 'id'                                                               ||
 ||'id' is a terminal                                                                   ||
 ||'id' is accepted                                                                     ||
 ||                                                                                     ||
-||Top of the stack: '='                                                                ||
-||'=' is a terminal                                                                    ||
-||'=' is accepted                                                                      ||
+||Top of the stack: 'assign'                                                           ||
+||'assign' is a terminal                                                               ||
+||'assign' is accepted                                                                 ||
 ||                                                                                     ||
 ||Top of the stack: EXPRESSION                                                         ||
 ||EXPRESSION is a non terminal                                                         ||
@@ -241,6 +460,32 @@ WHILE--------------> 'while' '(' EXPRESSION ')' '{' STATEMENT '}'
 ||Table Entry: TERM SIMPLE_EXPRESSION`                                                 ||
 ||Pushed: SIMPLE_EXPRESSION`                                                           ||
 ||Pushed: TERM                                                                         ||
+||                                                                                     ||
+||Top of the stack: TERM                                                               ||
+||TERM is a non terminal                                                               ||
+||Table Entry: 'id' TERM`                                                              ||
+||Pushed: TERM`                                                                        ||
+||Pushed: 'id'                                                                         ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: TERM`                                                              ||
+||TERM` is a non terminal                                                              ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION`                                                 ||
+||SIMPLE_EXPRESSION` is a non terminal                                                 ||
+||Table Entry: 'addop' TERM SIMPLE_EXPRESSION`                                         ||
+||Pushed: SIMPLE_EXPRESSION`                                                           ||
+||Pushed: TERM                                                                         ||
+||Pushed: 'addop'                                                                      ||
+||                                                                                     ||
+||Top of the stack: 'addop'                                                            ||
+||'addop' is a terminal                                                                ||
+||'addop' is accepted                                                                  ||
 ||                                                                                     ||
 ||Top of the stack: TERM                                                               ||
 ||TERM is a non terminal                                                               ||
@@ -277,59 +522,182 @@ WHILE--------------> 'while' '(' EXPRESSION ')' '{' STATEMENT '}'
 ||                                                                                     ||
 ||Top of the stack: 'else'                                                             ||
 ||'else' is a terminal                                                                 ||
-||'else' is not equal '$'                                                              ||
+||'else' is accepted                                                                   ||
 ||                                                                                     ||
 ||Top of the stack: '{'                                                                ||
 ||'{' is a terminal                                                                    ||
-||'{' is not equal '$'                                                                 ||
+||'{' is accepted                                                                      ||
 ||                                                                                     ||
 ||Top of the stack: STATEMENT                                                          ||
 ||STATEMENT is a non terminal                                                          ||
-||Table Entry: Synch                                                                   ||
-||There is a Synch & Pop the top of the stack                                          ||
+||Table Entry: 'id' 'assign' EXPRESSION ';'                                            ||
+||Pushed: ';'                                                                          ||
+||Pushed: EXPRESSION                                                                   ||
+||Pushed: 'assign'                                                                     ||
+||Pushed: 'id'                                                                         ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: 'assign'                                                           ||
+||'assign' is a terminal                                                               ||
+||'assign' is accepted                                                                 ||
+||                                                                                     ||
+||Top of the stack: EXPRESSION                                                         ||
+||EXPRESSION is a non terminal                                                         ||
+||Table Entry: SIMPLE_EXPRESSION EXPRESSION`                                           ||
+||Pushed: EXPRESSION`                                                                  ||
+||Pushed: SIMPLE_EXPRESSION                                                            ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION                                                  ||
+||SIMPLE_EXPRESSION is a non terminal                                                  ||
+||Table Entry: TERM SIMPLE_EXPRESSION`                                                 ||
+||Pushed: SIMPLE_EXPRESSION`                                                           ||
+||Pushed: TERM                                                                         ||
+||                                                                                     ||
+||Top of the stack: TERM                                                               ||
+||TERM is a non terminal                                                               ||
+||Table Entry: 'id' TERM`                                                              ||
+||Pushed: TERM`                                                                        ||
+||Pushed: 'id'                                                                         ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: TERM`                                                              ||
+||TERM` is a non terminal                                                              ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION`                                                 ||
+||SIMPLE_EXPRESSION` is a non terminal                                                 ||
+||Table Entry: 'addop' TERM SIMPLE_EXPRESSION`                                         ||
+||Pushed: SIMPLE_EXPRESSION`                                                           ||
+||Pushed: TERM                                                                         ||
+||Pushed: 'addop'                                                                      ||
+||                                                                                     ||
+||Top of the stack: 'addop'                                                            ||
+||'addop' is a terminal                                                                ||
+||'addop' is accepted                                                                  ||
+||                                                                                     ||
+||Top of the stack: TERM                                                               ||
+||TERM is a non terminal                                                               ||
+||Table Entry: 'id' TERM`                                                              ||
+||Pushed: TERM`                                                                        ||
+||Pushed: 'id'                                                                         ||
+||                                                                                     ||
+||Top of the stack: 'id'                                                               ||
+||'id' is a terminal                                                                   ||
+||'id' is accepted                                                                     ||
+||                                                                                     ||
+||Top of the stack: TERM`                                                              ||
+||TERM` is a non terminal                                                              ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: SIMPLE_EXPRESSION`                                                 ||
+||SIMPLE_EXPRESSION` is a non terminal                                                 ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: EXPRESSION`                                                        ||
+||EXPRESSION` is a non terminal                                                        ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: ';'                                                                ||
+||';' is a terminal                                                                    ||
+||';' is accepted                                                                      ||
 ||                                                                                     ||
 ||Top of the stack: '}'                                                                ||
 ||'}' is a terminal                                                                    ||
-||'}' is not equal '$'                                                                 ||
+||'}' is accepted                                                                      ||
 ||                                                                                     ||
 ||Top of the stack: STATEMENT_LIST`                                                    ||
 ||STATEMENT_LIST` is a non terminal                                                    ||
 ||Table Entry: '\L'                                                                    ||
 ||Pop the non terminal                                                                 ||
 ||                                                                                     ||
+||Top of the stack: '}'                                                                ||
+||'}' is a terminal                                                                    ||
+||'}' is accepted                                                                      ||
+||                                                                                     ||
+||Top of the stack: METHOD_LIST`                                                       ||
+||METHOD_LIST` is a non terminal                                                       ||
+||Table Entry: '\L'                                                                    ||
+||Pop the non terminal                                                                 ||
+||                                                                                     ||
+||Top of the stack: '}'                                                                ||
+||'}' is a terminal                                                                    ||
+||'}' is accepted                                                                      ||
+||                                                                                     ||
 ||=====================================End Parsing=====================================||                                   
 
-METHOD_BODY
-STATEMENT_LIST
-'int' 'id' ';' STATEMENT_LIST`
-'int' 'id' ';' STATEMENT STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' EXPRESSION ';' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' SIMPLE_EXPRESSION EXPRESSION` ';' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' TERM SIMPLE_EXPRESSION` EXPRESSION` ';' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num' TERM` SIMPLE_EXPRESSION` EXPRESSION` ';' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'  SIMPLE_EXPRESSION` EXPRESSION` ';' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'   EXPRESSION` ';' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' STATEMENT STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' SIMPLE_EXPRESSION EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' TERM SIMPLE_EXPRESSION` EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id' TERM` SIMPLE_EXPRESSION` EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'  SIMPLE_EXPRESSION` EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'   EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' SIMPLE_EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' TERM SIMPLE_EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num' TERM` SIMPLE_EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'  SIMPLE_EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' EXPRESSION ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' SIMPLE_EXPRESSION EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' TERM SIMPLE_EXPRESSION` EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' 'num' TERM` SIMPLE_EXPRESSION` EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' 'num'  SIMPLE_EXPRESSION` EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' 'num'   EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' 'num'    ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST`
-Error: missing 'else'
-Error: missing '{'
-Error: missing '}'
-'int' 'id' ';' 'id' '=' 'num'    ';' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' '=' 'num'    ';' '}' 'else' '{' STATEMENT '}' 
+CLASS_DECL
+MODIFIER 'class' 'id' '{' CLASS_BODY '}'
+'public' 'class' 'id' '{' CLASS_BODY '}'
+'public' 'class' 'id' '{' METHOD_LIST '}'
+'public' 'class' 'id' '{' MODIFIER PRIMITIVE_TYPE 'id' '(' ')' '{' METHOD_BODY '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' PRIMITIVE_TYPE 'id' '(' ')' '{' METHOD_BODY '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' METHOD_BODY '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' STATEMENT_LIST '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' STATEMENT STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' WHILE STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' EXPRESSION ')' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' SIMPLE_EXPRESSION EXPRESSION` ')' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' TERM SIMPLE_EXPRESSION` EXPRESSION` ')' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id' TERM` SIMPLE_EXPRESSION` EXPRESSION` ')' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'  SIMPLE_EXPRESSION` EXPRESSION` ')' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'   EXPRESSION` ')' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' SIMPLE_EXPRESSION ')' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' TERM SIMPLE_EXPRESSION` ')' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num' TERM` SIMPLE_EXPRESSION` ')' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'  SIMPLE_EXPRESSION` ')' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' EXPRESSION ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' SIMPLE_EXPRESSION EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' TERM SIMPLE_EXPRESSION` EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id' TERM` SIMPLE_EXPRESSION` EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  SIMPLE_EXPRESSION` EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' TERM SIMPLE_EXPRESSION` EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num' TERM` SIMPLE_EXPRESSION` EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'  SIMPLE_EXPRESSION` EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'   EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' STATEMENT STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' SIMPLE_EXPRESSION EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' TERM SIMPLE_EXPRESSION` EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id' TERM` SIMPLE_EXPRESSION` EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'  SIMPLE_EXPRESSION` EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'   EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' SIMPLE_EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' TERM SIMPLE_EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num' TERM` SIMPLE_EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'  SIMPLE_EXPRESSION` ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' EXPRESSION ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' SIMPLE_EXPRESSION EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' TERM SIMPLE_EXPRESSION` EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id' TERM` SIMPLE_EXPRESSION` EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  SIMPLE_EXPRESSION` EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' TERM SIMPLE_EXPRESSION` EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num' TERM` SIMPLE_EXPRESSION` EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'  SIMPLE_EXPRESSION` EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'   EXPRESSION` ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' STATEMENT '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' 'id' 'assign' EXPRESSION ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' 'id' 'assign' SIMPLE_EXPRESSION EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' 'id' 'assign' TERM SIMPLE_EXPRESSION` EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' 'id' 'assign' 'id' TERM` SIMPLE_EXPRESSION` EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' 'id' 'assign' 'id'  SIMPLE_EXPRESSION` EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' 'id' 'assign' 'id'  'addop' TERM SIMPLE_EXPRESSION` EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' 'id' 'assign' 'id'  'addop' 'id' TERM` SIMPLE_EXPRESSION` EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' 'id' 'assign' 'id'  'addop' 'id'  SIMPLE_EXPRESSION` EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' 'id' 'assign' 'id'  'addop' 'id'   EXPRESSION` ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' 'id' 'assign' 'id'  'addop' 'id'    ';' '}' STATEMENT_LIST` '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' 'id' 'assign' 'id'  'addop' 'id'    ';' '}'  '}' METHOD_LIST` '}'
+'public' 'class' 'id' '{' 'private' 'int' 'id' '(' ')' '{' 'int' 'id' ';' 'while' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'if' '(' 'id'    'relop' 'num'   ')' '{' 'id' 'assign' 'id'  'addop' 'num'    ';' '}' 'else' '{' 'id' 'assign' 'id'  'addop' 'id'    ';' '}'  '}'  '}'
