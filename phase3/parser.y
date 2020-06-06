@@ -13,8 +13,9 @@ enum typeEnum {
 };
 map<string, pair<int,typeEnum> > symbolTable;
 vector<string> code;
+vector<int> codeNumbers;
 int varNum = 0;
-
+int lineNum = 0;
 ofstream out("output.class");
 
 
@@ -44,7 +45,7 @@ map<string,string> floatMap = {
 
 
 
-void addCode(string s);
+void addCode(string s, int line);
 void generateJavaByteCode();
 void backpatch(vector<int> *v, int a);
 void variableInitialization(char *id_val, int type);
@@ -86,19 +87,20 @@ vector<int>* combine(vector<int>*v1, vector<int>*v2);
 %type <decisionBox> if statement while boolean_expression
 %type <type> mark
 %type <addop> sign
+%start method_body
 %%
 
 
 method_body:
-    statement_list {addCode("return");};
+    statement_list {addCode("return", lineNum);};
 statement_list:
     statement
     | statement_list statement
     ;
 statement:
     declaration {$$.next = new vector<int>;}
-    | if {backpatch($1.next, code.size());}
-    | while {backpatch($1.next, code.size());}
+    | if {backpatch($1.next, lineNum);}
+    | while {backpatch($1.next, lineNum);}
     | assignment {$$.next = new vector<int>;}
     ;
 declaration:
@@ -112,17 +114,18 @@ primitive_type:
 if:
     IF '(' boolean_expression ')' '{'
     {
-        backpatch($3.trueList, code.size());
+        backpatch($3.trueList, lineNum);
     }
     statement
     {
         $7.next = new vector<int>;
         $7.next->push_back(code.size());
-        addCode("goto ");
+        addCode("goto ", lineNum);
+        lineNum += 3;
     }
     '}' ELSE '{'
     {
-       backpatch($3.falseList, code.size());
+       backpatch($3.falseList, lineNum);
     }
     statement '}'
     {
@@ -137,11 +140,12 @@ if:
 while:
     WHILE '(' mark boolean_expression ')' '{'
     {
-        backpatch($4.trueList, code.size());
+        backpatch($4.trueList, lineNum);
     }
     statement '}'
     {
-        addCode("goto " + to_string($3));
+        addCode("goto " + to_string($3), lineNum);
+        lineNum += 3;
         $$.next = $4.falseList;
         if($$.next == nullptr)
             $$.next = new vector<int>;
@@ -149,7 +153,7 @@ while:
     ;
 mark:
     {
-        $$ = code.size();
+        $$ = lineNum;
     }
     ;
 assignment:
@@ -160,10 +164,14 @@ assignment:
         // Consider casting instead of the following.
         if(symbolTable[string($1)].second != $3)
             yyerror("Assigned a variable to an expression with different type.");
-        if(symbolTable[string($1)].second == intNum)
-            addCode("istore " + to_string(symbolTable[string($1)].first));
-        else
-            addCode("fstore " + to_string(symbolTable[string($1)].first));
+        if(symbolTable[string($1)].second == intNum){
+            addCode("istore " + to_string(symbolTable[string($1)].first), lineNum);
+            lineNum += 1;
+        }
+        else{
+            addCode("fstore " + to_string(symbolTable[string($1)].first), lineNum);
+            lineNum += 1;
+        }
     }
     ;
 boolean_expression:
@@ -172,14 +180,16 @@ boolean_expression:
         $$.trueList = new vector<int>;
         $$.falseList = new vector<int>;
         $$.trueList->push_back(code.size());
-        addCode("goto ");
+        addCode("goto ", lineNum);
+        lineNum += 3;
     }
     | FALSE
     {
         $$.trueList = new vector<int>;
         $$.falseList = new vector<int>;
         $$.falseList->push_back(code.size());
-        addCode("goto ");
+        addCode("goto ", lineNum);
+        lineNum += 3;
     }
     | simple_expression RELOP simple_expression
     {
@@ -188,16 +198,21 @@ boolean_expression:
         $$.falseList = new vector<int>;
         if($1 == intNum){
             $$.trueList->push_back(code.size());
-            addCode(intMap[string($2)] + " ");
+            addCode(intMap[string($2)] + " ", lineNum);
+            lineNum += 3;
             $$.falseList->push_back(code.size());
-            addCode("goto ");
+            addCode("goto ", lineNum);
+            lineNum += 3;
         }
         else{
-            addCode("fcmpl");
+            addCode("fcmpl", lineNum);
+            lineNum += 1;
             $$.trueList->push_back(code.size());
-            addCode(floatMap[string($2)] + " ");
+            addCode(floatMap[string($2)] + " ", lineNum);
+            lineNum += 3;
             $$.falseList->push_back(code.size());
-            addCode("goto ");
+            addCode("goto ", lineNum);
+            lineNum += 3;
         }
     }
     ;
@@ -207,20 +222,29 @@ simple_expression:
     {
         $$ = $2;
         if ($1 == '-') {
-          addCode("iconst_m1");
-          if ($2 == intNum)
-            addCode("imul");
-          else
-            addCode("fmul");
+          addCode("iconst_m1", lineNum);
+          lineNum += 1;
+          if ($2 == intNum){
+            addCode("imul", lineNum);
+            lineNum += 1;
+          }
+          else{
+            addCode("fmul", lineNum);
+            lineNum += 1;
+          }
         }
     }
     | simple_expression ADDOP term
     {
         $$ = getFloatOrInt($1, $3);
-        if($$ == intNum)
-            addCode("i" + arithmeticMap[string(1, $2)]);
-        else
-            addCode("f" + arithmeticMap[string(1, $2)]);
+        if($$ == intNum){
+            addCode("i" + arithmeticMap[string(1, $2)], lineNum);
+            lineNum += 1;
+        }
+        else{
+            addCode("f" + arithmeticMap[string(1, $2)], lineNum);
+            lineNum += 1;
+        }
     }
     ;
 term:
@@ -228,10 +252,14 @@ term:
     | term MULOP factor
     {
         $$ = getFloatOrInt($1, $3);
-        if($$ == intNum)
-            addCode("i" + arithmeticMap[string(1, $2)]);
-        else
-            addCode("f" + arithmeticMap[string(1, $2)]);
+        if($$ == intNum){
+            addCode("i" + arithmeticMap[string(1, $2)], lineNum);
+            lineNum += 1;
+        }
+        else{
+            addCode("f" + arithmeticMap[string(1, $2)], lineNum);
+            lineNum += 1;
+        }
     }
     ;
 factor:
@@ -240,20 +268,26 @@ factor:
         if(!symbolTable.count(string($1)))
           yyerror("Undeclared variable.");
         $$ = symbolTable[string($1)].second;
-        if(symbolTable[$1].second == intNum)
-            addCode("iload_" + to_string(symbolTable[string($1)].first));
-        else
-            addCode("fload_" + to_string(symbolTable[string($1)].first));
+        if(symbolTable[$1].second == intNum){
+            addCode("iload_" + to_string(symbolTable[string($1)].first), lineNum);
+            lineNum += 1;
+        }
+        else{
+            addCode("fload_" + to_string(symbolTable[string($1)].first), lineNum);
+            lineNum += 1;
+        }
     }
     | IVAL
     {
         $$ = intNum;
-        addCode("sipush " + string($1));
+        addCode("sipush " + string($1), lineNum);
+        lineNum += 3;
     }
     | FVAL
     {
         $$ = floatNum;
-        addCode("ldc " + string($1));
+        addCode("ldc " + string($1), lineNum);
+        lineNum += 3;
     }
     | '(' simple_expression ')'
     {
@@ -274,13 +308,15 @@ int main(int, char**) {
 
     generateJavaByteCode();
 }
-void addCode(string s){
+void addCode(string s, int num){
     code.push_back(s);
+    codeNumbers.push_back(num);
+
 }
 void generateJavaByteCode(){
     int i = 0;
     for(string s : code)
-        out <<i++ <<": " <<s << endl;
+        out <<codeNumbers[i++] <<": " <<s << endl;
 }
 void backpatch(vector<int> *v, int a){
     if(v == nullptr) return;

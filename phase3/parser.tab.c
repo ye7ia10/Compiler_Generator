@@ -78,8 +78,9 @@ enum typeEnum {
 };
 map<string, pair<int,typeEnum> > symbolTable;
 vector<string> code;
+vector<int> codeNumbers;
 int varNum = 0;
-
+int lineNum = 0;
 ofstream out("output.class");
 
 
@@ -109,7 +110,7 @@ map<string,string> floatMap = {
 
 
 
-void addCode(string s);
+void addCode(string s, int line);
 void generateJavaByteCode();
 void backpatch(vector<int> *v, int a);
 void variableInitialization(char *id_val, int type);
@@ -117,7 +118,7 @@ int getFloatOrInt(int t1, int t2);
 void yyerror(const char *s);
 vector<int>* combine(vector<int>*v1, vector<int>*v2);
 
-#line 121 "parser.tab.c" /* yacc.c:339  */
+#line 122 "parser.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -175,7 +176,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 56 "parser.y" /* yacc.c:355  */
+#line 57 "parser.y" /* yacc.c:355  */
 
   char *ival;
   char *fval;
@@ -191,7 +192,7 @@ union YYSTYPE
   char assign;
   char *relop;
 
-#line 195 "parser.tab.c" /* yacc.c:355  */
+#line 196 "parser.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -208,7 +209,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 212 "parser.tab.c" /* yacc.c:358  */
+#line 213 "parser.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -507,10 +508,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    93,    93,    95,    96,    99,   100,   101,   102,   105,
-     109,   110,   114,   118,   124,   113,   139,   138,   151,   156,
-     170,   177,   184,   205,   206,   217,   227,   228,   238,   248,
-     253,   258,   264
+       0,    95,    95,    97,    98,   101,   102,   103,   104,   107,
+     111,   112,   116,   120,   127,   115,   142,   141,   155,   160,
+     178,   186,   194,   220,   221,   237,   251,   252,   266,   280,
+     286,   292,   298
 };
 #endif
 
@@ -1321,81 +1322,82 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 93 "parser.y" /* yacc.c:1646  */
-    {addCode("return");}
-#line 1327 "parser.tab.c" /* yacc.c:1646  */
+#line 95 "parser.y" /* yacc.c:1646  */
+    {addCode("return", lineNum);}
+#line 1328 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 99 "parser.y" /* yacc.c:1646  */
+#line 101 "parser.y" /* yacc.c:1646  */
     {(yyval.decisionBox).next = new vector<int>;}
-#line 1333 "parser.tab.c" /* yacc.c:1646  */
+#line 1334 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 100 "parser.y" /* yacc.c:1646  */
-    {backpatch((yyvsp[0].decisionBox).next, code.size());}
-#line 1339 "parser.tab.c" /* yacc.c:1646  */
+#line 102 "parser.y" /* yacc.c:1646  */
+    {backpatch((yyvsp[0].decisionBox).next, lineNum);}
+#line 1340 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 101 "parser.y" /* yacc.c:1646  */
-    {backpatch((yyvsp[0].decisionBox).next, code.size());}
-#line 1345 "parser.tab.c" /* yacc.c:1646  */
+#line 103 "parser.y" /* yacc.c:1646  */
+    {backpatch((yyvsp[0].decisionBox).next, lineNum);}
+#line 1346 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 102 "parser.y" /* yacc.c:1646  */
+#line 104 "parser.y" /* yacc.c:1646  */
     {(yyval.decisionBox).next = new vector<int>;}
-#line 1351 "parser.tab.c" /* yacc.c:1646  */
+#line 1352 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 106 "parser.y" /* yacc.c:1646  */
+#line 108 "parser.y" /* yacc.c:1646  */
     {variableInitialization((yyvsp[-1].id_val), (yyvsp[-2].type));}
-#line 1357 "parser.tab.c" /* yacc.c:1646  */
+#line 1358 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 109 "parser.y" /* yacc.c:1646  */
+#line 111 "parser.y" /* yacc.c:1646  */
     {(yyval.type) = intNum;}
-#line 1363 "parser.tab.c" /* yacc.c:1646  */
+#line 1364 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 110 "parser.y" /* yacc.c:1646  */
+#line 112 "parser.y" /* yacc.c:1646  */
     {(yyval.type) = floatNum;}
-#line 1369 "parser.tab.c" /* yacc.c:1646  */
+#line 1370 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 114 "parser.y" /* yacc.c:1646  */
+#line 116 "parser.y" /* yacc.c:1646  */
     {
-        backpatch((yyvsp[-2].decisionBox).trueList, code.size());
+        backpatch((yyvsp[-2].decisionBox).trueList, lineNum);
     }
-#line 1377 "parser.tab.c" /* yacc.c:1646  */
+#line 1378 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 118 "parser.y" /* yacc.c:1646  */
+#line 120 "parser.y" /* yacc.c:1646  */
     {
         (yyvsp[0].decisionBox).next = new vector<int>;
         (yyvsp[0].decisionBox).next->push_back(code.size());
-        addCode("goto ");
+        addCode("goto ", lineNum);
+        lineNum += 3;
     }
-#line 1387 "parser.tab.c" /* yacc.c:1646  */
+#line 1389 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 124 "parser.y" /* yacc.c:1646  */
+#line 127 "parser.y" /* yacc.c:1646  */
     {
-       backpatch((yyvsp[-8].decisionBox).falseList, code.size());
+       backpatch((yyvsp[-8].decisionBox).falseList, lineNum);
     }
-#line 1395 "parser.tab.c" /* yacc.c:1646  */
+#line 1397 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 128 "parser.y" /* yacc.c:1646  */
+#line 131 "parser.y" /* yacc.c:1646  */
     {
         (yyval.decisionBox) = (yyvsp[-7].decisionBox);
         if((yyval.decisionBox).next == nullptr)
@@ -1404,178 +1406,209 @@ yyreduce:
             (yyval.decisionBox).next = combine((yyval.decisionBox).next, (yyvsp[-1].decisionBox).next);
         }
     }
-#line 1408 "parser.tab.c" /* yacc.c:1646  */
+#line 1410 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 139 "parser.y" /* yacc.c:1646  */
+#line 142 "parser.y" /* yacc.c:1646  */
     {
-        backpatch((yyvsp[-2].decisionBox).trueList, code.size());
+        backpatch((yyvsp[-2].decisionBox).trueList, lineNum);
     }
-#line 1416 "parser.tab.c" /* yacc.c:1646  */
+#line 1418 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 143 "parser.y" /* yacc.c:1646  */
+#line 146 "parser.y" /* yacc.c:1646  */
     {
-        addCode("goto " + to_string((yyvsp[-6].type)));
+        addCode("goto " + to_string((yyvsp[-6].type)), lineNum);
+        lineNum += 3;
         (yyval.decisionBox).next = (yyvsp[-5].decisionBox).falseList;
         if((yyval.decisionBox).next == nullptr)
             (yyval.decisionBox).next = new vector<int>;
     }
-#line 1427 "parser.tab.c" /* yacc.c:1646  */
+#line 1430 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 151 "parser.y" /* yacc.c:1646  */
+#line 155 "parser.y" /* yacc.c:1646  */
     {
-        (yyval.type) = code.size();
+        (yyval.type) = lineNum;
     }
-#line 1435 "parser.tab.c" /* yacc.c:1646  */
+#line 1438 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 157 "parser.y" /* yacc.c:1646  */
+#line 161 "parser.y" /* yacc.c:1646  */
     {
         if(!symbolTable.count(string((yyvsp[-3].id_val))))
             yyerror("Undeclared variable.");
         // Consider casting instead of the following.
         if(symbolTable[string((yyvsp[-3].id_val))].second != (yyvsp[-1].type))
             yyerror("Assigned a variable to an expression with different type.");
-        if(symbolTable[string((yyvsp[-3].id_val))].second == intNum)
-            addCode("istore " + to_string(symbolTable[string((yyvsp[-3].id_val))].first));
-        else
-            addCode("fstore " + to_string(symbolTable[string((yyvsp[-3].id_val))].first));
+        if(symbolTable[string((yyvsp[-3].id_val))].second == intNum){
+            addCode("istore " + to_string(symbolTable[string((yyvsp[-3].id_val))].first), lineNum);
+            lineNum += 1;
+        }
+        else{
+            addCode("fstore " + to_string(symbolTable[string((yyvsp[-3].id_val))].first), lineNum);
+            lineNum += 1;
+        }
     }
-#line 1451 "parser.tab.c" /* yacc.c:1646  */
+#line 1458 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 171 "parser.y" /* yacc.c:1646  */
+#line 179 "parser.y" /* yacc.c:1646  */
     {
         (yyval.decisionBox).trueList = new vector<int>;
         (yyval.decisionBox).falseList = new vector<int>;
         (yyval.decisionBox).trueList->push_back(code.size());
-        addCode("goto ");
+        addCode("goto ", lineNum);
+        lineNum += 3;
     }
-#line 1462 "parser.tab.c" /* yacc.c:1646  */
+#line 1470 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 178 "parser.y" /* yacc.c:1646  */
+#line 187 "parser.y" /* yacc.c:1646  */
     {
         (yyval.decisionBox).trueList = new vector<int>;
         (yyval.decisionBox).falseList = new vector<int>;
         (yyval.decisionBox).falseList->push_back(code.size());
-        addCode("goto ");
+        addCode("goto ", lineNum);
+        lineNum += 3;
     }
-#line 1473 "parser.tab.c" /* yacc.c:1646  */
+#line 1482 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 185 "parser.y" /* yacc.c:1646  */
+#line 195 "parser.y" /* yacc.c:1646  */
     {
         if((yyvsp[-2].type) != (yyvsp[0].type)) yyerror("different types in operation error");
         (yyval.decisionBox).trueList = new vector<int>;
         (yyval.decisionBox).falseList = new vector<int>;
         if((yyvsp[-2].type) == intNum){
             (yyval.decisionBox).trueList->push_back(code.size());
-            addCode(intMap[string((yyvsp[-1].relop))] + " ");
+            addCode(intMap[string((yyvsp[-1].relop))] + " ", lineNum);
+            lineNum += 3;
             (yyval.decisionBox).falseList->push_back(code.size());
-            addCode("goto ");
+            addCode("goto ", lineNum);
+            lineNum += 3;
         }
         else{
-            addCode("fcmpl");
+            addCode("fcmpl", lineNum);
+            lineNum += 1;
             (yyval.decisionBox).trueList->push_back(code.size());
-            addCode(floatMap[string((yyvsp[-1].relop))] + " ");
+            addCode(floatMap[string((yyvsp[-1].relop))] + " ", lineNum);
+            lineNum += 3;
             (yyval.decisionBox).falseList->push_back(code.size());
-            addCode("goto ");
+            addCode("goto ", lineNum);
+            lineNum += 3;
         }
     }
-#line 1496 "parser.tab.c" /* yacc.c:1646  */
+#line 1510 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 207 "parser.y" /* yacc.c:1646  */
+#line 222 "parser.y" /* yacc.c:1646  */
     {
         (yyval.type) = (yyvsp[0].type);
         if ((yyvsp[-1].addop) == '-') {
-          addCode("iconst_m1");
-          if ((yyvsp[0].type) == intNum)
-            addCode("imul");
-          else
-            addCode("fmul");
+          addCode("iconst_m1", lineNum);
+          lineNum += 1;
+          if ((yyvsp[0].type) == intNum){
+            addCode("imul", lineNum);
+            lineNum += 1;
+          }
+          else{
+            addCode("fmul", lineNum);
+            lineNum += 1;
+          }
         }
     }
-#line 1511 "parser.tab.c" /* yacc.c:1646  */
+#line 1530 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 218 "parser.y" /* yacc.c:1646  */
+#line 238 "parser.y" /* yacc.c:1646  */
     {
         (yyval.type) = getFloatOrInt((yyvsp[-2].type), (yyvsp[0].type));
-        if((yyval.type) == intNum)
-            addCode("i" + arithmeticMap[string(1, (yyvsp[-1].addop))]);
-        else
-            addCode("f" + arithmeticMap[string(1, (yyvsp[-1].addop))]);
+        if((yyval.type) == intNum){
+            addCode("i" + arithmeticMap[string(1, (yyvsp[-1].addop))], lineNum);
+            lineNum += 1;
+        }
+        else{
+            addCode("f" + arithmeticMap[string(1, (yyvsp[-1].addop))], lineNum);
+            lineNum += 1;
+        }
     }
-#line 1523 "parser.tab.c" /* yacc.c:1646  */
+#line 1546 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 229 "parser.y" /* yacc.c:1646  */
+#line 253 "parser.y" /* yacc.c:1646  */
     {
         (yyval.type) = getFloatOrInt((yyvsp[-2].type), (yyvsp[0].type));
-        if((yyval.type) == intNum)
-            addCode("i" + arithmeticMap[string(1, (yyvsp[-1].mulop))]);
-        else
-            addCode("f" + arithmeticMap[string(1, (yyvsp[-1].mulop))]);
+        if((yyval.type) == intNum){
+            addCode("i" + arithmeticMap[string(1, (yyvsp[-1].mulop))], lineNum);
+            lineNum += 1;
+        }
+        else{
+            addCode("f" + arithmeticMap[string(1, (yyvsp[-1].mulop))], lineNum);
+            lineNum += 1;
+        }
     }
-#line 1535 "parser.tab.c" /* yacc.c:1646  */
+#line 1562 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 239 "parser.y" /* yacc.c:1646  */
+#line 267 "parser.y" /* yacc.c:1646  */
     {
         if(!symbolTable.count(string((yyvsp[0].id_val))))
           yyerror("Undeclared variable.");
         (yyval.type) = symbolTable[string((yyvsp[0].id_val))].second;
-        if(symbolTable[(yyvsp[0].id_val)].second == intNum)
-            addCode("iload_" + to_string(symbolTable[string((yyvsp[0].id_val))].first));
-        else
-            addCode("fload_" + to_string(symbolTable[string((yyvsp[0].id_val))].first));
+        if(symbolTable[(yyvsp[0].id_val)].second == intNum){
+            addCode("iload_" + to_string(symbolTable[string((yyvsp[0].id_val))].first), lineNum);
+            lineNum += 1;
+        }
+        else{
+            addCode("fload_" + to_string(symbolTable[string((yyvsp[0].id_val))].first), lineNum);
+            lineNum += 1;
+        }
     }
-#line 1549 "parser.tab.c" /* yacc.c:1646  */
+#line 1580 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 249 "parser.y" /* yacc.c:1646  */
+#line 281 "parser.y" /* yacc.c:1646  */
     {
         (yyval.type) = intNum;
-        addCode("sipush " + string((yyvsp[0].ival)));
+        addCode("sipush " + string((yyvsp[0].ival)), lineNum);
+        lineNum += 3;
     }
-#line 1558 "parser.tab.c" /* yacc.c:1646  */
+#line 1590 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 254 "parser.y" /* yacc.c:1646  */
+#line 287 "parser.y" /* yacc.c:1646  */
     {
         (yyval.type) = floatNum;
-        addCode("ldc " + string((yyvsp[0].fval)));
+        addCode("ldc " + string((yyvsp[0].fval)), lineNum);
+        lineNum += 3;
     }
-#line 1567 "parser.tab.c" /* yacc.c:1646  */
+#line 1600 "parser.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 259 "parser.y" /* yacc.c:1646  */
+#line 293 "parser.y" /* yacc.c:1646  */
     {
         (yyval.type) = (yyvsp[-1].type);
     }
-#line 1575 "parser.tab.c" /* yacc.c:1646  */
+#line 1608 "parser.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1579 "parser.tab.c" /* yacc.c:1646  */
+#line 1612 "parser.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1803,7 +1836,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 266 "parser.y" /* yacc.c:1906  */
+#line 300 "parser.y" /* yacc.c:1906  */
 
 
 int main(int, char**) {
@@ -1815,13 +1848,15 @@ int main(int, char**) {
 
     generateJavaByteCode();
 }
-void addCode(string s){
+void addCode(string s, int num){
     code.push_back(s);
+    codeNumbers.push_back(num);
+
 }
 void generateJavaByteCode(){
     int i = 0;
     for(string s : code)
-        out <<i++ <<": " <<s << endl;
+        out <<codeNumbers[i++] <<": " <<s << endl;
 }
 void backpatch(vector<int> *v, int a){
     if(v == nullptr) return;

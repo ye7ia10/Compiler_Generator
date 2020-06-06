@@ -6,21 +6,21 @@
 5: istore 2
 6: iload_2
 7: iload_3
-8: if_icmpgt 10
-9: goto 15
-10: iload_2
-11: sipush 2
-12: idiv
-13: istore 2
-14: goto 21
-15: iload_3
-16: sipush 2
-17: imul
-18: iload_4
-19: iadd
-20: istore 3
-21: iload_4
-22: sipush 4
-23: imul
-24: istore 4
-25: return
+8: if_icmpgt 14
+11: goto 23
+14: iload_2
+15: sipush 2
+18: idiv
+19: istore 2
+20: goto 31
+23: iload_3
+24: sipush 2
+27: imul
+28: iload_4
+29: iadd
+30: istore 3
+31: iload_4
+32: sipush 4
+35: imul
+36: istore 4
+37: return
